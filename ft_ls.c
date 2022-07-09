@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/09 21:09:55 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/09 22:36:17 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	return (line);
 }
 
-t_fileinfo	**line_array(int argc, char **argv)
+t_fileinfo	**line_array(int argc, char *argv)
 {
 	DIR				*dp;
 	struct dirent	*dirp;
@@ -48,7 +48,7 @@ t_fileinfo	**line_array(int argc, char **argv)
 	path = ft_strnew(100);
 	info = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 500);
 	temp = ft_strnew(100);
-	temp = ft_strjoin(argv[1], "/");
+	temp = ft_strjoin(argv, "/");
 	dp = opendir(temp);
 	dirp = readdir(dp);
 	i = 0;
@@ -71,25 +71,30 @@ int	main(int argc, char **argv)
 {
 	t_fileinfo	**linearray;
 	int			i;
+	int			count;
 
 	i = 0;
-	if (argc < 2)
+	count = argc + 1;
+
+	if (argc > 2)
 	{
-		ft_printf("Usage: ./program directory_name\n");
-		exit(EXIT_FAILURE);
+		// taking flags to struct then print
+		while (argc >= 3)
+		{
+			linearray = line_array(argc, argv[argc - 1]);
+			print_arr(linearray);
+			argc--;
+		}
 	}
-	linearray = line_array(argc, argv);
-	while (linearray[i] != NULL)
+	else if (argc == 2)
 	{
-		ft_printf("%d", linearray[i]->stat_us);
-		ft_printf("%3s ", linearray[i]->perms);
-		ft_printf("%3d ", linearray[i]->links);
-		ft_printf("%3s ", linearray[i]->owner);
-		ft_printf("%3s ", linearray[i]->owner_gr);
-		ft_printf("%5lld ", linearray[i]->size);
-		ft_printf("%.12s ", linearray[i]->m_time + 4);
-		ft_printf("%s\n", linearray[i]->filename);
-		i++;
+		linearray = line_array(argc, argv[1]);
+		print_arr(linearray);
+	}
+	else
+	{
+		linearray = line_array(argc, ".");
+		print_arr(linearray);
 	}
 	return (0);
 }

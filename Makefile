@@ -6,13 +6,13 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/07/09 21:11:02 by mviinika         ###   ########.fr        #
+#    Updated: 2022/07/09 22:36:25 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
-SRCS = ft_ls.c permissions.c sort.c
+SRCS = ft_ls.c permissions.c sort.c print.c
 
 OBJ = $(SRCS:.c=.o)
 
