@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/09 22:36:48 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/10 01:15:02 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,10 @@ typedef struct s_flags
 
 t_fileinfo	*get_info(struct stat buf, char *path, int pathlen);
 char		*permissions(int modes);
-t_fileinfo	**line_array(int argc, char *	argv);
+//t_fileinfo	**line_array(char *argv, int index);
 t_fileinfo	**alphabetical(t_fileinfo **info);
 void		print_arr(t_fileinfo **linearray);
+void		recursively(char *dirname);
+t_fileinfo	**line_array(char *argv, int index, t_fileinfo **linearray);
 
 #endif
