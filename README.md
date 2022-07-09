@@ -1,10 +1,12 @@
 # ft_ls
 Implement of ls command
 
-compile like os : gcc main.c ft_itoa.c ft_strrev.c ft_strlen.c ft_itoabase.c ft_strnew.c ft_strdel.c ft_strcpy.c ft_strdup.c
+run make in terminal
 
-usage: ./a .out "folder path"
+usage: ./ft_ls "flags" "path"
 
 This is just for testing and getting familiar with opendir etc.
 
-Makefile and implement of printf is going to be added in some point.
+No flag support yet.
+
+Prints everything like with command "ls -la".
