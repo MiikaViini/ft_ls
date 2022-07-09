@@ -6,22 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/09 20:32:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/09 21:09:55 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-// char	*ft_itoa(int n);
-// char	*ft_itoabase(unsigned long long int num, int base, int flag);
-// char	*ft_strnew(size_t size);
-// char	*ft_strcpy(char *dest, const char *src);
-// char	*ft_strndup(const char *s, size_t size);
-// char	*ft_strdup(const char *s);
-// char	*ft_strcat(char *s1, const char *s2);
-// char	*ft_strjoin(char const *s1, char const *s2);
-// void	ft_bzero(void *s, size_t n);
-// size_t	ft_strlen(const char *str);
 
 t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 {
@@ -73,6 +62,7 @@ t_fileinfo	**line_array(int argc, char **argv)
 		i++;
 	}
 	info[i] = NULL;
+	info = alphabetical(info);
 	closedir(dp);
 	return (info);
 }
