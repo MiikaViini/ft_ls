@@ -6,11 +6,25 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 11:06:26 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:03:11 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+static int	find_letter(char c, char *letters)
+{
+	int	index;
+
+	index = 0;
+	while (letters[index])
+	{
+		if (letters[index] == c)
+			return (index);
+		index++;
+	}
+	return (index);
+}
 
 t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 {
@@ -73,31 +87,33 @@ t_fileinfo	**line_array(char *argv, t_fileinfo **linearray)
 int	main(int argc, char **argv)
 {
 	t_fileinfo	**linearray;
-	char		**dir_tree;
-	 int			i;
-	 int 			k;
+	t_flags		*flags;
 	int			count;
 
-	dir_tree = (char **)malloc(sizeof(char *) * 10000);
+	flags = (t_flags*)malloc(sizeof(t_flag));
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 50000);
-	i = 0;
-	k = 0;
-	//linearray = line_array(linearray);
 	count = argc + 1;
 	if (argc > 2)
 	{
 		// taking flags to struct then print
-		if (ft_strcmp(argv[1], "-R") == 0)
+		if (argv[1][0] == '-')
 		{
-			recursively(argv[2], linearray);
-			i = 0;
-			print_arr(linearray);
-			i++;
-			return (0);
+			argv[1]++;
+			while (*argv[1] != '\0')
+			{
+				g_flags[find_letter(*argv[1], FLAGS)](flags, argv[1]);
+			}
+			return 0;
+
+			// if (argv[1][1] == 'R')
+			// {
+			// 	recursively(argv[2], linearray);
+			// 	print_arr(linearray);
+			// 	return (0);
+			// }
 		}
 		while (argc >= 3)
 		{
-			linearray[0]->index = 0;
 			linearray = line_array(argv[argc - 1], linearray);
 			print_arr(linearray);
 			argc--;
@@ -108,10 +124,9 @@ int	main(int argc, char **argv)
 		linearray = line_array(argv[1], linearray);
 		print_arr(linearray);
 	}
-	else
-	{
-		linearray = line_array(".", linearray);
-		print_arr(linearray);
-	}
+	// else
+	// {
+
+	// }
 	return (0);
 }

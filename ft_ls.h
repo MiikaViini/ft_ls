@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 09:18:42 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:03:40 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <dirent.h>
 # include <errno.h>
 # include <time.h>
+
+# define FLAGS "lRart"
 
 typedef struct s_fileinfo
 {
@@ -48,11 +50,15 @@ typedef struct s_flags
 	int		t;
 }			t_flags;
 
-typedef struct s_dir
-{
-	char		*path_s;
-	//t_fileinfo	**info;
-}			t_dir;
+// typef enum flag_i
+// {
+// 	l,
+// 	R,
+// 	a,
+// 	r,
+// 	t
+// }
+
 
 t_fileinfo	*get_info(struct stat buf, char *path, int pathlen);
 char		*permissions(int modes);
@@ -61,5 +67,23 @@ t_fileinfo	**alphabetical(t_fileinfo **info);
 void		print_arr(t_fileinfo **linearray);
 void		recursively(char *dirname, t_fileinfo **linearray);
 t_fileinfo	**line_array(char *argv, t_fileinfo **linearray);
+	// int			find_letter(char c, char *letters);
 
+void	l_flag(t_flags *flags, char *string);
+void	rec_flag(t_flags *flags, char *string);
+void	a_flag(t_flags *flags, char *string);
+void	r_flag(t_flags *flags, char *string);
+void	t_flag(t_flags *flags, char *string);
+
+typedef void	(*t_fl)(t_flags *flags, char *string);
+
+
+
+static const t_fl g_flags[5] = {
+	l_flag,
+	rec_flag,
+	a_flag,
+	r_flag,
+	t_flag
+};
 #endif
