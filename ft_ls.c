@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/10 01:19:33 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 08:51:52 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,39 +35,34 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	return (line);
 }
 
-t_fileinfo	**line_array(char *argv, int index, t_fileinfo **linearray)
+t_fileinfo	**line_array(char *argv, t_fileinfo **linearray)
 {
 	DIR				*dp;
 	struct dirent	*dirp;
 	struct stat		buf;
 
-	static int		i;
+	int				i;
 	char			*temp;
 	char			*path;
-	//char			*newpath;
-
-
 	temp = ft_strjoin(argv, "/");
 	dp = opendir(temp);
 	dirp = readdir(dp);
-	//i = 0;
+	i = 0;
 	while (dirp != NULL)
 	{
-		//i += index;
 		path = ft_strjoin(temp, dirp->d_name);
-		//ft_printf("%s\n", path);
 		stat(path, &buf);
 		linearray[i] = get_info(buf, path, ft_strlen(temp));
+		linearray[0]->total += buf.st_blocks;
 		i++;
-		if (dirp->d_type == DT_DIR && ft_strcmp(dirp->d_name, ".") != 0 && ft_strcmp(dirp->d_name, "..") != 0)
-		{
-			path = ft_strnew(100);
-			path = ft_strjoin(temp, dirp->d_name);
-			line_array(path, index, linearray);
-		}
+		// if (dirp->d_type == DT_DIR && ft_strcmp(dirp->d_name, ".") != 0 && ft_strcmp(dirp->d_name, "..") != 0)
+		// {
+		// 	//ft_printf("stuff from %s\n", argv);
+		// 	path = ft_strnew(100);
+		// 	path = ft_strjoin(temp, dirp->d_name);
+		// 	line_array(path, index, linearray);
+		// }
 		dirp = readdir(dp);
-		index++;
-
 	}
 	linearray[i] = NULL;
 	linearray = alphabetical(linearray);
@@ -78,11 +73,15 @@ t_fileinfo	**line_array(char *argv, int index, t_fileinfo **linearray)
 int	main(int argc, char **argv)
 {
 	t_fileinfo	**linearray;
-	int			i;
+	char		**dir_tree;
+	 int			i;
+	 int 			k;
 	int			count;
 
+	dir_tree = (char **)malloc(sizeof(char *) * 10000);
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 50000);
 	i = 0;
+	k = 0;
 	//linearray = line_array(linearray);
 	count = argc + 1;
 	if (argc > 2)
@@ -90,24 +89,27 @@ int	main(int argc, char **argv)
 		// taking flags to struct then print
 		if (ft_strcmp(argv[1], "-R") == 0)
 		{
-			recursively(argv[2]);
+			recursively(argv[2], i ,linearray);
+			i = 0;
+			print_arr(linearray);
+			i++;
 			return (0);
 		}
 		while (argc >= 3)
 		{
-			linearray = line_array(argv[argc - 1], i, linearray);
+			linearray = line_array(argv[argc - 1], linearray);
 			print_arr(linearray);
 			argc--;
 		}
 	}
 	else if (argc == 2)
 	{
-		linearray = line_array(argv[1], i, linearray);
+		linearray = line_array(argv[1], linearray);
 		print_arr(linearray);
 	}
 	else
 	{
-		linearray = line_array(".", i, linearray);
+		linearray = line_array(".", linearray);
 		print_arr(linearray);
 	}
 	return (0);
