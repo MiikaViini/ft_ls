@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 23:25:53 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/15 00:21:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,11 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	struct group	*grp;
 	char			*time;
 	t_fileinfo		*line;
+	char			link[256];
 
 	line = malloc(sizeof(t_fileinfo));
 	time = ft_strnew(35);
-	line->stat_us = stat(path, &buf);
+	line->stat_us = lstat(path, &buf);
 	ft_strcpy(time, ctime(&buf.st_mtime));
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
@@ -44,6 +45,12 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	line->links = buf.st_nlink;
 	line->size = buf.st_size;
 	line->filename = ft_strdup(path + pathlen);
+	if (S_ISLNK(buf.st_mode))
+	{
+		readlink(path, link, 256);
+		line->filename = ft_strjoin(line->filename, " -> ");
+		line->filename = ft_strjoin(line->filename, link);
+	}
 	line->perms = permissions(buf.st_mode);
 	line->m_time = time;
 	return (line);
@@ -67,7 +74,7 @@ t_fileinfo	**line_array(char *argv, t_fileinfo **linearray)
 	while (dirp != NULL)
 	{
 		path = ft_strjoin(temp, dirp->d_name);
-		stat(path, &buf);
+		lstat(path, &buf);
 		linearray[i++] = get_info(buf, path, ft_strlen(temp));
 		linearray[0]->total += buf.st_blocks;
 		dirp = readdir(dp);
