@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/09 21:44:44 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 23:19:30 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ t_fileinfo	**alphabetical(t_fileinfo **info)
 	t_fileinfo	*temp;
 
 	i = 0;
+	if (!info)
+		return (NULL);
 	while (info[i] != NULL && info[i + 1] != NULL)
 	{
 		if (ft_strcmp(info[i]->filename, info[i + 1]->filename) > 0)

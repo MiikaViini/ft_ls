@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 14:03:40 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 19:08:27 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,16 +74,17 @@ void	rec_flag(t_flags *flags, char *string);
 void	a_flag(t_flags *flags, char *string);
 void	r_flag(t_flags *flags, char *string);
 void	t_flag(t_flags *flags, char *string);
-
+void	not_found(t_flags *flags, char *string);
 typedef void	(*t_fl)(t_flags *flags, char *string);
 
 
 
-static const t_fl g_flags[5] = {
+static const t_fl g_flags[6] = {
 	l_flag,
 	rec_flag,
 	a_flag,
 	r_flag,
-	t_flag
+	t_flag,
+	not_found
 };
 #endif

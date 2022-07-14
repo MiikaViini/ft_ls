@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 14:03:11 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 23:25:53 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,28 +54,22 @@ t_fileinfo	**line_array(char *argv, t_fileinfo **linearray)
 	DIR				*dp;
 	struct dirent	*dirp;
 	struct stat		buf;
-
 	int				i;
 	char			*temp;
 	char			*path;
+
 	temp = ft_strjoin(argv, "/");
 	dp = opendir(temp);
+	if (!dp || !temp)
+		return (NULL);
 	dirp = readdir(dp);
 	i = 0;
 	while (dirp != NULL)
 	{
 		path = ft_strjoin(temp, dirp->d_name);
 		stat(path, &buf);
-		linearray[i] = get_info(buf, path, ft_strlen(temp));
+		linearray[i++] = get_info(buf, path, ft_strlen(temp));
 		linearray[0]->total += buf.st_blocks;
-		i++;
-		// if (dirp->d_type == DT_DIR && ft_strcmp(dirp->d_name, ".") != 0 && ft_strcmp(dirp->d_name, "..") != 0)
-		// {
-		// 	//ft_printf("stuff from %s\n", argv);
-		// 	path = ft_strnew(100);
-		// 	path = ft_strjoin(temp, dirp->d_name);
-		// 	line_array(path, index, linearray);
-		// }
 		dirp = readdir(dp);
 	}
 	linearray[i] = NULL;
@@ -84,34 +78,29 @@ t_fileinfo	**line_array(char *argv, t_fileinfo **linearray)
 	return (linearray);
 }
 
+static void	initialize_struct(t_flags *flags)
+{
+	flags->l = 0;
+	flags->a = 0;
+	flags->cap_r = 0;
+	flags->a = 0;
+	flags->t = 0;
+}
+
 int	main(int argc, char **argv)
 {
 	t_fileinfo	**linearray;
 	t_flags		*flags;
-	int			count;
+	int			i;
 
-	flags = (t_flags*)malloc(sizeof(t_flag));
+	i = 0;
+	flags = (t_flags *)malloc(sizeof(t_flag));
+	initialize_struct(flags);
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 50000);
-	count = argc + 1;
-	if (argc > 2)
+	if (argc > 2 && argv[1][i] == '-')
 	{
-		// taking flags to struct then print
-		if (argv[1][0] == '-')
-		{
-			argv[1]++;
-			while (*argv[1] != '\0')
-			{
-				g_flags[find_letter(*argv[1], FLAGS)](flags, argv[1]);
-			}
-			return 0;
-
-			// if (argv[1][1] == 'R')
-			// {
-			// 	recursively(argv[2], linearray);
-			// 	print_arr(linearray);
-			// 	return (0);
-			// }
-		}
+		while (argv[1][++i] != '\0')
+			g_flags[find_letter(argv[1][i], FLAGS)](flags, argv[1]);
 		while (argc >= 3)
 		{
 			linearray = line_array(argv[argc - 1], linearray);
@@ -122,11 +111,12 @@ int	main(int argc, char **argv)
 	else if (argc == 2)
 	{
 		linearray = line_array(argv[1], linearray);
+		if (linearray == NULL)
+		{
+			ft_printf("ft_ls: %s: No such file or directory", argv[1]);
+			exit(1);
+		}
 		print_arr(linearray);
 	}
-	// else
-	// {
-
-	// }
 	return (0);
 }

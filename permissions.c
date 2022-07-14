@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:30:25 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/09 20:30:42 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 23:36:15 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ char	*permissions(int modes)
 			}
 		}
 
-		else if (*mode == '1' && mode)
+		else
 		{
 			perm[i++] = '-';
-			mode += 3;
+			mode += 2;
 			while(*mode >= '0' && *mode <= '7')
 			{
 				if (*mode == '0')
