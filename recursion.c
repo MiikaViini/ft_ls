@@ -6,44 +6,37 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 08:51:59 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:20:57 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	recursively(char *dirname,int i, t_fileinfo **linearray)
+void	recursively(char *dirname, t_fileinfo **linearray)
 {
 	DIR				*dirp;
 	struct dirent	*entity;
-	char			*path_;
 	struct stat		buf;
 	char			*temp;
-	//int				count;
-
+	static int		i;
 
 	temp = ft_strjoin(dirname, "/");
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
-	ft_printf("Reading files from: %s\n",dirname);
 	while (entity != NULL)
 	{
-		path_ = ft_strjoin(temp, entity->d_name);
-		stat(path_, &buf);
-		ft_printf(" %d %hhd %s\n",i, entity->d_type, entity->d_name);
-		linearray[i++] = get_info(buf, path_, 0);
+		dirname = ft_strjoin(temp, entity->d_name);
+		stat(dirname, &buf);
+		linearray[i++] = get_info(buf, dirname, 0);
 		linearray[0]->total += buf.st_blocks;
-
-		if (entity->d_type == DT_DIR && ft_strcmp(entity->d_name, ".") != 0 && ft_strcmp(entity->d_name, "..") != 0)
-		{
-			recursively(path_, i, linearray);
-		}
+		if (entity->d_type == DT_DIR && ft_strcmp(entity->d_name, ".") != 0
+			&& ft_strcmp(entity->d_name, "..") != 0)
+			recursively(dirname, linearray);
 		entity = readdir(dirp);
 	}
-	//linearray = alphabetical(linearray);
-	//dir_tree[i] = NULL;
-	//closedir(dirp);
-
+	linearray[i] = NULL;
+	linearray = alphabetical(linearray);
+	closedir(dirp);
 }
 
 // {

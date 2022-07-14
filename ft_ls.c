@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 08:51:52 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 11:06:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int argc, char **argv)
 		// taking flags to struct then print
 		if (ft_strcmp(argv[1], "-R") == 0)
 		{
-			recursively(argv[2], i ,linearray);
+			recursively(argv[2], linearray);
 			i = 0;
 			print_arr(linearray);
 			i++;
@@ -97,6 +97,7 @@ int	main(int argc, char **argv)
 		}
 		while (argc >= 3)
 		{
+			linearray[0]->index = 0;
 			linearray = line_array(argv[argc - 1], linearray);
 			print_arr(linearray);
 			argc--;

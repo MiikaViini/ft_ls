@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 08:52:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/14 09:18:42 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char		*permissions(int modes);
 //t_fileinfo	**line_array(char *argv, int index);
 t_fileinfo	**alphabetical(t_fileinfo **info);
 void		print_arr(t_fileinfo **linearray);
-void		recursively(char *dirname,int i, t_fileinfo **linearray);
+void		recursively(char *dirname, t_fileinfo **linearray);
 t_fileinfo	**line_array(char *argv, t_fileinfo **linearray);
 
 #endif
