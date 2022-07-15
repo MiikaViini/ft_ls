@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/15 00:21:33 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/15 12:36:24 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 
 	line = malloc(sizeof(t_fileinfo));
 	time = ft_strnew(35);
-	line->stat_us = lstat(path, &buf);
+	//lstat(path, &buf);
 	ft_strcpy(time, ctime(&buf.st_mtime));
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
@@ -51,7 +51,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 		line->filename = ft_strjoin(line->filename, " -> ");
 		line->filename = ft_strjoin(line->filename, link);
 	}
-	line->perms = permissions(buf.st_mode);
+	line->perms = permissions(buf.st_mode, buf);
 	line->m_time = time;
 	return (line);
 }
@@ -111,7 +111,7 @@ int	main(int argc, char **argv)
 		while (argc >= 3)
 		{
 			linearray = line_array(argv[argc - 1], linearray);
-			print_arr(linearray);
+			print_arr(linearray, flags);
 			argc--;
 		}
 	}
@@ -123,7 +123,7 @@ int	main(int argc, char **argv)
 			ft_printf("ft_ls: %s: No such file or directory", argv[1]);
 			exit(1);
 		}
-		print_arr(linearray);
+		print_arr(linearray, flags);
 	}
 	return (0);
 }

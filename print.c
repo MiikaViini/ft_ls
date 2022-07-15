@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/13 18:43:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/15 12:41:38 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_arr(t_fileinfo **linearray)
+void	print_arr(t_fileinfo **linearray, t_flags *flags)
 {
 	int	i;
 
@@ -20,7 +20,9 @@ void	print_arr(t_fileinfo **linearray)
 	ft_printf("total %d\n", linearray[i]->total);
 	while (linearray[i] != NULL)
 	{
-		ft_printf("%d", linearray[i]->stat_us);
+		if (!flags->a)
+			while (linearray[i]->filename[0] == '.')
+				i++;
 		ft_printf("%3s ", linearray[i]->perms);
 		ft_printf("%3d ", linearray[i]->links);
 		ft_printf("%3s ", linearray[i]->owner);

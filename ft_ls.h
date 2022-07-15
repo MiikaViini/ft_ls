@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 19:08:27 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/15 12:35:48 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@
 # include <time.h>
 
 # define FLAGS "lRart"
+/* Defining permission strings */
+# define RDWR
+# define WR
+# define RDWREX
+# define RDEX
+# define EX
+# define WREX
+# define NOPER
 
 typedef struct s_fileinfo
 {
@@ -59,27 +67,36 @@ typedef struct s_flags
 // 	t
 // }
 
-
 t_fileinfo	*get_info(struct stat buf, char *path, int pathlen);
-char		*permissions(int modes);
+char		*permissions(int modes, struct stat buf);
 //t_fileinfo	**line_array(char *argv, int index);
 t_fileinfo	**alphabetical(t_fileinfo **info);
-void		print_arr(t_fileinfo **linearray);
+void		print_arr(t_fileinfo **linearray, t_flags *flags);
 void		recursively(char *dirname, t_fileinfo **linearray);
 t_fileinfo	**line_array(char *argv, t_fileinfo **linearray);
 	// int			find_letter(char c, char *letters);
 
-void	l_flag(t_flags *flags, char *string);
-void	rec_flag(t_flags *flags, char *string);
-void	a_flag(t_flags *flags, char *string);
-void	r_flag(t_flags *flags, char *string);
-void	t_flag(t_flags *flags, char *string);
-void	not_found(t_flags *flags, char *string);
+void		l_flag(t_flags *flags, char *string);
+void		rec_flag(t_flags *flags, char *string);
+void		a_flag(t_flags *flags, char *string);
+void		r_flag(t_flags *flags, char *string);
+void		t_flag(t_flags *flags, char *string);
+//char		get_filetype(int modes, struct stat buf);
+void		not_found(t_flags *flags, char *string);
 typedef void	(*t_fl)(t_flags *flags, char *string);
 
+static const char	g_perms[8][4] = {
+"---",
+"--x",
+"-w-",
+"-wx",
+"r--",
+"r-x",
+"rw-",
+"rwx"
+};
 
-
-static const t_fl g_flags[6] = {
+static const t_fl	g_flags[6] = {
 	l_flag,
 	rec_flag,
 	a_flag,
