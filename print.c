@@ -6,23 +6,29 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/15 12:41:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 13:35:50 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_arr(t_fileinfo **linearray, t_flags *flags)
+void	print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs)
 {
 	int	i;
+	int	k;
 
 	i = 0;
+	k = 0;
+	(void)flags;
+	(void)dirs;
 	ft_printf("total %d\n", linearray[i]->total);
 	while (linearray[i] != NULL)
 	{
-		if (!flags->a)
-			while (linearray[i]->filename[0] == '.')
-				i++;
+		// if (!flags->a)
+		// 	while (linearray[i]->filename[0] == '.')
+		// 		i++;
+		// if (linearray[i]->perms[0] == 'd')
+		// 	ft_printf("%s\n", dirs[k++]);
 		ft_printf("%3s ", linearray[i]->perms);
 		ft_printf("%3d ", linearray[i]->links);
 		ft_printf("%3s ", linearray[i]->owner);

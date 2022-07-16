@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/15 12:36:24 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 13:46:14 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 
 	line = malloc(sizeof(t_fileinfo));
 	time = ft_strnew(35);
-	//lstat(path, &buf);
+	lstat(path, &buf);
 	ft_strcpy(time, ctime(&buf.st_mtime));
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
@@ -96,34 +96,47 @@ static void	initialize_struct(t_flags *flags)
 
 int	main(int argc, char **argv)
 {
+	//t_fileinfo	***dirs;
 	t_fileinfo	**linearray;
+	t_dirs		**dirs;
 	t_flags		*flags;
 	int			i;
+	int			k;
 
 	i = 0;
+	k = -1;
 	flags = (t_flags *)malloc(sizeof(t_flag));
+	dirs = (t_dirs **)malloc(sizeof(t_dirs *) * 1000);
+	//dirs->dirs = (char **)malloc(sizeof(char *) * 1000);
 	initialize_struct(flags);
-	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 50000);
+	//dirs = (t_fileinfo ***)malloc(sizeof(t_fileinfo) * 1000);
+	//dirs = (char **)malloc(sizeof(char *) * 1000);
+	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo *) * 50000);
 	if (argc > 2 && argv[1][i] == '-')
 	{
 		while (argv[1][++i] != '\0')
 			g_flags[find_letter(argv[1][i], FLAGS)](flags, argv[1]);
 		while (argc >= 3)
 		{
-			linearray = line_array(argv[argc - 1], linearray);
-			print_arr(linearray, flags);
+			if (flags->cap_r)
+				recursively(argv[argc - 1], linearray, dirs);
+			else
+				linearray = line_array(argv[argc - 1], linearray);
+			print_arr(linearray, flags, dirs);
+			while(dirs[++k])
+				ft_printf("dirs %d %s\n",dirs[k]->i, dirs[k]->dirs);
 			argc--;
 		}
 	}
 	else if (argc == 2)
 	{
 		linearray = line_array(argv[1], linearray);
-		if (linearray == NULL)
-		{
-			ft_printf("ft_ls: %s: No such file or directory", argv[1]);
-			exit(1);
-		}
-		print_arr(linearray, flags);
+		// if (linearray == NULL)
+		// {
+		// 	ft_printf("ft_ls: %s: No such file or directory", argv[1]);
+		// 	exit(1);
+		// }
+		print_arr(linearray, flags, dirs);
 	}
 	return (0);
 }

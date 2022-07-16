@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/15 12:35:48 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 13:35:05 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,12 @@ typedef struct s_fileinfo
 	int			index;
 }				t_fileinfo;
 
+typedef struct s_dirs
+{
+	char	*dirs;
+	int		i;
+}			t_dirs;
+
 typedef struct s_flags
 {
 	int		l;
@@ -71,8 +77,8 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen);
 char		*permissions(int modes, struct stat buf);
 //t_fileinfo	**line_array(char *argv, int index);
 t_fileinfo	**alphabetical(t_fileinfo **info);
-void		print_arr(t_fileinfo **linearray, t_flags *flags);
-void		recursively(char *dirname, t_fileinfo **linearray);
+void		print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs);
+void		recursively(char *dirname, t_fileinfo **linearray, t_dirs **dirs);
 t_fileinfo	**line_array(char *argv, t_fileinfo **linearray);
 	// int			find_letter(char c, char *letters);
 
