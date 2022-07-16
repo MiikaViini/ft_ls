@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 20:55:41 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 22:09:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	recursively(char *dirname, t_fileinfo **linearray, char **dirs)
 		}
 		entity = readdir(dirp);
 	}
-	//dirs[i] = NULL;
 	closedir(dirp);
 }
 
