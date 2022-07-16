@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 21:57:34 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 23:51:57 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_arr(t_fileinfo **linearray, t_flags *flags, char **dirs)
+void	print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs)
 {
 	int			i;
 	int			k;

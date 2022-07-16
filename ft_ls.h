@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 21:39:23 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 23:52:09 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ typedef struct s_fileinfo
 	int			index;
 }				t_fileinfo;
 
-// typedef struct s_dirs
-// {
-// 	char	*dirs;
-// 	int		i;
-// }			t_dirs;
+typedef struct s_dirs
+{
+	char	*dirs;
+	long	time;
+}			t_dirs;
 
 typedef struct s_flags
 {
@@ -91,8 +91,8 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen);
 char		*permissions(int modes, struct stat buf);
 //t_fileinfo	**line_array(char *argv, int index);
 t_fileinfo	**alphabetical(t_fileinfo **info);
-void		print_arr(t_fileinfo **linearray, t_flags *flags, char **dirs);
-void		recursively(char *dirname, t_fileinfo **linearray, char **dirs);
+void		print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs);
+void		recursively(char *dirname, t_fileinfo **linearray, t_dirs **dirs);
 t_fileinfo	**line_array(char *argv, t_fileinfo **linearray);
 	// int			find_letter(char c, char *letters);
 
@@ -104,6 +104,7 @@ void		t_flag(t_flags *flags, char *string);
 //char		get_filetype(int modes, struct stat buf);
 void		not_found(t_flags *flags, char *string);
 void		alphabetical_s(char **dirs);
+void		sort_time_r(t_dirs **dirs);
 typedef void	(*t_fl)(t_flags *flags, char *string);
 
 static const char	g_perms[8][4] = {

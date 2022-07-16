@@ -6,31 +6,46 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 22:09:29 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 23:39:34 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	recursively(char *dirname, t_fileinfo **linearray, char **dirs)
+static void	save_dir_info(t_dirs **dirs, char *dirname, struct dirent *folder)
+{
+	t_dirs 			*dir;
+	static int 		i;
+	struct stat		buf;
+	
+	dir = (t_dirs *)malloc(sizeof(t_dirs));
+	if(!dir || !dirs || !folder)
+		return ;
+	lstat(dirname, &buf);
+	dir->dirs = ft_strdup(dirname);
+	dir->time = buf.st_mtime;
+	if (!dir->dirs)
+		return ;
+	dirs[i++] = dir;
+}
+
+void	recursively(char *dirname, t_fileinfo **linearray, t_dirs **dirs)
 {
 	DIR				*dirp;
 	struct dirent	*entity;
-	struct stat		buf;
+	//struct stat		buf;
 	char			*temp;
-	static int		i;
-	char			*dir;
+	//static int		i;
 
 	temp = ft_strjoin(dirname, "/");
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
-	dir = ft_strdup(dirname);
-	dirs[i++] = dir;
+	save_dir_info(dirs, dirname, entity);
 	(void)linearray;
 	while (entity != NULL)
 	{
 		dirname = ft_strjoin(temp, entity->d_name);
-		lstat(dirname, &buf);
+		//lstat(dirname, &buf);
 		if (entity->d_type == DT_DIR && ft_strcmp(entity->d_name, ".") != 0
 			&& ft_strcmp(entity->d_name, "..") != 0)
 		{
