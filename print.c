@@ -6,16 +6,16 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 13:35:50 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 21:57:34 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs)
+void	print_arr(t_fileinfo **linearray, t_flags *flags, char **dirs)
 {
-	int	i;
-	int	k;
+	int			i;
+	int			k;
 
 	i = 0;
 	k = 0;
@@ -30,10 +30,10 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs)
 		// if (linearray[i]->perms[0] == 'd')
 		// 	ft_printf("%s\n", dirs[k++]);
 		ft_printf("%3s ", linearray[i]->perms);
-		ft_printf("%3d ", linearray[i]->links);
+		ft_printf("%4d ", linearray[i]->links);
 		ft_printf("%3s ", linearray[i]->owner);
 		ft_printf("%3s ", linearray[i]->owner_gr);
-		ft_printf("%5lld ", linearray[i]->size);
+		ft_printf("%7lld ", linearray[i]->size);
 		ft_printf("%.12s ", linearray[i]->m_time + 4);
 		ft_printf("%s\n", linearray[i]->filename);
 		i++;

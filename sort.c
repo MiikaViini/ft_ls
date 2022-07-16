@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/15 20:41:08 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/16 21:14:20 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,25 @@ t_fileinfo	**alphabetical(t_fileinfo **info)
 		i++;
 	}
 	return (info);
+}
+
+void	alphabetical_s(char **dirs)
+{
+	int			i;
+	char		*temp;
+
+	i = 0;
+	if (!dirs)
+		return ;
+	while (dirs[i] != NULL && dirs[i + 1] != NULL)
+	{
+		if (ft_strcmp(dirs[i], dirs[i + 1]) > 0)
+		{
+			temp = dirs[i];
+			dirs[i] = dirs[i + 1];
+			dirs[i + 1] = temp;
+			i = 0;
+		}
+		i++;
+	}
 }
