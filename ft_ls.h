@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 23:52:09 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/17 15:19:37 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ typedef struct s_fileinfo
 typedef struct s_dirs
 {
 	char	*dirs;
-	long	time;
+	char	*time;
+	int		depth;
 }			t_dirs;
 
 typedef struct s_flags

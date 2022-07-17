@@ -6,12 +6,24 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 23:39:34 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/17 15:34:20 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+static int char_count(char *string, char c)
+{
+	int	res;
+	int	i;
+	
+	res = 0;
+	i = -1;
+	while (string[++i])
+		if (string[i] == c)
+			res++;
+	return (res);
+}
 static void	save_dir_info(t_dirs **dirs, char *dirname, struct dirent *folder)
 {
 	t_dirs 			*dir;
@@ -19,11 +31,13 @@ static void	save_dir_info(t_dirs **dirs, char *dirname, struct dirent *folder)
 	struct stat		buf;
 	
 	dir = (t_dirs *)malloc(sizeof(t_dirs));
+	dir->time = ft_strnew(30);
 	if(!dir || !dirs || !folder)
 		return ;
 	lstat(dirname, &buf);
 	dir->dirs = ft_strdup(dirname);
-	dir->time = buf.st_mtime;
+	dir->depth = char_count(dirname, '/');
+	ft_strncpy(dir->time, ctime(&buf.st_mtime) + 4, 12);
 	if (!dir->dirs)
 		return ;
 	dirs[i++] = dir;

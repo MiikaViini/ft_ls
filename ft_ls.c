@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/17 00:08:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/17 15:24:39 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,12 @@ int	main(int argc, char **argv)
 			// alphabetical_s(dirs);
 			while(dirs[++k])
 			{
-				if (k != 0)
-				{
-					ft_printf("%s:\n", dirs[k]->dirs);
-				}
-				// ft_printf("%lld %s\n", dirs[k]->time, ctime(&dirs[k]->time));
+				// if (k != 0)
+				// {
+					ft_printf("%s\n", dirs[k]->dirs);
+					ft_printf("%d\n", dirs[k]->depth);
+				// }
+				// ft_printf("%s\n", dirs[k]->time);
 				// linearray = line_array(dirs[k]->dirs, linearray);
 				// print_arr(linearray, flags, dirs);
 				// ft_putchar('\n');

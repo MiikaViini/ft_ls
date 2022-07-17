@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 23:52:50 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/17 12:50:56 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,22 @@ void	sort_time_r(t_dirs **dirs)
 		return ;
 	while (dirs[i] != NULL && dirs[i + 1] != NULL)
 	{
-		if (dirs[i]->time < dirs[i + 1]->time)
+		if (ft_strcmp(dirs[i]->time, dirs[i + 1]->time) < 0)
 		{
 			temp = dirs[i];
 			dirs[i] = dirs[i + 1];
 			dirs[i + 1] = temp;
 			i = 0;
+		}
+		else if (ft_strcmp(dirs[i]->time, dirs[i + 1]->time) == 0)
+		{
+			if (ft_strcmp(dirs[i]->dirs, dirs[i + 1]->dirs) > 0)
+			{
+				temp = dirs[i];
+				dirs[i] = dirs[i + 1];
+				dirs[i + 1] = temp;
+				i = 0;
+			}
 		}
 		i++;
 	}
