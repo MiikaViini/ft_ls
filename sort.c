@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/17 12:50:56 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/20 15:32:01 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,30 +58,64 @@ void	alphabetical_s(char **dirs)
 void	sort_time_r(t_dirs **dirs)
 {
 	int			i;
+	int			d;
+	int			int_temp;
 	t_dirs		*temp;
 
 	i = 0;
+	d = 0;
+	int_temp = 0;
 	if (!dirs)
 		return ;
+
 	while (dirs[i] != NULL && dirs[i + 1] != NULL)
 	{
-		if (ft_strcmp(dirs[i]->time, dirs[i + 1]->time) < 0)
+		if (ft_strcmp(dirs[i]->dirs, dirs[i + 1]->dirs) < 0 && dirs[i]->depth > dirs[i + 1]->depth)
 		{
 			temp = dirs[i];
 			dirs[i] = dirs[i + 1];
 			dirs[i + 1] = temp;
 			i = 0;
 		}
-		else if (ft_strcmp(dirs[i]->time, dirs[i + 1]->time) == 0)
+		else if (dirs[i]->depth > dirs[i + 1]->depth)
 		{
-			if (ft_strcmp(dirs[i]->dirs, dirs[i + 1]->dirs) > 0)
-			{
-				temp = dirs[i];
-				dirs[i] = dirs[i + 1];
-				dirs[i + 1] = temp;
-				i = 0;
-			}
+			temp = dirs[i];
+			dirs[i] = dirs[i + 1];
+			dirs[i + 1] = temp;
+			i = 0;
 		}
 		i++;
 	}
+	// temp = NULL;
+	// i = 0;
+	// while (dirs[i] != NULL && dirs[i + 1] != NULL)
+	// {
+		
+	// 	i++;
+	// }
+
+	
+	// temp = NULL;
+	// i = 0;
+	// while (dirs[i] != NULL && dirs[i + 1] != NULL)
+	// {
+	// 	if (ft_strcmp(dirs[i]->time, dirs[i + 1]->time) < 0)
+	// 	{
+	// 		temp = dirs[i];
+	// 		dirs[i] = dirs[i + 1];
+	// 		dirs[i + 1] = temp;
+	// 		i = 0;
+	// 	}
+	// 	i++;
 }
+
+// else if (ft_strcmp(dirs[i]->time, dirs[i + 1]->time) == 0)
+// 		{
+// 			if (ft_strcmp(dirs[i]->dirs, dirs[i + 1]->dirs) > 0)
+// 			{
+// 				temp = dirs[i];
+// 				dirs[i] = dirs[i + 1];
+// 				dirs[i + 1] = temp;
+// 				i = 0;
+// 			}
+// 		}

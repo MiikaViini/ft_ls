@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/17 15:24:39 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/20 13:49:11 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,13 @@ int	main(int argc, char **argv)
 	t_flags		*flags;
 	int			i;
 	int			k;
+	int			d;
 
 	i = 0;
 	k = -1;
+	d = 1;
 	flags = (t_flags *)malloc(sizeof(t_flag));
-	dirs = (t_dirs **)malloc(sizeof(t_dirs *) * 1000);
+	dirs = (t_dirs **)malloc(sizeof(t_dirs *) * 1000000);
 	//dirs->dirs = (char **)malloc(sizeof(char *) * 1000);
 	initialize_struct(flags);
 	//dirs = (t_fileinfo ***)malloc(sizeof(t_fileinfo) * 1000);
@@ -132,10 +134,12 @@ int	main(int argc, char **argv)
 			// alphabetical_s(dirs);
 			while(dirs[++k])
 			{
-				// if (k != 0)
+				// if (k != 0 && dirs[k]->depth == 1)
 				// {
 					ft_printf("%s\n", dirs[k]->dirs);
 					ft_printf("%d\n", dirs[k]->depth);
+				
+				
 				// }
 				// ft_printf("%s\n", dirs[k]->time);
 				// linearray = line_array(dirs[k]->dirs, linearray);
