@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/29 21:11:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/29 23:13:38 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char			*permissions(int modes, struct stat buf);
 //t_fileinfo	**line_array(char *argv, int index);
 t_fileinfo		**alphabetical(t_fileinfo **info);
 void			print_arr(t_fileinfo **linearray, t_flags *flags);
-void			recursively(char *path, t_fileinfo **linearray, t_flags *flags, int i);
+void			recursively(char *path, t_fileinfo **linearray, t_flags *flags);
 t_fileinfo		**line_array(char *argv, t_fileinfo **linearray);
 	// int			find_letter(char c, char *letters);
 
@@ -114,7 +114,7 @@ typedef void	(*t_fl)(t_flags *flags, char *string);
 void			sort_time(t_fileinfo **linearray);
 void			sort_depth_r(t_dirs **dirs);
 void			sort_recu_r(t_dirs **dirs);
-t_fileinfo			**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags,  int i, int f_count);
+t_fileinfo			**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count);
 
 static const char	g_perms[8][4] = {
 "---",

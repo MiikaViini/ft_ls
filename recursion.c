@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/29 22:55:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/29 23:21:15 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,37 +59,39 @@
 // 	dirs[i++] = dir;
 // }
 
-int filecount(char *name)
+int filecount(char *dir)
 {
-	DIR *d;
+	DIR 			*dir_s;
 	struct dirent	*entity;
 
-	int			count;
+	int				count;
 
 	count = 0;
-	d = opendir(name);
-	if (d == NULL)
+	dir_s = opendir(dir);
+	if (dir == NULL)
 		return 0;
-	entity = readdir(d);
+	entity = readdir(dir_s);
 	while (entity != NULL)
 	{
 		count++;
-		entity = readdir(d);
+		entity = readdir(dir_s);
 	}
-	closedir(d);
+	closedir(dir);
 	return (count);
 }
 
 
-void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags, int i)
+void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 {
 	t_fileinfo		**arr;
 	char			path[PATH_MAX];
 	int				f_count;
+	int				i;
 
+	i = 0;
 	f_count = filecount(dirname);
-	arr = ft_opendir(dirname, linearray, flags, 0, f_count);
-	while (i < f_count)
+	arr = ft_opendir(dirname, linearray, flags, f_count);
+	while (arr[i])
 	{
 		if (arr[i]->perms[0] == 'd' && ft_strcmp(arr[i]->filename, ".") != 0 && ft_strcmp(arr[i]->filename, "..") != 0)
 		{
@@ -101,31 +103,27 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags, int i)
 			write(1, "\n", 1);
 			write(1, path, ft_strlen(path));
 			write(1, ":\n", 2);
-			recursively(path, arr, flags, 0);
-
+			recursively(path, arr, flags);
 		}
-		//flags->filecount--;
 		i++;
 	}
-	//free(arr);
-
+	free(arr);
 }
 
 
 
-t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, int i, int f_count)
+t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
 {
 	DIR				*dirp;
 	struct dirent	*entity;
 	struct stat		buf;
-	//char			*temp;
+	int				i;
 	char			path[PATH_MAX];
 
 	ft_memset(path, '\0', PATH_MAX);
 	ft_strcat(path, dirname);
 	ft_strcat(path, "/");
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count);
-	(void)f_count;
 	dirp = opendir(dirname);
 	if (dirp == NULL)
 		return NULL;
@@ -144,14 +142,6 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	sort_time(linearray);
 	print_arr(linearray, flags);
 	return (linearray);
-	//
-	// ft_printf("%s\n", temp);
-
-	// if (flags->cap_r)
-	// 	recursively(path, linearray, flags);
-
-	//
-
 }
 
 
