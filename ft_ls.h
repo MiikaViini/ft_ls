@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/17 15:19:37 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/29 21:11:47 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <dirent.h>
 # include <errno.h>
 # include <time.h>
+# include <limits.h>
 
 # define FLAGS "lRart"
 /* Defining permission strings */
@@ -47,13 +48,15 @@ typedef struct s_fileinfo
 	char		*path;
 	int			total;
 	int			index;
+	long long	time_i;
 }				t_fileinfo;
 
 typedef struct s_dirs
 {
-	char	*dirs;
-	char	*time;
-	int		depth;
+	char		*dirs;
+	char		*time;
+	long long	time_i;
+	int			depth;
 }			t_dirs;
 
 typedef struct s_flags
@@ -63,6 +66,7 @@ typedef struct s_flags
 	int		a;
 	int		r;
 	int		t;
+	int		filecount;
 }			t_flags;
 typedef enum e_months
 {
@@ -88,25 +92,29 @@ typedef enum e_months
 // 	t
 // }
 
-t_fileinfo	*get_info(struct stat buf, char *path, int pathlen);
-char		*permissions(int modes, struct stat buf);
+t_fileinfo		*get_info(struct stat buf, char *path, int pathlen);
+char			*permissions(int modes, struct stat buf);
 //t_fileinfo	**line_array(char *argv, int index);
-t_fileinfo	**alphabetical(t_fileinfo **info);
-void		print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs);
-void		recursively(char *dirname, t_fileinfo **linearray, t_dirs **dirs);
-t_fileinfo	**line_array(char *argv, t_fileinfo **linearray);
+t_fileinfo		**alphabetical(t_fileinfo **info);
+void			print_arr(t_fileinfo **linearray, t_flags *flags);
+void			recursively(char *path, t_fileinfo **linearray, t_flags *flags, int i);
+t_fileinfo		**line_array(char *argv, t_fileinfo **linearray);
 	// int			find_letter(char c, char *letters);
 
-void		l_flag(t_flags *flags, char *string);
-void		rec_flag(t_flags *flags, char *string);
-void		a_flag(t_flags *flags, char *string);
-void		r_flag(t_flags *flags, char *string);
-void		t_flag(t_flags *flags, char *string);
+void			l_flag(t_flags *flags, char *string);
+void			rec_flag(t_flags *flags, char *string);
+void			a_flag(t_flags *flags, char *string);
+void			r_flag(t_flags *flags, char *string);
+void			t_flag(t_flags *flags, char *string);
 //char		get_filetype(int modes, struct stat buf);
-void		not_found(t_flags *flags, char *string);
-void		alphabetical_s(char **dirs);
-void		sort_time_r(t_dirs **dirs);
+void			not_found(t_flags *flags, char *string);
+void			alphabetical_s(t_dirs **dirs);
+void			sort_time_r(t_dirs **dirs);
 typedef void	(*t_fl)(t_flags *flags, char *string);
+void			sort_time(t_fileinfo **linearray);
+void			sort_depth_r(t_dirs **dirs);
+void			sort_recu_r(t_dirs **dirs);
+t_fileinfo			**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags,  int i, int f_count);
 
 static const char	g_perms[8][4] = {
 "---",

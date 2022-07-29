@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/07/14 13:55:36 by mviinika         ###   ########.fr        #
+#    Updated: 2022/07/29 22:51:15 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+#	@rm -r $(NAME).dSYM
 	@make fclean -C ./libft
 
 re: fclean all

@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/16 23:51:57 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/29 11:00:59 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs)
+void	print_arr(t_fileinfo **linearray, t_flags *flags)
 {
 	int			i;
 	int			k;
@@ -20,7 +20,6 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags, t_dirs **dirs)
 	i = 0;
 	k = 0;
 	(void)flags;
-	(void)dirs;
 	ft_printf("total %d\n", linearray[i]->total);
 	while (linearray[i] != NULL)
 	{

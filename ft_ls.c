@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/17 15:24:39 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/29 22:43:16 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,13 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 {
 	struct passwd	*pwd;
 	struct group	*grp;
-	char			*time;
+	//char			*time;
 	t_fileinfo		*line;
 	char			link[256];
 
 	line = malloc(sizeof(t_fileinfo));
-	time = ft_strnew(35);
-	ft_strcpy(time, ctime(&buf.st_mtime));
+	//time = ft_strnew(35);
+	//ft_strcpy(time, ctime(&buf.st_mtime));
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
 	line->owner = ft_strdup(pwd->pw_name);
@@ -44,6 +44,8 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	line->links = buf.st_nlink;
 	line->size = buf.st_size;
 	line->filename = ft_strdup(path + pathlen);
+	line->time_i = buf.st_mtime;
+	line->path =ft_strdup(path);
 	if (S_ISLNK(buf.st_mode))
 	{
 		readlink(path, link, 256);
@@ -51,7 +53,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 		line->filename = ft_strjoin(line->filename, link);
 	}
 	line->perms = permissions(buf.st_mode, buf);
-	line->m_time = time;
+	line->m_time = ft_strdup(ctime(&buf.st_mtime));
 	return (line);
 }
 
@@ -98,50 +100,48 @@ int	main(int argc, char **argv)
 {
 	//t_fileinfo	***dirs;
 	t_fileinfo	**linearray;
-	t_dirs		**dirs;
+	//t_dirs		**dirs;
+	//char		**dirs;
 	t_flags		*flags;
 	int			i;
 	int			k;
+	int			d;
+	//char		*root;
 
 	i = 0;
 	k = -1;
+	d = 1;
 	flags = (t_flags *)malloc(sizeof(t_flag));
-	dirs = (t_dirs **)malloc(sizeof(t_dirs *) * 1000);
+	// dirs = (t_dirs **)malloc(sizeof(t_dirs *) * 10000);
 	//dirs->dirs = (char **)malloc(sizeof(char *) * 1000);
 	initialize_struct(flags);
+	linearray = NULL;
 	//dirs = (t_fileinfo ***)malloc(sizeof(t_fileinfo) * 1000);
-	//dirs = (char **)malloc(sizeof(char *) * 1000);
-	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo *) * 50000);
+//	dirs = (char **)malloc(sizeof(char *) * 1000);
+	//linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo *) * 50000);
 	if (argc > 2 && argv[1][i] == '-')
 	{
 		while (argv[1][++i] != '\0')
 			g_flags[find_letter(argv[1][i], FLAGS)](flags, argv[1]);
 		while (argc >= 3)
 		{
-			if (flags->cap_r)
-				recursively(argv[argc - 1], linearray, dirs);
-			else
-				linearray = line_array(argv[argc - 1], linearray);
-				sort_time_r(dirs);
+			// if (flags->cap_r)
+			// {
+				// recursively(argv[argc - 1], linearray, dirs);
+				// alphabetical_s(dirs);
+				// sort_time_r(dirs);
+				// sort_depth_r(dirs);
+				// sort_recu_r(dirs);
+				//linearray = ft_opendir(argv[argc-1], linearray, flags);
+				recursively(argv[argc-1], linearray, flags, 0);
+
+
+				// linearray = line_array(argv[argc - 1], linearray);
+				// sort_time(linearray);
+				// sort_time_r(dirs);
+
 				// while(dirs[++k])
-					
-			// ft_printf("%lld %s", dirs[1]->time, ctime(&dirs[1]->time));
-			// ft_printf(" %s\n", dirs[1]->dirs);
-			// ft_printf("%lld %s", dirs[2]->time, ctime(&dirs[2]->time));
-			// ft_printf(" %s", dirs[2]->dirs);
-			// alphabetical_s(dirs);
-			while(dirs[++k])
-			{
-				// if (k != 0)
-				// {
-					ft_printf("%s\n", dirs[k]->dirs);
-					ft_printf("%d\n", dirs[k]->depth);
-				// }
-				// ft_printf("%s\n", dirs[k]->time);
-				// linearray = line_array(dirs[k]->dirs, linearray);
-				// print_arr(linearray, flags, dirs);
-				// ft_putchar('\n');
-			}
+			//root = dirs[d]->dirs;
 			argc--;
 		}
 	}
