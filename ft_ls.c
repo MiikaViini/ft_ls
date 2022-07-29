@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/29 22:43:16 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/29 22:55:20 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,20 @@ int	main(int argc, char **argv)
 	int			i;
 	int			k;
 	int			d;
+<<<<<<< HEAD
 	//char		*root;
+=======
+>>>>>>> eba37975d5bf1d65a9d5f552a48877f655e3d10b
 
 	i = 0;
 	k = -1;
 	d = 1;
 	flags = (t_flags *)malloc(sizeof(t_flag));
+<<<<<<< HEAD
 	// dirs = (t_dirs **)malloc(sizeof(t_dirs *) * 10000);
+=======
+	dirs = (t_dirs **)malloc(sizeof(t_dirs *) * 1000000);
+>>>>>>> eba37975d5bf1d65a9d5f552a48877f655e3d10b
 	//dirs->dirs = (char **)malloc(sizeof(char *) * 1000);
 	initialize_struct(flags);
 	linearray = NULL;
@@ -141,7 +148,30 @@ int	main(int argc, char **argv)
 				// sort_time_r(dirs);
 
 				// while(dirs[++k])
+<<<<<<< HEAD
 			//root = dirs[d]->dirs;
+=======
+
+			// ft_printf("%lld %s", dirs[1]->time, ctime(&dirs[1]->time));
+			// ft_printf(" %s\n", dirs[1]->dirs);
+			// ft_printf("%lld %s", dirs[2]->time, ctime(&dirs[2]->time));
+			// ft_printf(" %s", dirs[2]->dirs);
+			// alphabetical_s(dirs);
+			while(dirs[++k])
+			{
+				// if (k != 0 && dirs[k]->depth == 1)
+				// {
+					ft_printf("%s\n", dirs[k]->dirs);
+					ft_printf("%d\n", dirs[k]->depth);
+
+
+				// }
+				// ft_printf("%s\n", dirs[k]->time);
+				// linearray = line_array(dirs[k]->dirs, linearray);
+				// print_arr(linearray, flags, dirs);
+				// ft_putchar('\n');
+			}
+>>>>>>> eba37975d5bf1d65a9d5f552a48877f655e3d10b
 			argc--;
 		}
 	}
