@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/29 23:13:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/31 12:18:40 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,21 @@ typedef struct s_fileinfo
 	char		*owner;
 	char		*owner_gr;
 	long long	size;
-	char		*filename;
+	char		filename[MAXNAMLEN];
 	int			stat_us;
-	char		*path;
-	int			total;
+	int			blocks;
 	int			index;
-	long long	time_i;
+	long long	time_m;
+	long long	time_a;
+	long		inode;
 }				t_fileinfo;
 
 typedef struct s_dirs
 {
 	char		*dirs;
 	char		*time;
-	long long	time_i;
+	long long	time_m;
+
 	int			depth;
 }			t_dirs;
 
@@ -115,7 +117,7 @@ void			sort_time(t_fileinfo **linearray);
 void			sort_depth_r(t_dirs **dirs);
 void			sort_recu_r(t_dirs **dirs);
 t_fileinfo			**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count);
-
+void	sort_time_a(t_fileinfo **linearray);
 static const char	g_perms[8][4] = {
 "---",
 "--x",

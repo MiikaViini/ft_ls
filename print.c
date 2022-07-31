@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/29 11:00:59 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/31 12:33:23 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,16 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 {
 	int			i;
 	int			k;
+	int			blocks;
 
 	i = 0;
 	k = 0;
+	blocks = 0;
 	(void)flags;
-	ft_printf("total %d\n", linearray[i]->total);
+	while(linearray[i] != NULL)
+		blocks += linearray[i++]->blocks;
+	ft_printf("total %d\n", blocks);
+	i = 0;
 	while (linearray[i] != NULL)
 	{
 		// if (!flags->a)

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/29 23:11:58 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/31 13:25:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,27 +30,26 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 {
 	struct passwd	*pwd;
 	struct group	*grp;
-	//char			*time;
 	t_fileinfo		*line;
 	char			link[256];
 
 	line = malloc(sizeof(t_fileinfo));
-	//time = ft_strnew(35);
-	//ft_strcpy(time, ctime(&buf.st_mtime));
+	ft_memset(line->filename, '\0', MAXNAMLEN);
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
 	line->owner = ft_strdup(pwd->pw_name);
 	line->owner_gr = ft_strdup(grp->gr_name);
 	line->links = buf.st_nlink;
 	line->size = buf.st_size;
-	line->filename = ft_strdup(path + pathlen);
-	line->time_i = buf.st_mtime;
-	line->path =ft_strdup(path);
+	ft_strcat(line->filename, path + pathlen);
+	line->blocks = buf.st_blocks;
+	line->time_m = buf.st_mtimespec.tv_sec;
+	line->time_a = buf.st_mtimespec.tv_nsec;
 	if (S_ISLNK(buf.st_mode))
 	{
 		readlink(path, link, 256);
-		line->filename = ft_strjoin(line->filename, " -> ");
-		line->filename = ft_strjoin(line->filename, link);
+		ft_strcat(line->filename, " -> ");
+		ft_strcat(line->filename, link);
 	}
 	line->perms = permissions(buf.st_mode, buf);
 	line->m_time = ft_strdup(ctime(&buf.st_mtime));
@@ -77,7 +76,7 @@ t_fileinfo	**line_array(char *argv, t_fileinfo **linearray)
 		path = ft_strjoin(temp, dirp->d_name);
 		lstat(path, &buf);
 		linearray[i++] = get_info(buf, path, ft_strlen(temp));
-		linearray[0]->total += buf.st_blocks;
+		//linearray[0]->total += buf.st_blocks;
 		dirp = readdir(dp);
 	}
 	linearray[i] = NULL;
@@ -86,7 +85,7 @@ t_fileinfo	**line_array(char *argv, t_fileinfo **linearray)
 	return (linearray);
 }
 
-static void	initialize_struct(t_flags *flags)
+static void initialize_struct(t_flags *flags)
 {
 	flags->l = 0;
 	flags->a = 0;
@@ -98,62 +97,54 @@ static void	initialize_struct(t_flags *flags)
 
 int	main(int argc, char **argv)
 {
-	//t_fileinfo	***dirs;
 	t_fileinfo	**linearray;
-	//t_dirs		**dirs;
-	//char		**dirs;
 	t_flags		*flags;
 	int			i;
-	int			k;
-	int			d;
-	//char		*root;
+	int			arg_count;
+	struct stat		buf;
+
 
 	i = 0;
-	k = -1;
-	d = 1;
-	flags = (t_flags *)malloc(sizeof(t_flag));
-	// dirs = (t_dirs **)malloc(sizeof(t_dirs *) * 10000);
-	//dirs->dirs = (char **)malloc(sizeof(char *) * 1000);
+	arg_count = 2;
+	flags = (t_flags *)malloc(sizeof(t_flags));
 	initialize_struct(flags);
 	linearray = NULL;
-	//dirs = (t_fileinfo ***)malloc(sizeof(t_fileinfo) * 1000);
-//	dirs = (char **)malloc(sizeof(char *) * 1000);
-	//linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo *) * 50000);
 	if (argc > 2 && argv[1][i] == '-')
 	{
 		while (argv[1][++i] != '\0')
 			g_flags[find_letter(argv[1][i], FLAGS)](flags, argv[1]);
-		while (argc >= 3)
+		if (argc >= 3)
 		{
-			// if (flags->cap_r)
-			// {
-				// recursively(argv[argc - 1], linearray, dirs);
-				// alphabetical_s(dirs);
-				// sort_time_r(dirs);
-				// sort_depth_r(dirs);
-				// sort_recu_r(dirs);
-				//linearray = ft_opendir(argv[argc-1], linearray, flags);
-				recursively(argv[argc-1], linearray, flags);
+			while (arg_count < argc)
+			{
+				if (flags->cap_r)
+					recursively(argv[arg_count], linearray, flags);
+				else
+				{
+					linearray = ft_opendir(argv[arg_count], linearray, flags, 0);
+					print_arr(linearray, flags);
+				}
+				arg_count++;
+			}
 
-
-				// linearray = line_array(argv[argc - 1], linearray);
-				// sort_time(linearray);
-				// sort_time_r(dirs);
-
-				// while(dirs[++k])
-			//root = dirs[d]->dirs;
-			argc--;
 		}
 	}
-	else if (argc == 2)
+	else if (argc >= 1)
 	{
-		linearray = line_array(argv[1], linearray);
-		// if (linearray == NULL)
-		// {
-		// 	ft_printf("ft_ls: %s: No such file or directory", argv[1]);
-		// 	exit(1);
-		// }
-		//print_arr(linearray, flags, dirs);
+		stat(argv[1], &buf);
+		if (S_ISDIR(buf.st_mode))
+		{
+			linearray = ft_opendir(argv[1], linearray, flags, 0);
+		}
+		else
+		{
+			linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 1);
+			linearray[0] = get_info(buf, argv[1], 0);
+			print_arr(linearray, flags);
+			free(linearray);
+		}
+
 	}
+	free(flags);
 	return (0);
 }

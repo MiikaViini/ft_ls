@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/29 23:21:15 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/31 12:52:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int filecount(char *dir)
 		count++;
 		entity = readdir(dir_s);
 	}
-	closedir(dir);
+	closedir(dir_s);
 	return (count);
 }
 
@@ -120,26 +120,33 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	int				i;
 	char			path[PATH_MAX];
 
+	i = 0;
+	f_count = filecount(dirname);
 	ft_memset(path, '\0', PATH_MAX);
 	ft_strcat(path, dirname);
 	ft_strcat(path, "/");
-	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count);
+	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 1);
 	dirp = opendir(dirname);
 	if (dirp == NULL)
 		return NULL;
 	entity = readdir(dirp);
-	i = 0;
 	while (entity != NULL)
 	{
 		dirname = ft_strjoin(path, entity->d_name);
 		lstat(dirname, &buf);
-		linearray[i++] = get_info(buf, dirname, ft_strlen(path));
+		if (entity->d_name[0] != '.' || flags->a)
+			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
 		ft_strdel(&dirname);
 		entity = readdir(dirp);
 	}
 	linearray[i] = NULL;
 	closedir(dirp);
-	sort_time(linearray);
+	alphabetical(linearray);
+	if (flags->t)
+	{
+		sort_time_a(linearray);
+		sort_time(linearray);
+	}
 	print_arr(linearray, flags);
 	return (linearray);
 }
