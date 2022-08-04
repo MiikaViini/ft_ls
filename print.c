@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/31 12:33:23 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/04 19:21:14 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,56 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 {
 	int			i;
 	int			k;
+	int			order;
 	int			blocks;
+	int			longest_name;
+	int 		filecount;
+	size_t		int_len;
 
-	i = 0;
+	i = -1;
 	k = 0;
 	blocks = 0;
+	order = 4;
+	filecount = 0;
+	int_len = 1;
+	//linearray[0]->biggest = 0;
 	(void)flags;
-	while(linearray[i] != NULL)
-		blocks += linearray[i++]->blocks;
-	ft_printf("total %d\n", blocks);
-	i = 0;
-	while (linearray[i] != NULL)
+	linearray[0]->size = linearray[0]->biggest;
+	while(linearray[k] != NULL)
 	{
-		// if (!flags->a)
-		// 	while (linearray[i]->filename[0] == '.')
-		// 		i++;
-		// if (linearray[i]->perms[0] == 'd')
-		// 	ft_printf("%s\n", dirs[k++]);
-		ft_printf("%3s ", linearray[i]->perms);
-		ft_printf("%4d ", linearray[i]->links);
-		ft_printf("%3s ", linearray[i]->owner);
-		ft_printf("%3s ", linearray[i]->owner_gr);
-		ft_printf("%7lld ", linearray[i]->size);
-		ft_printf("%.12s ", linearray[i]->m_time + 4);
-		ft_printf("%s\n", linearray[i]->filename);
-		i++;
+		if (k >= 1 && ft_strcmp(linearray[k]->filename, linearray[k - 1]->filename) > 0)
+			longest_name = (int)ft_strlen(linearray[k]->filename);
+		if (linearray[0]->biggest <= linearray[k]->size)
+			linearray[0]->biggest = linearray[k]->size;
+		blocks += linearray[k++]->blocks;
+		filecount++;
+	}
+
+	if (flags->l)
+	{
+		int_len += ft_intlen(linearray[0]->biggest);
+		ft_printf("total %d\n", blocks);
+		while (linearray[++i] != NULL)
+		{
+			ft_printf("%3s ", linearray[i]->perms);
+			ft_printf("%4d ", linearray[i]->links);
+			ft_printf("%4s  ", linearray[i]->owner);
+			ft_printf("%4s ", linearray[i]->owner_gr);
+			ft_printf("%*lld ",int_len ,linearray[i]->size);
+			ft_printf("%.12s ", linearray[i]->m_time + 4);
+			ft_printf("%s\n", linearray[i]->filename);
+		}
+	}
+	else
+	{
+		while (linearray[++i])
+		{
+			if (i > 0 && i % 4 == 0)
+				ft_putchar('\n');
+			ft_printf("%-*s	",longest_name * 3, linearray[i]->filename);
+
+
+		}
 	}
 }
 

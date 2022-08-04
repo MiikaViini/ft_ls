@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:14:50 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/14 19:07:01 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/07/31 13:59:20 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,5 @@ void	t_flag(t_flags *flags, char *string)
 void	not_found(t_flags *flags, char *string)
 {
 	(void)string;
-	(void)flags;
+	flags->no_flags = 1;
 }

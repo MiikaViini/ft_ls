@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/31 12:52:26 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/04 20:05:00 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,16 @@ int filecount(char *dir)
 {
 	DIR 			*dir_s;
 	struct dirent	*entity;
-
 	int				count;
 
 	count = 0;
 	dir_s = opendir(dir);
-	if (dir == NULL)
-		return 0;
+	if (dir_s == NULL)
+	// {
+	// 	ft_printf("ls: %s: %s\n",dir,strerror(EACCES));
+		return (0);
+	// }
+
 	entity = readdir(dir_s);
 	while (entity != NULL)
 	{
@@ -90,6 +93,8 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 
 	i = 0;
 	f_count = filecount(dirname);
+	// if (f_count <= 0)
+	// 	return ;
 	arr = ft_opendir(dirname, linearray, flags, f_count);
 	while (arr[i])
 	{
@@ -97,7 +102,7 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 		{
 			ft_memset(path, '\0', PATH_MAX);
 			ft_strcat(path, dirname);
-			if (ft_strcmp(dirname, "/") != 0)
+			if (ft_strcmp(dirname, "/"))
 				ft_strcat(path, "/");
 			ft_strcat(path,arr[i]->filename);
 			write(1, "\n", 1);
@@ -126,14 +131,30 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	ft_strcat(path, dirname);
 	ft_strcat(path, "/");
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 1);
+	if (!linearray)
+		return (NULL);
 	dirp = opendir(dirname);
 	if (dirp == NULL)
-		return NULL;
+	{
+		ft_printf("ls: %s: %s ",dirname, strerror(EACCES));
+		if (flags->cap_r)
+		{
+			write(1, "\n", 1);
+			write(1, path, ft_strlen(path));
+			write(1, ":\n", 2);
+		}
+		return (NULL);
+	}
 	entity = readdir(dirp);
 	while (entity != NULL)
 	{
 		dirname = ft_strjoin(path, entity->d_name);
-		lstat(dirname, &buf);
+		if(lstat(dirname, &buf )< 0)
+		{
+			strerror(lstat(dirname, &buf));
+			exit(1);
+		}
+
 		if (entity->d_name[0] != '.' || flags->a)
 			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
 		ft_strdel(&dirname);

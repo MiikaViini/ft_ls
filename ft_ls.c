@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/31 13:25:29 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/04 17:35:50 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 
 	line = malloc(sizeof(t_fileinfo));
 	ft_memset(line->filename, '\0', MAXNAMLEN);
+	ft_memset(link, '\0', 256);
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
 	line->owner = ft_strdup(pwd->pw_name);
@@ -102,7 +103,12 @@ int	main(int argc, char **argv)
 	int			i;
 	int			arg_count;
 	struct stat		buf;
+	//struct	winsize w;
 
+	// ioctl(0, TIOCGWINSZ, &w);
+	// printf("lines %d\n", w.ws_row);
+	// printf("columsn %d\n", w.ws_col);
+	// exit(1);
 
 	i = 0;
 	arg_count = 2;
@@ -121,20 +127,20 @@ int	main(int argc, char **argv)
 					recursively(argv[arg_count], linearray, flags);
 				else
 				{
-					linearray = ft_opendir(argv[arg_count], linearray, flags, 0);
-					print_arr(linearray, flags);
+					ft_opendir(argv[arg_count], linearray, flags, 0);
+					//print_arr(linearray, flags);
 				}
 				arg_count++;
 			}
 
 		}
 	}
-	else if (argc >= 1)
+	else if (argc >= 1 && flags->no_flags)
 	{
 		stat(argv[1], &buf);
 		if (S_ISDIR(buf.st_mode))
 		{
-			linearray = ft_opendir(argv[1], linearray, flags, 0);
+			ft_opendir(argv[1], linearray, flags, 0);
 		}
 		else
 		{

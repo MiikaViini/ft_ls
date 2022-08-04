@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/31 12:18:40 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/04 17:38:35 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <errno.h>
 # include <time.h>
 # include <limits.h>
+# include <sys/ioctl.h>
 
 # define FLAGS "lRart"
 /* Defining permission strings */
@@ -34,6 +35,7 @@
 # define EX
 # define WREX
 # define NOPER
+# define SIX_MONTHS 15778463
 
 typedef struct s_fileinfo
 {
@@ -50,6 +52,7 @@ typedef struct s_fileinfo
 	long long	time_m;
 	long long	time_a;
 	long		inode;
+	long long	biggest;
 }				t_fileinfo;
 
 typedef struct s_dirs
@@ -69,6 +72,7 @@ typedef struct s_flags
 	int		r;
 	int		t;
 	int		filecount;
+	int		no_flags;
 }			t_flags;
 typedef enum e_months
 {
