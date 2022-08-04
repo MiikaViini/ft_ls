@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/04 17:35:50 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/04 23:22:40 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	line->blocks = buf.st_blocks;
 	line->time_m = buf.st_mtimespec.tv_sec;
 	line->time_a = buf.st_mtimespec.tv_nsec;
+	line->biggest = 0;
 	if (S_ISLNK(buf.st_mode))
 	{
 		readlink(path, link, 256);

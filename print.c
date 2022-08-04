@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/04 19:21:14 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/04 23:22:51 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,8 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	order = 4;
 	filecount = 0;
 	int_len = 1;
-	//linearray[0]->biggest = 0;
 	(void)flags;
-	linearray[0]->size = linearray[0]->biggest;
+	// linearray[0]->size = linearray[0]->biggest;
 	while(linearray[k] != NULL)
 	{
 		if (k >= 1 && ft_strcmp(linearray[k]->filename, linearray[k - 1]->filename) > 0)
@@ -60,9 +59,10 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	{
 		while (linearray[++i])
 		{
-			if (i > 0 && i % 4 == 0)
-				ft_putchar('\n');
-			ft_printf("%-*s	",longest_name * 3, linearray[i]->filename);
+			// if (i > 0 && i % 4 == 0)
+			// 	ft_putchar('\n');
+			ft_printf("%s\n", linearray[i]->filename);
+			// ft_printf("%-*s	",longest_name * 3, linearray[i]->filename);
 
 
 		}

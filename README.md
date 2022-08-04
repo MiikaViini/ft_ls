@@ -1,12 +1,18 @@
 # ft_ls
 Implement of ls command
 
-run make in terminal
+Run 'make' in terminal
 
 usage: ./ft_ls "flags" "path"
 
-This is just for testing and getting familiar with opendir etc.
+Rlat flags supported
 
-No flag support yet.
+"Permission denied" errorhandling added
 
-Prints everything like with command "ls -la".
+No multiple column support when l flag isnt in arguments
+
+Memory handling needs improving
+
+Multiple Norm errors
+
+

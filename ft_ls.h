@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/04 17:38:35 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/04 22:33:45 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ void			sort_depth_r(t_dirs **dirs);
 void			sort_recu_r(t_dirs **dirs);
 t_fileinfo			**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count);
 void	sort_time_a(t_fileinfo **linearray);
+void	print_err(char *dirname);
+
 static const char	g_perms[8][4] = {
 "---",
 "--x",
