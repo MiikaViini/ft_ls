@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/04 23:22:40 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/05 13:59:08 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	struct group	*grp;
 	t_fileinfo		*line;
 	char			link[256];
+	time_t			today;
 
 	line = malloc(sizeof(t_fileinfo));
 	ft_memset(line->filename, '\0', MAXNAMLEN);
 	ft_memset(link, '\0', 256);
+	ft_memset(line->m_time, '\0', 17);
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
 	line->owner = ft_strdup(pwd->pw_name);
@@ -54,7 +56,16 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 		ft_strcat(line->filename, link);
 	}
 	line->perms = permissions(buf.st_mode, buf);
-	line->m_time = ft_strdup(ctime(&buf.st_mtime));
+	if (time(&today) - line->time_m  < SIX_MONTHS)
+		ft_strncat(line->m_time, ctime(&buf.st_mtime)+ 4, 12);
+	else
+	{
+		// ft_printf("%s", ctime(&buf.st_mtime) +20);
+		// exit(1);
+		ft_strncat(line->m_time, ctime(&buf.st_mtime)+ 4, 7);
+		ft_strcat(line->m_time, " ");
+		ft_strncat(line->m_time, ctime(&buf.st_mtime) + 20, 4);
+	}
 	return (line);
 }
 
@@ -94,6 +105,7 @@ static void initialize_struct(t_flags *flags)
 	flags->cap_r = 0;
 	flags->a = 0;
 	flags->t = 0;
+	flags->one_file = 0;
 }
 
 
@@ -113,6 +125,7 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	arg_count = 2;
+
 	flags = (t_flags *)malloc(sizeof(t_flags));
 	initialize_struct(flags);
 	linearray = NULL;
@@ -122,15 +135,21 @@ int	main(int argc, char **argv)
 			g_flags[find_letter(argv[1][i], FLAGS)](flags, argv[1]);
 		if (argc >= 3)
 		{
+			stat(argv[arg_count], &buf);
 			while (arg_count < argc)
 			{
 				if (flags->cap_r)
 					recursively(argv[arg_count], linearray, flags);
-				else
+				else if (!S_ISDIR(buf.st_mode))
 				{
-					ft_opendir(argv[arg_count], linearray, flags, 0);
-					//print_arr(linearray, flags);
+					flags->one_file = 1;
+					linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 1);
+					linearray[0] = get_info(buf, argv[1], 0);
+					print_arr(linearray, flags);
+					free(linearray);
 				}
+				else
+					ft_opendir(argv[arg_count], linearray, flags, 0);
 				arg_count++;
 			}
 

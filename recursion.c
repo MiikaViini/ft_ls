@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/04 23:07:29 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/05 13:37:45 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@
 // 	dirs[i++] = dir;
 // }
 
-int filecount(char *dir)
+static int filecount(char *dir)
 {
 	DIR 			*dir_s;
 	struct dirent	*entity;
@@ -68,10 +68,10 @@ int filecount(char *dir)
 	count = 0;
 	dir_s = opendir(dir);
 	if (dir_s == NULL)
-	// {
-	// 	ft_printf("ls: %s: %s\n",dir,strerror(EACCES));
+	{
+		print_err(dir, errno);
 		return (0);
-	// }
+	}
 
 	entity = readdir(dir_s);
 	while (entity != NULL)
@@ -83,16 +83,17 @@ int filecount(char *dir)
 	return (count);
 }
 
-void print_err(char *dirname)
+void print_err(char *dirname, int error)
 {
 	// if (flags->cap_r)
 	// 	{
-			// ft_printf("%s:\n", dirname);
-			ft_printf("ls: %s: %s \n",dirname, strerror(EACCES));
-		// }
-		// else
-		// 	ft_printf("ls: %s: %s ",dirname, strerror(EACCES));
-}
+	// if (error == EACCES)
+	ft_printf("ft_ls: %s: %s \n",dirname, strerror(error));
+	// else if (error == ENOTDIR)
+	// 	ft_printf("ft_ls: %s: %s \n",dirname, strerror(ENOENT));
+	// else if (error == ELOOP)
+	// 	ft_printf("ft_ls: %s: %s \n",dirname, strerror(ELOOP));
+ }
 
 
 void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
@@ -116,10 +117,7 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 			if (ft_strcmp(dirname, "/"))
 				ft_strcat(path, "/");
 			ft_strcat(path,arr[i]->filename);
-			ft_printf("\n%s\n", path);
-			// write(1, "\n", 1);
-			// write(1, path, ft_strlen(path));
-			// write(1, ":\n", 2);
+			ft_printf("\n%s:\n", path);
 			recursively(path, arr, flags);
 		}
 		i++;
@@ -140,23 +138,12 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	i = 0;
 	f_count = filecount(dirname);
 	if (f_count <= 0)
-	{
-		print_err(dirname);
 		return (NULL);
-	}
 	ft_memset(path, '\0', PATH_MAX);
 	ft_strcat(path, dirname);
 	ft_strcat(path, "/");
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 1);
-
-	// if (!linearray)
-	// 	return (NULL);
 	dirp = opendir(dirname);
-	if (dirp == NULL)
-	{
-		print_err(dirname);
-		return (NULL);
-	}
 	entity = readdir(dirp);
 	while (entity != NULL)
 	{

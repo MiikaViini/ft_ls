@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/04 22:33:45 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/05 13:11:38 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@
 # define EX
 # define WREX
 # define NOPER
-# define SIX_MONTHS 15778463
+# define SIX_MONTHS 15778476
 
 typedef struct s_fileinfo
 {
 	int			links;
 	char		*perms;
-	char		*m_time;
+	char		m_time[25];
 	char		*owner;
 	char		*owner_gr;
 	long long	size;
@@ -73,6 +73,7 @@ typedef struct s_flags
 	int		t;
 	int		filecount;
 	int		no_flags;
+	int		one_file;
 }			t_flags;
 typedef enum e_months
 {
@@ -122,7 +123,7 @@ void			sort_depth_r(t_dirs **dirs);
 void			sort_recu_r(t_dirs **dirs);
 t_fileinfo			**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count);
 void	sort_time_a(t_fileinfo **linearray);
-void	print_err(char *dirname);
+void	print_err(char *dirname, int error);
 
 static const char	g_perms[8][4] = {
 "---",

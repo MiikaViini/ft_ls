@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/04 23:22:51 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/05 13:12:53 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	if (flags->l)
 	{
 		int_len += ft_intlen(linearray[0]->biggest);
-		ft_printf("total %d\n", blocks);
+		if (flags->one_file == 0)
+			ft_printf("total %d\n", blocks);
 		while (linearray[++i] != NULL)
 		{
 			ft_printf("%3s ", linearray[i]->perms);
@@ -51,7 +52,7 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 			ft_printf("%4s  ", linearray[i]->owner);
 			ft_printf("%4s ", linearray[i]->owner_gr);
 			ft_printf("%*lld ",int_len ,linearray[i]->size);
-			ft_printf("%.12s ", linearray[i]->m_time + 4);
+			ft_printf("%s ", linearray[i]->m_time);
 			ft_printf("%s\n", linearray[i]->filename);
 		}
 	}
