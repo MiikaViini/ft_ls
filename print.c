@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/06 10:30:01 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/06 12:38:58 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,19 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	int 		filecount;
 	size_t		int_len;
 
+	static int	t;
+
 	i = -1;
 	k = 0;
 	blocks = 0;
 	order = 4;
 	filecount = 0;
-	int_len = 1;
-	longest_oname = 0;
-	longest_ogroup = 0;
+	int_len = 0;
+	longest_oname = 1;
+	longest_ogroup = 1;
 	most_links = 0;
-	(void)flags;
-	// linearray[0]->size = linearray[0]->biggest;
+	if (!linearray[0])
+		return ;
 	while(linearray[k] != NULL && linearray[k+1] != NULL)
 	{
 		if (longest_fname < (int)ft_strlen(linearray[k]->filename))
@@ -51,26 +53,26 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 		blocks += linearray[k++]->blocks;
 		filecount++;
 	}
-
 	if (flags->l)
 	{
-		int_len += ft_intlen(linearray[0]->biggest);
-		most_links = ft_intlen(linearray[0]->longest_link);
 		if (flags->one_file == 0)
+		{
+			int_len += ft_intlen(linearray[0]->biggest);
+			most_links = ft_intlen(linearray[0]->longest_link);
 			ft_printf("total %d\n", blocks);
+		}
 		while (linearray[++i] != NULL)
 		{
 			ft_printf("%s  ", linearray[i]->perms);
 			ft_printf("%*d ",most_links,linearray[i]->links);
 			ft_printf("%-*s  ",longest_oname ,linearray[i]->owner);
-			ft_printf("%-*s ", longest_ogroup,linearray[i]->owner_gr);
+			ft_printf("%-*s", longest_ogroup,linearray[i]->owner_gr);
 			if (!linearray[i]->major && !linearray[i]->minor)
-				ft_printf(" %*lld ",int_len ,linearray[i]->size);
+				ft_printf("  %*lld ",int_len ,linearray[i]->size);
 			else
 			{
-				ft_printf("%u, ", linearray[i]->major);
+				ft_printf("% u, ", linearray[i]->major);
 				ft_printf("%u ", linearray[i]->minor);
-
 			}
 			ft_printf("%s ", linearray[i]->m_time);
 			ft_printf("%s\n", linearray[i]->filename);
@@ -88,38 +90,5 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 
 		}
 	}
+	t++;
 }
-
-// void make_array(t_fileinfo **linearray, char *path,)
-// {
-// 	DIR				*dirp;
-// 	struct dirent	*entity;
-// 	//struct dirent	*entity_p;
-// 	char			*path;
-// 	//struct stat		buf;
-// 	char			*temp;
-
-
-// 	*linearray++ =
-// }
-
-// void	print_arr_R(t_fileinfo **linearray)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	ft_printf("total %d\n", linearray[i]->total);
-// 	while (linearray[i] != NULL)
-// 	{
-// 		ft_printf("%d", linearray[i]->stat_us);
-// 		ft_printf("%3s ", linearray[i]->perms);
-// 		ft_printf("%3d ", linearray[i]->links);
-// 		ft_printf("%3s ", linearray[i]->owner);
-// 		ft_printf("%3s ", linearray[i]->owner_gr);
-// 		ft_printf("%5lld ", linearray[i]->size);
-// 		ft_printf("%.12s ", linearray[i]->m_time + 4);
-// 		ft_printf("%s\n", linearray[i]->filename);
-// 		i++;
-// 	}
-// }
-

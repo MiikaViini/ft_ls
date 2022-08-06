@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/06 10:26:29 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/06 13:16:55 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,10 @@ static void initialize_struct(t_flags *flags)
 	flags->l = 0;
 	flags->a = 0;
 	flags->cap_r = 0;
-	flags->a = 0;
+	flags->r = 0;
 	flags->t = 0;
 	flags->one_file = 0;
+	flags->no_flags = 1;
 }
 
 
@@ -127,6 +128,7 @@ int	main(int argc, char **argv)
 	int			i;
 	int			arg_count;
 	struct stat		buf;
+	char		path[PATH_MAX];
 	//struct	winsize w;
 
 	// ioctl(0, TIOCGWINSZ, &w);
@@ -140,21 +142,23 @@ int	main(int argc, char **argv)
 	flags = (t_flags *)malloc(sizeof(t_flags));
 	initialize_struct(flags);
 	linearray = NULL;
-	if (argc > 2 && argv[1][i] == '-')
+	if (argc >= 2 && argv[1][i] == '-')
 	{
 		while (argv[1][++i] != '\0')
 			g_flags[find_letter(argv[1][i], FLAGS)](flags, argv[1]);
 		if (argc >= 3)
 		{
-			stat(argv[arg_count], &buf);
+
 			while (arg_count < argc)
 			{
-
-				if (!S_ISDIR(buf.st_mode))
+				if (stat(argv[arg_count], &buf) < 0)
+					print_err(argv[arg_count], errno);
+				else if (!S_ISDIR(buf.st_mode))
 				{
 					flags->one_file = 1;
-					linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 1);
+					linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
 					linearray[0] = get_info(buf, argv[arg_count], 0);
+					linearray[1] = NULL;
 					print_arr(linearray, flags);
 					free(linearray);
 				}
@@ -169,15 +173,19 @@ int	main(int argc, char **argv)
 	}
 	else if (argc >= 1 && flags->no_flags)
 	{
-		stat(argv[1], &buf);
+		if (argc == 1)
+			ft_strcat(path, ".");
+		else
+			ft_strcat(path, argv[1]);
+		stat(path, &buf);
 		if (S_ISDIR(buf.st_mode))
 		{
-			ft_opendir(argv[1], linearray, flags, 0);
+			ft_opendir(path, linearray, flags, 0);
 		}
 		else
 		{
 			linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 1);
-			linearray[0] = get_info(buf, argv[1], 0);
+			linearray[0] = get_info(buf, path, 0);
 			print_arr(linearray, flags);
 			free(linearray);
 		}
