@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/05 13:11:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/05 22:41:52 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ typedef struct s_fileinfo
 	long long	time_a;
 	long		inode;
 	long long	biggest;
+	int			longest_link;
+	unsigned int	minor;
+	unsigned int	major;
 }				t_fileinfo;
 
 typedef struct s_dirs

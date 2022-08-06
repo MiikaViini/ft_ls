@@ -1,0 +1,27 @@
+total 24
+drwxrwxrwx   26 mviinika  staff   832 Jul 31 12:46 .
+drwxr-xr-x   46 mviinika  staff  1472 Aug  4 22:27 ..
+-rw-r--r--    1 mviinika  staff  8196 Jul 31 12:44 .DS_Store
+drwxrwxrwx    3 mviinika  staff    96 Jan 20  2022 .vscode
+drwxrwxrwx   43 mviinika  staff  1376 May  9 14:14 42FileChecker
+drwxr-xr-x   14 mviinika  staff   448 Jun 13 08:56 alone_in_the_dark_exc
+drwxr-xr-x   20 mviinika  staff   640 Jun 29 19:33 app
+drwxr-xr-x   12 mviinika  staff   384 May 15 18:07 bcm2
+drwxr-xr-x    7 mviinika  staff   224 Jul  2 13:33 docker
+drwxrwxrwx    7 mviinika  staff   224 Mar  9 12:39 evaluations
+drwxr-xr-x    6 mviinika  staff   192 May 16 20:50 fillit_git
+drwxr-xr-x   14 mviinika  staff   448 Mar 11 11:04 fillit_new
+drwxr-xr-x   24 mviinika  staff   768 Aug  5 21:34 ft_ls
+drwxr-xr-x   29 mviinika  staff   928 Jul  9 12:29 ft_printf
+drwxr-xr-x   28 mviinika  staff   896 Apr 14 09:02 ft_printf copy
+drwxr-xr-x   42 mviinika  staff  1344 May  8 18:58 ft_printf_backup
+drwxr-xr-x    6 mviinika  staff   192 Jun 14 12:34 html
+drwxr-xr-x    6 mviinika  staff   192 May 25 09:08 init
+drwxr-xr-x  161 mviinika  staff  5152 Jul  9 13:52 libft
+drwxrwxrwx    4 mviinika  staff   128 Jul  9 12:36 my_lib
+drwxr-xr-x    6 mviinika  staff   192 May  8 19:10 myprintftests
+drwxr-xr-x   38 mviinika  staff  1216 Apr 27 15:22 printf_backup
+drwxr-xr-x    4 mviinika  staff   128 May  8 13:20 printf_test
+drwxr-xr-x    4 mviinika  staff   128 Mar 18 20:15 santorini
+drwxrwxrwx    7 mviinika  staff   224 Mar  8 14:29 tests
+drwxr-xr-x   22 mviinika  staff   704 Jul 31 12:46 trash

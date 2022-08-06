@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/05 13:59:08 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/06 10:26:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,26 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	ft_memset(line->m_time, '\0', 17);
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
+	line->major = 0;
+	line->minor = 0;
 	line->owner = ft_strdup(pwd->pw_name);
 	line->owner_gr = ft_strdup(grp->gr_name);
 	line->links = buf.st_nlink;
-	line->size = buf.st_size;
+	if (!S_ISBLK(buf.st_mode) && !S_ISCHR(buf.st_mode))
+		line->size = buf.st_size;
+	else
+	{
+		line->minor =(((int32_t)((buf.st_rdev) & 0xffffff)));
+		line->major =  (((int32_t)(((u_int32_t)(buf.st_rdev) >> 24) & 0xff)));
+	}
+
 	ft_strcat(line->filename, path + pathlen);
 	line->blocks = buf.st_blocks;
 	line->time_m = buf.st_mtimespec.tv_sec;
 	line->time_a = buf.st_mtimespec.tv_nsec;
 	line->biggest = 0;
+	line->longest_link = 0;
+
 	if (S_ISLNK(buf.st_mode))
 	{
 		readlink(path, link, 256);
@@ -138,16 +149,17 @@ int	main(int argc, char **argv)
 			stat(argv[arg_count], &buf);
 			while (arg_count < argc)
 			{
-				if (flags->cap_r)
-					recursively(argv[arg_count], linearray, flags);
-				else if (!S_ISDIR(buf.st_mode))
+
+				if (!S_ISDIR(buf.st_mode))
 				{
 					flags->one_file = 1;
 					linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 1);
-					linearray[0] = get_info(buf, argv[1], 0);
+					linearray[0] = get_info(buf, argv[arg_count], 0);
 					print_arr(linearray, flags);
 					free(linearray);
 				}
+				else if (flags->cap_r)
+					recursively(argv[arg_count], linearray, flags);
 				else
 					ft_opendir(argv[arg_count], linearray, flags, 0);
 				arg_count++;

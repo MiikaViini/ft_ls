@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:30:25 by mviinika          #+#    #+#             */
-/*   Updated: 2022/07/31 12:40:59 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/05 22:21:07 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*permissions(int modes, struct stat buf)
 	k = 0;
 	mode = ft_itoabase(modes, 8, 0);
 	temp = ft_strdup(&mode[ft_strlen(mode) - 3]);
-	perm = ft_strnew(10);
+	perm = ft_strnew(11);
 	if (!temp || !perm || !mode)
 		return (NULL);
 	perm[i] = get_filetype(buf);
