@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/06 12:38:58 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/08 14:55:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	int			i;
 	int			k;
 	int			order;
-	int			blocks;
+	//int			blocks;
 	int			longest_fname;
 	int			longest_oname;
 	int			longest_ogroup;
@@ -29,7 +29,7 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 
 	i = -1;
 	k = 0;
-	blocks = 0;
+//	blocks = 0;
 	order = 4;
 	filecount = 0;
 	int_len = 0;
@@ -50,7 +50,8 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 			longest_ogroup = ft_strlen(linearray[k]->owner);
 		if (linearray[0]->longest_link < linearray[k]->links)
 			linearray[0]->longest_link = linearray[k]->links;
-		blocks += linearray[k++]->blocks;
+		k++;
+		//blocks += linearray[k++]->blocks;
 		filecount++;
 	}
 	if (flags->l)
@@ -59,7 +60,7 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 		{
 			int_len += ft_intlen(linearray[0]->biggest);
 			most_links = ft_intlen(linearray[0]->longest_link);
-			ft_printf("total %d\n", blocks);
+			ft_printf("total %d\n", flags->blocks);
 		}
 		while (linearray[++i] != NULL)
 		{
@@ -86,8 +87,6 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 			// 	ft_putchar('\n');
 			ft_printf("%s\n", linearray[i]->filename);
 			// ft_printf("%-*s	",longest_name * 3, linearray[i]->filename);
-
-
 		}
 	}
 	t++;

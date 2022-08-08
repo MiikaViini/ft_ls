@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/05 13:37:45 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/08 14:55:39 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int filecount(char *dir)
 		print_err(dir, errno);
 		return (0);
 	}
-
 	entity = readdir(dir_s);
 	while (entity != NULL)
 	{
@@ -125,7 +124,17 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	free(arr);
 }
 
+void	path_maker(char *dest, char *dirname)
+{
+	int	i;
 
+	i = -1;
+	while (dirname[++i])
+		dest[i] = dirname[i];
+	if (dest[i] != '/')
+		dest[i++] = '/';
+	dest[i] = '\0';
+}
 
 t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
 {
@@ -136,12 +145,11 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	char			path[PATH_MAX];
 
 	i = 0;
+	flags->blocks= 0;
 	f_count = filecount(dirname);
 	if (f_count <= 0)
 		return (NULL);
-	ft_memset(path, '\0', PATH_MAX);
-	ft_strcat(path, dirname);
-	ft_strcat(path, "/");
+	path_maker(path, dirname);
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 1);
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
@@ -151,28 +159,23 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 		lstat(dirname, &buf);
 		if (entity->d_name[0] != '.' || flags->a)
 			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
-		// else
-		// 	linearray[i] = get_info(buf, dirname, ft_strlen(path));
+		flags->blocks += buf.st_blocks;
 		ft_strdel(&dirname);
 		entity = readdir(dirp);
 	}
 	linearray[i] = NULL;
 	closedir(dirp);
-	alphabetical(linearray);
-	if (flags->t)
-	{
-		sort_time_a(linearray);
-		sort_time(linearray);
-	}
-	print_arr(linearray, flags);
+	print_arr(sort_handler(linearray, flags), flags);
 	return (linearray);
 }
 
-
-
-
-
-
+// alphabetical(linearray);
+	// if (flags->t)
+	// {
+	// 	sort_time_a(linearray);
+	// 	sort_time(linearray);
+	// }
+	// 
 // {
 // 	DIR				*dp;
 // 	struct dirent	*dirp;
