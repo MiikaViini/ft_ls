@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/08 14:49:51 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/09 12:53:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define EX
 # define WREX
 # define NOPER
+
 # define SIX_MONTHS 15778476
 
 typedef struct s_fileinfo
@@ -59,15 +60,6 @@ typedef struct s_fileinfo
 	unsigned int	major;
 }				t_fileinfo;
 
-typedef struct s_dirs
-{
-	char		*dirs;
-	char		*time;
-	long long	time_m;
-
-	int			depth;
-}			t_dirs;
-
 typedef struct s_flags
 {
 	int		l;
@@ -80,34 +72,11 @@ typedef struct s_flags
 	int		one_file;
 	int		blocks;
 }			t_flags;
-typedef enum e_months
-{
-	Jan,
-	Feb,
-	Mar,
-	Apr,
-	May,
-	Jun,
-	Jul,
-	Aug,
-	Sep,
-	Oct,
-	Nov,
-	Dec
-}		t_months;
-// typef enum flag_i
-// {
-// 	l,
-// 	R,
-// 	a,
-// 	r,
-// 	t
-// }
 
 t_fileinfo		*get_info(struct stat buf, char *path, int pathlen);
 char			*permissions(int modes, struct stat buf);
 //t_fileinfo	**line_array(char *argv, int index);
-t_fileinfo		**alphabetical(t_fileinfo **info);
+
 void			print_arr(t_fileinfo **linearray, t_flags *flags);
 void			recursively(char *path, t_fileinfo **linearray, t_flags *flags);
 t_fileinfo		**line_array(char *argv, t_fileinfo **linearray);
@@ -120,16 +89,23 @@ void			r_flag(t_flags *flags, char *string);
 void			t_flag(t_flags *flags, char *string);
 //char		get_filetype(int modes, struct stat buf);
 void			not_found(t_flags *flags, char *string);
-void			alphabetical_s(t_dirs **dirs);
-void			sort_time_r(t_dirs **dirs);
+
+
 typedef void	(*t_fl)(t_flags *flags, char *string);
+
+t_fileinfo		**sort_handler(t_fileinfo **linearray, t_flags *flags);
 void			sort_time(t_fileinfo **linearray);
-void			sort_depth_r(t_dirs **dirs);
-void			sort_recu_r(t_dirs **dirs);
-t_fileinfo			**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count);
-void		sort_time_a(t_fileinfo **linearray);
-void		print_err(char *dirname, int error);
-t_fileinfo	**sort_handler(t_fileinfo **linearray, t_flags *flags);
+void			sort_time_a(t_fileinfo **linearray);
+// void			sort_depth_r(t_dirs **dirs);
+// void			sort_recu_r(t_dirs **dirs);
+// void			sort_time_r(t_dirs **dirs);
+t_fileinfo		**alphabetical(t_fileinfo **info);
+void			path_maker(char *dest, char *dirname);
+// void			alphabetical_s(t_dirs **dirs);
+
+t_fileinfo		**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count);
+void			print_err(char *dirname, int error);
+
 
 static const char	g_perms[8][4] = {
 "---",

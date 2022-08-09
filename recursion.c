@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/08 14:55:39 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/09 10:20:14 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,18 @@ void print_err(char *dirname, int error)
 	// 	ft_printf("ft_ls: %s: %s \n",dirname, strerror(ELOOP));
  }
 
+void	path_maker(char *dest, char *dirname)
+{
+	int	i;
 
+	i = -1;
+	ft_memset(dest, '\0', ft_strlen(dirname) + 2);
+	while (dirname[++i])
+		dest[i] = dirname[i];
+	if (dest[i] != '/')
+		dest[i++] = '/';
+	dest[i] = '\0';
+}
 void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 {
 	t_fileinfo		**arr;
@@ -102,39 +113,25 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	int				f_count;
 	int				i;
 
-	i = 0;
+	i = -1;
 	f_count = filecount(dirname);
 	arr = ft_opendir(dirname, linearray, flags, f_count);
 	if (!arr)
 		return ;
-	while (arr[i])
+	while (arr[++i])
 	{
 		if (arr[i]->perms[0] == 'd' && ft_strcmp(arr[i]->filename, ".") != 0 && ft_strcmp(arr[i]->filename, "..") != 0)
 		{
-			ft_memset(path, '\0', PATH_MAX);
-			ft_strcat(path, dirname);
-			if (ft_strcmp(dirname, "/"))
-				ft_strcat(path, "/");
-			ft_strcat(path,arr[i]->filename);
+			path_maker(path, dirname);
+			ft_strcat(path, arr[i]->filename);
 			ft_printf("\n%s:\n", path);
 			recursively(path, arr, flags);
 		}
-		i++;
 	}
 	free(arr);
 }
 
-void	path_maker(char *dest, char *dirname)
-{
-	int	i;
 
-	i = -1;
-	while (dirname[++i])
-		dest[i] = dirname[i];
-	if (dest[i] != '/')
-		dest[i++] = '/';
-	dest[i] = '\0';
-}
 
 t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
 {
@@ -153,15 +150,18 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 1);
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
+	if (ft_strcmp(dirname, "/") == 0)
+		ft_memset(dirname, '\0', ft_strlen(dirname));
 	while (entity != NULL)
 	{
+		
 		dirname = ft_strjoin(path, entity->d_name);
 		lstat(dirname, &buf);
 		if (entity->d_name[0] != '.' || flags->a)
 			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
 		flags->blocks += buf.st_blocks;
-		ft_strdel(&dirname);
 		entity = readdir(dirp);
+		ft_strdel(&dirname);
 	}
 	linearray[i] = NULL;
 	closedir(dirp);

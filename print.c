@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/08 14:55:26 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/09 10:20:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 {
 	int			i;
 	int			k;
-	int			order;
-	//int			blocks;
 	int			longest_fname;
 	int			longest_oname;
 	int			longest_ogroup;
@@ -29,8 +27,6 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 
 	i = -1;
 	k = 0;
-//	blocks = 0;
-	order = 4;
 	filecount = 0;
 	int_len = 0;
 	longest_oname = 1;
@@ -72,8 +68,8 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 				ft_printf("  %*lld ",int_len ,linearray[i]->size);
 			else
 			{
-				ft_printf("% u, ", linearray[i]->major);
-				ft_printf("%u ", linearray[i]->minor);
+				ft_printf("%12u," ,linearray[i]->major);
+				ft_printf("%5u ", linearray[i]->minor);
 			}
 			ft_printf("%s ", linearray[i]->m_time);
 			ft_printf("%s\n", linearray[i]->filename);

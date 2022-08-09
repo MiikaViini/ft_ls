@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:14:50 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/06 13:08:01 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/09 11:00:51 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,21 @@ void	t_flag(t_flags *flags, char *string)
 
 void	not_found(t_flags *flags, char *string)
 {
-	(void)string;
-	flags->no_flags = 0;
+	//(void)string;
+	char	c;
+
+	c = '\0';
+	string++;
+	while (string)
+	{
+		if (!ft_strchr(FLAGS, *string))
+		{
+			c = *string;
+			break;
+		}
+		string++;
+	}
+	ft_printf("ft_ls: illegal option -- %c\nusage: ./ft_ls [-Ralrt] [file ...]\n", c);
+	free(flags);
+	exit(EXIT_FAILURE);
 }
