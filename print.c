@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/09 10:20:33 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/09 14:21:04 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	int			most_links;
 	int 		filecount;
 	size_t		int_len;
-
-	static int	t;
 
 	i = -1;
 	k = 0;
@@ -85,5 +83,4 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 			// ft_printf("%-*s	",longest_name * 3, linearray[i]->filename);
 		}
 	}
-	t++;
 }

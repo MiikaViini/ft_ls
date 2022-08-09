@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/09 10:20:14 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/09 14:43:03 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,6 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 		ft_memset(dirname, '\0', ft_strlen(dirname));
 	while (entity != NULL)
 	{
-		
 		dirname = ft_strjoin(path, entity->d_name);
 		lstat(dirname, &buf);
 		if (entity->d_name[0] != '.' || flags->a)

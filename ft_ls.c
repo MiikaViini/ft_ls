@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/09 13:15:01 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/09 14:47:07 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ int ft_ls(int argc, char **argv)
 	
 	i = 1;
 	ft_memset(path, '\0', PATH_MAX);
-	ft_strcat(path, ".");
+	path[0] = '.';
 	flags = (t_flags *)malloc(sizeof(t_flags));
 	linearray = NULL;
 	if (argc == 1 || (argv[i] && ft_strcmp(argv[i], "--") == 0))
