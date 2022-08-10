@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/09 14:47:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/10 12:14:44 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
 	insert_timeinfo(line, buf);
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
-	line->owner = ft_strdup(pwd->pw_name);
-	line->owner_gr = ft_strdup(grp->gr_name);
+	line->owner = ft_strdup(pwd->pw_name); // malloc
+	line->owner_gr = ft_strdup(grp->gr_name); // malloc
 	line->links = buf.st_nlink;
 	if (!S_ISBLK(buf.st_mode) && !S_ISCHR(buf.st_mode))
 		line->size = buf.st_size;
@@ -149,15 +149,34 @@ static int get_flags(char **argv, t_flags *flags)
 	initialize_flags(flags);
 	k = 1;
 	i = 1;
-	while (argv[i] && argv[i][0] == '-')
+	while (argv[i] && argv[i][0] == '-' && argv[i][1] && ft_strcmp(argv[i],"--") != 0)
 	{
 		while (argv[i][k] != '\0')
 			g_flags[find_letter(argv[i][k++], FLAGS)](flags, argv[i]);
 		k = 1;
 		i++;
 	}
-		
-	return (i - 1);
+	if (argv[i] == NULL)
+		i--;
+	return (i);
+}
+char **alphabetical_args(char **argv)
+{
+	int i;
+	char *temp;
+
+	i = 0;
+	while (argv[++i] && argv[i + 1])
+	{
+		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
+		{
+			temp = argv[i];
+			argv[i] = argv[i + 1];
+			argv[i + 1] = temp;
+			i = 0;
+		}
+	}
+	return (argv);
 }
 
 int ft_ls(int argc, char **argv)
@@ -166,28 +185,39 @@ int ft_ls(int argc, char **argv)
 	t_flags		*flags;
 	char		path[PATH_MAX];
 	int			i;
+	int			check;
 	
 	i = 1;
+	check = 0;
 	ft_memset(path, '\0', PATH_MAX);
-	path[0] = '.';
+	alphabetical_args(argv);
+	if (argv[1] == NULL || (ft_strcmp(argv[1], "--") == 0 && argv[2] == NULL))
+		path[0] = '.';
 	flags = (t_flags *)malloc(sizeof(t_flags));
 	linearray = NULL;
-	if (argc == 1 || (argv[i] && ft_strcmp(argv[i], "--") == 0))
+	i = get_flags(argv, flags);
+	if (argc == 1 || (argv[i] && ft_strcmp(argv[i], "--") == 0 && argv[2] == NULL))
 		ft_opendir(path, linearray, flags, 0);
 	else
 	{
-		i = get_flags(argv, flags);
+		if (argc - 1 - i  > 0)
+			check++;
 		while (argv[i])
 		{
-			i++;
 			if (argv[i])
-				path_maker(path, argv[i]);
+				ft_strcpy(path, argv[i]);
+			if (check && errno == 0 && ft_strcmp(argv[i], "--") != 0 && ft_strcmp(argv[i], "-") != 0)
+				ft_printf("%s:\n", argv[i]);
 			if (flags->cap_r)
 				recursively(path, linearray, flags);
 			else
 				ft_opendir(path, linearray, flags, 0);
+			i++;
+			if (check && argv[i] != NULL && errno == 0)
+				write(1,"\n", 1);
 		}
 	}
+	free(flags);
 	return (0);
 }
 

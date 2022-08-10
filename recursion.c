@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/09 14:43:03 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/10 12:15:10 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@
 // 		ft_strdel(&linearray[i]->m_time);
 // 		ft_strdel(&linearray[i]->owner);
 // 		ft_strdel(&linearray[i]->owner_gr);
-// 		ft_strdel(&linearray[i]->filename);
 // 		ft_strdel(&linearray[i]->perms);
-// 		//free(linearray[i]);
 // 	}
 // }
 // static int char_count(char *string, char c)
