@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/10 12:14:44 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/10 14:36:12 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,10 @@ char **alphabetical_args(char **argv)
 			argv[i + 1] = temp;
 			i = 0;
 		}
+		
 	}
+	if (i > 1 && ft_strcmp(argv[i], "--") == 0 && argv[i + 1] == NULL)
+			argv[i] = NULL;
 	return (argv);
 }
 
@@ -190,9 +193,14 @@ int ft_ls(int argc, char **argv)
 	i = 1;
 	check = 0;
 	ft_memset(path, '\0', PATH_MAX);
-	alphabetical_args(argv);
-	if (argv[1] == NULL || (ft_strcmp(argv[1], "--") == 0 && argv[2] == NULL))
+	ft_strcat(path, "--");
+	
+	if (argv[1] == NULL || (ft_strcmp(argv[1], "--") == 0 && argc == 2))
+	{
+		ft_memset(path, '\0', PATH_MAX);
 		path[0] = '.';
+	}
+	alphabetical_args(argv);
 	flags = (t_flags *)malloc(sizeof(t_flags));
 	linearray = NULL;
 	i = get_flags(argv, flags);
@@ -204,6 +212,8 @@ int ft_ls(int argc, char **argv)
 			check++;
 		while (argv[i])
 		{
+			// if (ft_strcmp(argv[i], "--") == 0 && argv[i + 1] != NULL)
+			// 	i++;
 			if (argv[i])
 				ft_strcpy(path, argv[i]);
 			if (check && errno == 0 && ft_strcmp(argv[i], "--") != 0 && ft_strcmp(argv[i], "-") != 0)
