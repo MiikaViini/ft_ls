@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/11 14:37:17 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/11 22:27:27 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,47 +159,47 @@ static int get_flags(char **argv, t_flags *flags)
 	// 	i--;
 	return (i);
 }
-void	validate_args(char **argv)
+void	validate_args(char **argv, int i)
 {
-	int 		i;
+	int 		start;
 	char 		*temp;
 	struct stat buf;
 
-	i = 0;
-	while (argv[++i] && argv[i + 1])
+	start = i;
+	while (argv[i] && argv[i + 1])
 	{
-		if (lstat(argv[i], &buf) != -1 && lstat(argv[i + 1], &buf) == -1 ) //&& ft_strcmp(argv[i], temp)
+		if (lstat(argv[i], &buf) != -1 && lstat(argv[i + 1], &buf) == -1) //&& ft_strcmp(argv[i], temp)
 		{
 			temp = argv[i];
 			argv[i] = argv[i + 1];
 			argv[i + 1] = temp;
-			i = 0;
+			i = start - 1;
 		}
+		i++;
 	}
 }
-char **alphabetical_args(char **argv)
+char **sort_args(char **argv, int i)
 {
-	int i;
+	int start;
 	char *temp;
 
-	i = 0;
-	while (argv[++i] && argv[i + 1])
+	start = i;
+	while (argv[i] && argv[i + 1])
 	{
 		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
 			temp = argv[i];
 			argv[i] = argv[i + 1];
 			argv[i + 1] = temp;
-			i = 0;
+			i = start - 1;
 		}
+		i++;
 	}
-	if (i > 1 && ft_strcmp(argv[i], "--") == 0 && argv[i + 1] == NULL)
-		argv[i] = NULL;
-	validate_args(argv);
+	// if (i > 1 && ft_strcmp(argv[i], "--") == 0 && argv[i + 1] == NULL)
+	// 	argv[i] = NULL;
+	validate_args(argv, start);
 	return (argv);
 }
-
-
 
 int ft_ls(int argc, char **argv)
 {
@@ -207,49 +207,43 @@ int ft_ls(int argc, char **argv)
 	t_flags *flags;
 	char path[PATH_MAX];
 	int i;
-	int check;
+	struct stat buf;
 
 	i = 1;
-	check = 0;
-	flags = (t_flags *)malloc(sizeof(t_flags));
 	linearray = NULL;
-	
+	flags = (t_flags *)malloc(sizeof(t_flags));
 	i = get_flags(argv, flags);
 	ft_memset(path, '\0', PATH_MAX);
-	
-	if (argv[1] == NULL || (i > 1 && argv[i] == NULL) || (ft_strcmp(argv[i], "--") == 0  && argv[i +1 ] == NULL) || (ft_strcmp(argv[1], "--") == 0 && argc == 2))
-	{
-		ft_memset(path, '\0', PATH_MAX);
+	if (argv[1] == NULL || (i > 1 && argv[i] == NULL)
+		|| (ft_strcmp(argv[i], "--") == 0  && argv[i + 1] == NULL)
+		|| (ft_strcmp(argv[1], "--") == 0 && argc == 2))
 		path[0] = '.';
-	}
 	else
 		ft_strcat(path, argv[i]);
-	alphabetical_args(argv);
-	if (argc == 1 || ft_strcmp(path, ".") == 0 || (i > 1 && argc - i > 0))
+	if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
+		i++;
+	if (argc == 1 || ft_strcmp(path, ".") == 0 || (i > 1 && argc - i == 1))
 	{
 		if (flags->cap_r)
-				recursively(path, linearray, flags);
+			recursively(path, linearray, flags);
 		else
 			ft_opendir(path, linearray, flags, 0);
 	}
 	else
 	{
-		if (argc - 1 - i > 0)
-			check++;
+		sort_args(argv, i);
 		while (argv[i])
 		{
-			// if (ft_strcmp(argv[i], "--") == 0 && argv[i + 1] != NULL)
-			// 	i++;
 			if (argv[i])
 				ft_strcpy(path, argv[i]);
-			// if (check && errno == 0) //&& ft_strcmp(argv[i], "--") != 0 && ft_strcmp(argv[i], "-") != 0
-			// 	ft_printf("%s:\n", argv[i]);
+			if (lstat(argv[i], &buf) != -1)
+				ft_printf("%s:\n", argv[i]);
 			if (flags->cap_r)
 				recursively(path, linearray, flags);
 			else
 				ft_opendir(path, linearray, flags, 0);
 			i++;
-			if (check && argv[i] != NULL && errno == 0)
+			if (argv[i] != NULL && lstat(argv[i], &buf) != -1 && lstat(argv[i - 1], &buf) != -1)
 				write(1, "\n", 1);
 		}
 	}
@@ -259,12 +253,13 @@ int ft_ls(int argc, char **argv)
 
 int main(int argc, char **argv)
 {
+
 	// t_fileinfo	**linearray;
 	// t_flags		*flags;
 	// struct stat		buf;
 	// char		path[PATH_MAX];
 
-	ft_ls(argc, argv);
+		ft_ls(argc, argv);
 	// exit(1);
 	//  linearray = NULL;
 	//  if (argv[1] && argv[1][i] == '-')
