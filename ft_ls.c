@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/12 10:35:22 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:27:53 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,27 @@ static void initialize_info_struct(t_fileinfo *line)
 	ft_memset(line->m_time, '\0', 17);
 	line->biggest = 0;
 	line->longest_link = 0;
+}
+
+void ft_strarrrev(char **arr, int start)
+{
+	int 	len;
+	char 	*temp;
+	int 	i;
+
+	i = start;
+	temp = NULL;
+	len = start;
+	while(arr[start++])
+		len++;
+	len += i;
+	while(i < len / 2)
+	{
+		temp = arr[i];
+		arr[i] = arr[len - i - 1];
+		arr[len - i - 1] = temp;
+		i++;
+	}
 }
 
 static void insert_timeinfo(t_fileinfo *line, struct stat buf)
@@ -149,7 +170,7 @@ static int get_flags(char **argv, t_flags *flags)
 	}
 	return (i);
 }
-void	validate_args(char **argv, int i)
+void	validate_args(char **argv, int i, t_flags *flags)
 {
 	int 		start;
 	char 		*temp;
@@ -167,8 +188,22 @@ void	validate_args(char **argv, int i)
 		}
 		i++;
 	}
+	
+	i = start;
+	while (flags->r && argv[i] && argv[i + 1])
+	{
+		if (lstat(argv[i + 1], &buf) < 0 && lstat(argv[i], &buf) < 0 
+			&& ft_strcmp(argv[i], argv[i + 1]) > 0)
+		{
+			temp = argv[i];
+			argv[i] = argv[i + 1];
+			argv[i + 1] = temp;
+			i = start - 1;
+		}
+		i++;
+	}
 }
-char **sort_args(char **argv, int i)
+char **sort_args(char **argv, int i, t_flags *flags)
 {
 	int start;
 	char *temp;
@@ -185,7 +220,9 @@ char **sort_args(char **argv, int i)
 		}
 		i++;
 	}
-	validate_args(argv, start);
+	if (flags->r)
+		ft_strarrrev(argv, start);
+	validate_args(argv, start, flags);
 	return (argv);
 }
 
@@ -203,7 +240,7 @@ int ft_ls(int argc, char **argv)
 	i = get_flags(argv, flags);
 	ft_memset(path, '\0', PATH_MAX);
 	if (argv[1] == NULL || (i > 1 && argv[i] == NULL)
-		|| (ft_strcmp(argv[i], "--") == 0  && argv[i + 1] == NULL)
+		|| (ft_strcmp(argv[i], "--") == 0  && argv[++i] == NULL)
 		|| (ft_strcmp(argv[1], "--") == 0 && argc == 2))
 		path[0] = '.';
 	else
@@ -219,7 +256,7 @@ int ft_ls(int argc, char **argv)
 	}
 	else
 	{
-		sort_args(argv, i);
+		sort_args(argv, i, flags);
 		while (argv[i])
 		{
 			if (argv[i])
