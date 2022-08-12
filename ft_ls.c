@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/12 14:52:36 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/13 00:59:04 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,7 +139,7 @@ t_fileinfo *get_info(struct stat buf, char *path, int pathlen)
 	return (line);
 }
 
-// 
+//
 
 static void initialize_flags(t_flags *flags)
 {
@@ -188,11 +188,11 @@ void	validate_args(char **argv, int i, t_flags *flags)
 		}
 		i++;
 	}
-	
+
 	i = start;
 	while (flags->r && argv[i] && argv[i + 1])
 	{
-		if (lstat(argv[i + 1], &buf) < 0 && lstat(argv[i], &buf) < 0 
+		if (lstat(argv[i + 1], &buf) < 0 && lstat(argv[i], &buf) < 0
 			&& ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
 			temp = argv[i];
@@ -203,12 +203,42 @@ void	validate_args(char **argv, int i, t_flags *flags)
 		i++;
 	}
 }
+
+void	sort_files_in_args(char **argv, int i, t_flags *flags)
+{
+	int 	int_temp;
+	char 	*temp;
+	struct	stat buf;
+	int		lstat_;
+
+	temp = NULL;
+	lstat_ = 0;
+	(void)flags;
+	while (argv[i] && lstat(argv[i], &buf) < 0)
+		i++;
+	int_temp = i;
+	while(argv[i])
+	{
+		//printf("%s\n", argv[i]);
+		if (lstat(argv[i], &buf) >= 0 && !S_ISDIR(buf.st_mode))
+		{
+
+			temp = argv[i];
+			argv[i] = argv[int_temp];
+			argv[int_temp] = temp;
+			i = int_temp++;
+		}
+		i++;
+	}
+
+}
 char **sort_args(char **argv, int i, t_flags *flags)
 {
 	int start;
 	char *temp;
 
 	start = i;
+	temp = NULL;
 	while (argv[i] && argv[i + 1])
 	{
 		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
@@ -223,6 +253,7 @@ char **sort_args(char **argv, int i, t_flags *flags)
 	if (flags->r)
 		ft_strarrrev(argv, start);
 	validate_args(argv, start, flags);
+	sort_files_in_args(argv, start, flags);
 	return (argv);
 }
 
@@ -240,17 +271,25 @@ int ft_ls(int argc, char **argv)
 	i = get_flags(argv, flags);
 	ft_memset(path, '\0', PATH_MAX);
 	if (argv[1] == NULL || (i > 1 && argv[i] == NULL)
-		|| (ft_strcmp(argv[i], "--") == 0  && argv[++i] == NULL)
+		|| (ft_strcmp(argv[i], "--") == 0  && argv[i] == NULL)
 		|| (ft_strcmp(argv[1], "--") == 0 && argc == 2))
 		path[0] = '.';
 	else
 		ft_strcat(path, argv[i]);
 	if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
 		i++;
-	if (argc == 1 || ft_strcmp(path, ".") == 0 || argc - i <= 1)
+	if (argc == 1 || (argc == 2 && ft_strcmp(path, ".") == 0) || argc - i < 1)
 	{
 		if (flags->cap_r)
 			recursively(path, linearray, flags);
+		else if (lstat(path, &buf) != -1 && !S_ISDIR(buf.st_mode))
+		{
+			flags->one_file++;
+			linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
+			linearray[0] = get_info(buf, path, 0);
+			linearray[1] = NULL;
+			print_arr(linearray, flags);
+		}
 		else
 			ft_opendir(path, linearray, flags, 0);
 	}
@@ -261,11 +300,11 @@ int ft_ls(int argc, char **argv)
 		{
 			if (argv[i])
 				ft_strcpy(path, argv[i]);
-			if (lstat(argv[i], &buf) != -1)
+			if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
 					ft_printf("%s:\n", argv[i]);
 			if (flags->cap_r)
 				recursively(path, linearray, flags);
-			else if (!S_ISDIR(buf.st_mode))
+			else if (lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode))
 			{
 				flags->one_file++;
 				linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
@@ -273,12 +312,11 @@ int ft_ls(int argc, char **argv)
 				linearray[1] = NULL;
 				print_arr(linearray, flags);
 			}
-				
 			else
 				ft_opendir(path, linearray, flags, 0);
 			i++;
-			if (argv[i] != NULL && lstat(argv[i], &buf) != -1 
-				&& lstat(argv[i - 1], &buf) != -1)
+			if (argv[i] != NULL && lstat(argv[i], &buf) != -1
+				 && S_ISDIR(buf.st_mode))
 				write(1, "\n", 1);
 		}
 	}
