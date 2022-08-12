@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:30:25 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/05 22:21:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/12 10:06:32 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,22 @@ static char	get_filetype(struct stat buf)
 	return (file_c);
 }
 
+static void get_stickybits(int modes, char *perm)
+{
+	if((modes & S_IXUSR) && (modes & S_ISUID))
+		perm[3] = 's';
+	else if (!(modes & S_IXUSR) && (modes & S_ISUID))
+		perm[3] = 'S';
+	if((modes & S_IXGRP) && (modes & S_ISGID))
+		perm[6] = 's';
+	else if (!(modes & S_IXGRP) && (modes & S_ISGID))
+		perm[6] = 'S';
+	if((modes & S_IXOTH) && (modes & S_ISVTX))
+		perm[9] = 't';
+	else if (!(modes & S_IXOTH) && (modes & S_ISVTX))
+		perm[9] = 'T';
+}
+
 char	*permissions(int modes, struct stat buf)
 {
 	char	*perm;
@@ -52,6 +68,7 @@ char	*permissions(int modes, struct stat buf)
 	perm[i] = get_filetype(buf);
 	while (temp[k] && ++i)
 		ft_strcat(&perm[i], g_perms[temp[k++] - '0']);
+	get_stickybits(modes, perm);
 	ft_strdel(&temp);
 	ft_strdel(&mode);
 	return (perm);

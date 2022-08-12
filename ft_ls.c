@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/12 08:43:59 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/12 10:35:22 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,26 @@ static void insert_timeinfo(t_fileinfo *line, struct stat buf)
 	}
 }
 
-t_fileinfo *get_info(struct stat buf, char *path, int pathlen)
+void	set_owner_group_info(struct stat buf, t_fileinfo *line)
 {
 	struct passwd *pwd;
 	struct group *grp;
-	t_fileinfo *line;
 
-	line = malloc(sizeof(t_fileinfo));
-	initialize_info_struct(line);
-	insert_timeinfo(line, buf);
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
-	line->owner = ft_strdup(pwd->pw_name);	  // malloc
-	line->owner_gr = ft_strdup(grp->gr_name); // malloc
-	line->links = buf.st_nlink;
+	if (pwd == NULL)
+		line->owner = ft_itoa(buf.st_uid);
+	else
+		line->owner = ft_strdup(pwd->pw_name);	  // malloc
+	if (grp == NULL)
+		line->owner = ft_itoa(buf.st_gid);
+	else
+		line->owner_gr = ft_strdup(grp->gr_name); // malloc
+}
+
+void	set_device_min_maj(struct stat buf, t_fileinfo *line)
+{
+
 	if (!S_ISBLK(buf.st_mode) && !S_ISCHR(buf.st_mode))
 		line->size = buf.st_size;
 	else
@@ -92,6 +98,18 @@ t_fileinfo *get_info(struct stat buf, char *path, int pathlen)
 		line->minor = (((int32_t)((buf.st_rdev) & 0xffffff)));
 		line->major = (((int32_t)(((u_int32_t)(buf.st_rdev) >> 24) & 0xff)));
 	}
+}
+
+t_fileinfo *get_info(struct stat buf, char *path, int pathlen)
+{
+	t_fileinfo *line;
+
+	line = malloc(sizeof(t_fileinfo));
+	initialize_info_struct(line);
+	insert_timeinfo(line, buf);
+	set_owner_group_info(buf, line);
+	set_device_min_maj(buf, line);
+	line->links = buf.st_nlink;
 	ft_strcat(line->filename, path + pathlen);
 	line->blocks = buf.st_blocks;
 	if (S_ISLNK(buf.st_mode))
@@ -100,33 +118,7 @@ t_fileinfo *get_info(struct stat buf, char *path, int pathlen)
 	return (line);
 }
 
-t_fileinfo **line_array(char *argv, t_fileinfo **linearray)
-{
-	DIR *dp;
-	struct dirent *dirp;
-	struct stat buf;
-	int i;
-	char *temp;
-	char *path;
-
-	temp = ft_strjoin(argv, "/");
-	dp = opendir(temp);
-	if (!dp || !temp)
-		return (NULL);
-	dirp = readdir(dp);
-	i = 0;
-	while (dirp != NULL)
-	{
-		path = ft_strjoin(temp, dirp->d_name);
-		lstat(path, &buf);
-		linearray[i++] = get_info(buf, path, ft_strlen(temp));
-		dirp = readdir(dp);
-	}
-	linearray[i] = NULL;
-	linearray = alphabetical(linearray);
-	closedir(dp);
-	return (linearray);
-}
+// 
 
 static void initialize_flags(t_flags *flags)
 {
@@ -155,8 +147,6 @@ static int get_flags(char **argv, t_flags *flags)
 		k = 1;
 		i++;
 	}
-	// if (argv[i] == NULL)
-	// 	i--;
 	return (i);
 }
 void	validate_args(char **argv, int i)
@@ -195,8 +185,6 @@ char **sort_args(char **argv, int i)
 		}
 		i++;
 	}
-	// if (i > 1 && ft_strcmp(argv[i], "--") == 0 && argv[i + 1] == NULL)
-	// 	argv[i] = NULL;
 	validate_args(argv, start);
 	return (argv);
 }
@@ -311,3 +299,32 @@ int main(int argc, char **argv)
 	// free(flags);
 	return (0);
 }
+
+
+// t_fileinfo **line_array(char *argv, t_fileinfo **linearray)
+// {
+// 	DIR *dp;
+// 	struct dirent *dirp;
+// 	struct stat buf;
+// 	int i;
+// 	char *temp;
+// 	char *path;
+
+// 	temp = ft_strjoin(argv, "/");
+// 	dp = opendir(temp);
+// 	if (!dp || !temp)
+// 		return (NULL);
+// 	dirp = readdir(dp);
+// 	i = 0;
+// 	while (dirp != NULL)
+// 	{
+// 		path = ft_strjoin(temp, dirp->d_name);
+// 		lstat(path, &buf);
+// 		linearray[i++] = get_info(buf, path, ft_strlen(temp));
+// 		dirp = readdir(dp);
+// 	}
+// 	linearray[i] = NULL;
+// 	linearray = alphabetical(linearray);
+// 	closedir(dp);
+// 	return (linearray);
+// }
