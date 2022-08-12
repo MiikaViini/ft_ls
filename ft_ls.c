@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/12 14:27:53 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:52:36 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,13 +262,23 @@ int ft_ls(int argc, char **argv)
 			if (argv[i])
 				ft_strcpy(path, argv[i]);
 			if (lstat(argv[i], &buf) != -1)
-				ft_printf("%s:\n", argv[i]);
+					ft_printf("%s:\n", argv[i]);
 			if (flags->cap_r)
 				recursively(path, linearray, flags);
+			else if (!S_ISDIR(buf.st_mode))
+			{
+				flags->one_file++;
+				linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
+				linearray[0] = get_info(buf, argv[i], 0);
+				linearray[1] = NULL;
+				print_arr(linearray, flags);
+			}
+				
 			else
 				ft_opendir(path, linearray, flags, 0);
 			i++;
-			if (argv[i] != NULL && lstat(argv[i], &buf) != -1 && lstat(argv[i - 1], &buf) != -1)
+			if (argv[i] != NULL && lstat(argv[i], &buf) != -1 
+				&& lstat(argv[i - 1], &buf) != -1)
 				write(1, "\n", 1);
 		}
 	}

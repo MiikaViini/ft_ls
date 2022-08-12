@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/11 20:28:02 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/12 14:37:37 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	if (f_count <= 0)
 		return (NULL);
 	path_maker(path, dirname);
-	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 1);
+	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 2);
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
 	if (ft_strcmp(dirname, "/") == 0)
