@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/11 22:27:27 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/12 08:43:59 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,7 +222,7 @@ int ft_ls(int argc, char **argv)
 		ft_strcat(path, argv[i]);
 	if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
 		i++;
-	if (argc == 1 || ft_strcmp(path, ".") == 0 || (i > 1 && argc - i == 1))
+	if (argc == 1 || ft_strcmp(path, ".") == 0 || argc - i <= 1)
 	{
 		if (flags->cap_r)
 			recursively(path, linearray, flags);
