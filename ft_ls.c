@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/13 00:59:04 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/14 13:18:21 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,7 +188,6 @@ void	validate_args(char **argv, int i, t_flags *flags)
 		}
 		i++;
 	}
-
 	i = start;
 	while (flags->r && argv[i] && argv[i + 1])
 	{
@@ -219,7 +218,6 @@ void	sort_files_in_args(char **argv, int i, t_flags *flags)
 	int_temp = i;
 	while(argv[i])
 	{
-		//printf("%s\n", argv[i]);
 		if (lstat(argv[i], &buf) >= 0 && !S_ISDIR(buf.st_mode))
 		{
 
@@ -257,72 +255,141 @@ char **sort_args(char **argv, int i, t_flags *flags)
 	return (argv);
 }
 
-int ft_ls(int argc, char **argv)
+int is_dd_or_no_args(int argc, char **argv, int i)
+{
+	return(argv[1] == NULL || (i > 1 && argv[i] == NULL)
+		|| (ft_strcmp(argv[i], "--") == 0  && argv[i] == NULL)
+		|| (ft_strcmp(argv[i], "--") == 0 && argc - i <= 1));
+}
+
+int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
+{
+	int i_true;
+	struct stat buf;
+
+	i_true = 0;
+	if (flags->cap_r && i_true++)
+		recursively(path, linearray, flags);
+	else if (lstat(path, &buf) != -1 && !S_ISDIR(buf.st_mode) && i_true++)
+	{
+		flags->one_file++;
+		linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);	//malloc
+		linearray[0] = get_info(buf, path, 0);						// malloc * filecount
+		linearray[1] = NULL;
+		print_arr(linearray, flags);
+	}
+	else
+	{
+		i_true++;
+		ft_opendir(path, linearray, flags, 0);
+	}
+	return (i_true);
+}
+
+int is_single_arg(int argc, char *path, int i)
+{
+	return (argc == 1 || (argc == 2
+		&& ft_strcmp(path, ".") == 0) || argc - i <= 1);
+}
+
+int is_single_file(struct stat buf, char **argv, int i)
+{
+	return(lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode));
+}
+
+void single_file(struct stat buf, char **argv, int i, t_flags *flags)
 {
 	t_fileinfo **linearray;
-	t_flags *flags;
-	char path[PATH_MAX];
-	int i;
-	struct stat buf;
+
+	flags->one_file++;
+	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
+	linearray[0] = get_info(buf, argv[i], 0);
+	linearray[1] = NULL;
+	print_arr(linearray, flags);
+}
+
+int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i)
+{
+	char	path[PATH_MAX];
+	struct 	stat buf;
+
+	ft_memset(path, '\0', PATH_MAX);
+	sort_args(argv, i, flags);
+	while (argv[i])
+	{
+		if (argv[i])
+			ft_strcpy(path, argv[i]);
+		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+				ft_printf("%s:\n", argv[i]);
+		if (flags->cap_r && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+			recursively(path, linearray, flags);
+		else if (is_single_file(buf, argv, i))
+			single_file(buf, argv, i, flags);
+		else
+			ft_opendir(path, linearray, flags, 0);
+		i++;
+		if (argv[i] != NULL && lstat(argv[i], &buf) != -1
+				&& S_ISDIR(buf.st_mode))
+		write(1, "\n", 1);
+	}
+	return (0);
+}
+
+int ft_ls(int argc, char **argv)
+{
+	t_fileinfo 	**linearray;
+	t_flags 	*flags;
+	char 		path[PATH_MAX];
+	int 		i;
 
 	i = 1;
 	linearray = NULL;
 	flags = (t_flags *)malloc(sizeof(t_flags));
 	i = get_flags(argv, flags);
 	ft_memset(path, '\0', PATH_MAX);
-	if (argv[1] == NULL || (i > 1 && argv[i] == NULL)
-		|| (ft_strcmp(argv[i], "--") == 0  && argv[i] == NULL)
-		|| (ft_strcmp(argv[1], "--") == 0 && argc == 2))
+	if (is_dd_or_no_args(argc, argv, i))
 		path[0] = '.';
 	else
 		ft_strcat(path, argv[i]);
 	if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
 		i++;
-	if (argc == 1 || (argc == 2 && ft_strcmp(path, ".") == 0) || argc - i < 1)
-	{
-		if (flags->cap_r)
-			recursively(path, linearray, flags);
-		else if (lstat(path, &buf) != -1 && !S_ISDIR(buf.st_mode))
-		{
-			flags->one_file++;
-			linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
-			linearray[0] = get_info(buf, path, 0);
-			linearray[1] = NULL;
-			print_arr(linearray, flags);
-		}
-		else
-			ft_opendir(path, linearray, flags, 0);
-	}
+	if (is_single_arg(argc, path, i))//argc == 1 || (argc == 2 && ft_strcmp(path, ".") == 0) || argc - i <= 1
+		single_arg(path, linearray, flags);
 	else
-	{
-		sort_args(argv, i, flags);
-		while (argv[i])
-		{
-			if (argv[i])
-				ft_strcpy(path, argv[i]);
-			if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
-					ft_printf("%s:\n", argv[i]);
-			if (flags->cap_r)
-				recursively(path, linearray, flags);
-			else if (lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode))
-			{
-				flags->one_file++;
-				linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
-				linearray[0] = get_info(buf, argv[i], 0);
-				linearray[1] = NULL;
-				print_arr(linearray, flags);
-			}
-			else
-				ft_opendir(path, linearray, flags, 0);
-			i++;
-			if (argv[i] != NULL && lstat(argv[i], &buf) != -1
-				 && S_ISDIR(buf.st_mode))
-				write(1, "\n", 1);
-		}
-	}
+		multi_args(argv, flags, linearray, i);
 	free(flags);
 	return (0);
 }
+
+// argv[1] == NULL || (i > 1 && argv[i] == NULL)
+// 		|| (ft_strcmp(argv[i], "--") == 0  && argv[i] == NULL)
+// 		|| (ft_strcmp(argv[i], "--") == 0 && argc - i <= 1)
+
+// sort_args(argv, i, flags);
+// 		while (argv[i])
+// 		{
+// 			if (argv[i])
+// 				ft_strcpy(path, argv[i]);
+// 			if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+// 					ft_printf("%s:\n", argv[i]);
+// 			if (flags->cap_r && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+// 				recursively(path, linearray, flags);
+// 			else if (lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode))
+// 			{
+// 				flags->one_file++;
+// 				linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
+// 				linearray[0] = get_info(buf, argv[i], 0);
+// 				linearray[1] = NULL;
+// 				print_arr(linearray, flags);
+
+// 			}
+// 			else
+// 				ft_opendir(path, linearray, flags, 0);
+// 			i++;
+// 			if (argv[i] != NULL && lstat(argv[i], &buf) != -1
+// 				 && S_ISDIR(buf.st_mode))
+// 				write(1, "\n", 1);
+// 		}
 
 int main(int argc, char **argv)
 {
