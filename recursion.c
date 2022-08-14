@@ -6,25 +6,26 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/12 14:37:37 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/14 23:35:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-// static void free_linearray(t_fileinfo **linearray)
-// {
-// 	int		i;
+void free_linearray(t_fileinfo **linearray)
+{
+	int		i;
 
-// 	i = -1;
-// 	while (linearray[++i])
-// 	{
-// 		ft_strdel(&linearray[i]->m_time);
-// 		ft_strdel(&linearray[i]->owner);
-// 		ft_strdel(&linearray[i]->owner_gr);
-// 		ft_strdel(&linearray[i]->perms);
-// 	}
-// }
+	i = -1;
+	while (linearray[++i])
+	{
+		ft_strdel(&linearray[i]->owner);
+		ft_strdel(&linearray[i]->owner_gr);
+		ft_strdel(&linearray[i]->perms);
+		free(linearray[i]);
+	}
+	free(linearray);
+}
 // static int char_count(char *string, char c)
 // {
 // 	int	res;
@@ -104,6 +105,7 @@ void	path_maker(char *dest, char *dirname)
 		dest[i++] = '/';
 	dest[i] = '\0';
 }
+
 void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 {
 	t_fileinfo		**arr;
@@ -118,6 +120,7 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	arr = ft_opendir(dirname, linearray, flags, f_count);
 	if (!arr)
 		return ;
+	print_arr(sort_handler(arr, flags), flags);
 	while (arr[++i])
 	{
 		if (arr[i]->perms[0] == 'd' && ft_strcmp(arr[i]->filename, ".") != 0 && ft_strcmp(arr[i]->filename, "..") != 0)
@@ -128,7 +131,7 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 			recursively(path, arr, flags);
 		}
 	}
-	free(arr);
+	free_linearray(arr);
 }
 
 
@@ -164,8 +167,7 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	}
 	linearray[i] = NULL;
 	closedir(dirp);
-	print_arr(sort_handler(linearray, flags), flags);
-	return (linearray);
+	return (sort_handler(linearray, flags));
 }
 
 // alphabetical(linearray);

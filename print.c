@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/13 08:43:55 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/14 23:10:45 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	int_len = 0;
 	longest_oname = 1;
 	longest_ogroup = 1;
+	longest_fname = 0;
 	most_links = 0;
-	if (!linearray[0])
+	if (!linearray)
 		return ;
 	while(linearray[k] != NULL)
 	{

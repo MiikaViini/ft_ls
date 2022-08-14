@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/12 10:34:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/14 19:55:57 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void			path_maker(char *dest, char *dirname);
 
 t_fileinfo		**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count);
 void			print_err(char *dirname, int error);
+void 			free_linearray(t_fileinfo **linearray);
 
 
 static const char	g_perms[8][4] = {
