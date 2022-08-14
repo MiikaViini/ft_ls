@@ -6,12 +6,15 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/14 23:35:29 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/14 23:52:28 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
+/*
+** Delete allocated memory in fileinfo struct
+*/
 void free_linearray(t_fileinfo **linearray)
 {
 	int		i;
@@ -26,38 +29,10 @@ void free_linearray(t_fileinfo **linearray)
 	}
 	free(linearray);
 }
-// static int char_count(char *string, char c)
-// {
-// 	int	res;
-// 	int	i;
 
-// 	res = 0;
-// 	i = -1;
-// 	while (string[++i])
-// 		if (string[i] == c)
-// 			res++;
-// 	return (res);
-// }
-// static void	save_dir_info(t_dirs **dirs, char *dirname, struct dirent *folder)
-// {
-// 	t_dirs 			*dir;
-// 	static int 		i;
-// 	struct stat		buf;
-
-// 	dir = (t_dirs *)malloc(sizeof(t_dirs));
-// 	dir->time = ft_strnew(30);
-// 	if(!dir || !dirs || !folder)
-// 		return ;
-// 	lstat(dirname, &buf);
-// 	dir->dirs = ft_strdup(dirname);
-// 	dir->depth = char_count(dirname, '/');
-// 	dir->time_i = buf.st_mtime;
-// 	//ft_strncpy(dir->time, ctime(&buf.st_mtime) + 4, 12);
-// 	if (!dir->dirs)
-// 		return ;
-// 	dirs[i++] = dir;
-// }
-
+/*
+** Count files in directory
+*/
 static int filecount(char *dir)
 {
 	DIR 			*dir_s;
@@ -81,18 +56,17 @@ static int filecount(char *dir)
 	return (count);
 }
 
+/*
+** Print error with matching error message
+*/
 void print_err(char *dirname, int error)
 {
-	// if (flags->cap_r)
-	// 	{
-	// if (error == EACCES)
 	ft_printf("ft_ls: %s: %s \n",dirname, strerror(error));
-	// else if (error == ENOTDIR)
-	// 	ft_printf("ft_ls: %s: %s \n",dirname, strerror(ENOENT));
-	// else if (error == ELOOP)
-	// 	ft_printf("ft_ls: %s: %s \n",dirname, strerror(ELOOP));
- }
+}
 
+/*
+** Make path for opendir function
+*/
 void	path_maker(char *dest, char *dirname)
 {
 	int	i;
@@ -134,8 +108,6 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	free_linearray(arr);
 }
 
-
-
 t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
 {
 	DIR				*dirp;
@@ -151,6 +123,8 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 		return (NULL);
 	path_maker(path, dirname);
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 2);
+	if (!linearray)
+		return (NULL);
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
 	if (ft_strcmp(dirname, "/") == 0)

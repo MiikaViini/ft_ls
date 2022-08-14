@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/14 23:27:19 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/14 23:50:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,17 +271,14 @@ int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 	if (flags->cap_r && ++i_true)
 	{
 		recursively(path, linearray, flags);
-		
-		return (0);
+		return (i_true);
 	}
-
 	else if (lstat(path, &buf) != -1 && !S_ISDIR(buf.st_mode) && i_true++)
 	{
 		flags->one_file++;
 		linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);	//malloc
 		linearray[0] = get_info(buf, path, 0);						// malloc * filecount
 		linearray[1] = NULL;
-		//print_arr(linearray, flags);
 	}
 	else
 	{
