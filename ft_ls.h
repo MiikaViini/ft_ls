@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 10:58:55 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:11:05 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@
 typedef struct s_fileinfo
 {
 	int			links;
-	//char		link[256];
 	char		*perms;
 	char		m_time[25];
 	char		*owner;
@@ -72,42 +71,33 @@ typedef struct s_flags
 	int		no_flags;
 	int		one_file;
 	int		blocks;
+	int		haslink;
 }			t_flags;
 
 t_fileinfo		*get_info(struct stat buf, char *path, int pathlen);
 char			*permissions(int modes, struct stat buf);
-//t_fileinfo	**line_array(char *argv, int index);
-
 void			print_arr(t_fileinfo **linearray, t_flags *flags);
 void			recursively(char *path, t_fileinfo **linearray, t_flags *flags);
 t_fileinfo		**line_array(char *argv, t_fileinfo **linearray);
-	// int			find_letter(char c, char *letters);
-
+/*
+** Flags
+*/
 void			l_flag(t_flags *flags, char *string);
 void			rec_flag(t_flags *flags, char *string);
 void			a_flag(t_flags *flags, char *string);
 void			r_flag(t_flags *flags, char *string);
 void			t_flag(t_flags *flags, char *string);
-//char		get_filetype(int modes, struct stat buf);
 void			not_found(t_flags *flags, char *string);
 
-
 typedef void	(*t_fl)(t_flags *flags, char *string);
-
 t_fileinfo		**sort_handler(t_fileinfo **linearray, t_flags *flags);
 void			sort_time(t_fileinfo **linearray);
 void			sort_time_a(t_fileinfo **linearray);
-// void			sort_depth_r(t_dirs **dirs);
-// void			sort_recu_r(t_dirs **dirs);
-// void			sort_time_r(t_dirs **dirs);
 t_fileinfo		**alphabetical(t_fileinfo **info);
 void			path_maker(char *dest, char *dirname);
-// void			alphabetical_s(t_dirs **dirs);
-
 t_fileinfo		**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count);
 void			print_err(char *dirname, int error);
 void 			free_linearray(t_fileinfo **linearray);
-
 void 			initialize_info_struct(t_fileinfo *line);
 void 			initialize_flags(t_flags *flags);
 int 			find_letter(char c, char *letters);

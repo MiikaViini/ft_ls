@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 11:02:25 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:11:28 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static int filecount(char *dir)
 */
 void print_err(char *dirname, int error)
 {
+	if(*dirname && *dirname == '/')
+		dirname++;
 	ft_printf("ft_ls: %s: %s \n",dirname, strerror(error));
 }
 
@@ -108,6 +110,8 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	free_linearray(arr);
 }
 
+// t_fileinfo **save_info(char *path, )
+
 t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
 {
 	DIR				*dirp;
@@ -132,7 +136,7 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	while (entity != NULL)
 	{
 		dirname = ft_strjoin(path, entity->d_name);
-		lstat(dirname, &buf);
+		lstat(dirname, &buf);							//
 		if (entity->d_name[0] != '.' || flags->a)
 			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
 		flags->blocks += buf.st_blocks;

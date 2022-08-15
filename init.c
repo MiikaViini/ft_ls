@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 10:03:41 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:10:00 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void initialize_info_struct(t_fileinfo *line)
 	line->major = 0;
 	line->minor = 0;
 	ft_memset(line->filename, '\0', MAXNAMLEN);
+	ft_memset(line->link, '\0', 256);
 	ft_memset(line->m_time, '\0', 17);
 	line->biggest = 0;
 	line->longest_link = 0;
@@ -32,6 +33,7 @@ void initialize_flags(t_flags *flags)
 	flags->one_file = 0;
 	flags->blocks = 0;
 	flags->no_flags = 1;
+	flags->haslink = 0;
 }
 
 
