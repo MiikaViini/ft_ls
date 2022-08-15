@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 10:37:14 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 12:00:34 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,47 +31,6 @@ static int get_flags(char **argv, t_flags *flags)
 	return (i);
 }
 
-static int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
-{
-	int i_true;
-	struct stat buf;
-	int		l_stat;
-
-	i_true = 0;
-	l_stat = lstat(path, &buf);
-	if (flags->cap_r && ++i_true)
-	{
-		recursively(path, linearray, flags);
-		return (i_true);
-	}
-	// else if (is_single_file(buf, argv, i))
-	// 		single_file(buf, argv, i, flags);
-	else if (!S_ISDIR(buf.st_mode) && ++i_true)
-	{
-		if (l_stat < 0)
-		{
-			print_err(path, errno);
-			return (-1);
-		}
-		flags->one_file++;
-		linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
-		linearray[0] = get_info(buf, path, 0);
-		linearray[1] = NULL;
-	}
-	else
-	{
-		i_true++;
-		linearray = ft_opendir(path, linearray, flags, 0);
-	}
-	if (linearray)
-	{
-		print_arr(linearray, flags);
-		free_linearray(linearray);
-	}
-	return (i_true);
-}
-
-
 static void single_file(struct stat buf, char **argv, int i, t_flags *flags)
 {
 	t_fileinfo **linearray;
@@ -83,6 +42,38 @@ static void single_file(struct stat buf, char **argv, int i, t_flags *flags)
 	print_arr(linearray, flags);
 	free_linearray(linearray);
 }
+
+static int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
+{
+	struct stat buf;
+	int		l_stat;
+
+	l_stat = lstat(path, &buf);
+	if (flags->cap_r)
+	{
+		recursively(path, linearray, flags);
+		return (0);
+	}
+	else if (!S_ISDIR(buf.st_mode))
+	{
+		if (l_stat < 0)
+		{
+			print_err(path, errno);
+			return (-1);
+		}
+		single_file(buf, &path, 0, flags);
+	}
+	else
+	{
+		linearray = ft_opendir(path, linearray, flags, 0);
+		print_arr(linearray, flags);
+		free_linearray(linearray);
+	}
+	return (0);
+}
+
+
+
 
 
 static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i)
