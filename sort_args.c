@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:55:16 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 15:07:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ char **sort_args(char **argv, int i, t_flags *flags)
 	while (argv[i] && argv[i + 1])
 	{
 		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
-			
+			has_dirs++;
 		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
 			temp = argv[i];

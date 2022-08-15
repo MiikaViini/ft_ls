@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:11:17 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 15:06:13 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,16 @@ static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i
 	return (0);
 }
 
+int newpath(char *path, char **argv, int i)
+{
+	if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
+	{
+		i++;
+		ft_strcpy(path, argv[i]);
+	}	
+	return i;
+}
+
 int ft_ls(int argc, char **argv)
 {
 	t_fileinfo 	**linearray;
@@ -121,8 +131,9 @@ int ft_ls(int argc, char **argv)
 		path[0] = '.';
 	else
 		ft_strcat(path, argv[i]);
-	if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
-		i++;
+	i = newpath(path, argv, i);
+	// if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
+	// 	i++;
 	if (is_single_arg(argc, path, i))//argc == 1 || (argc == 2 && ft_strcmp(path, ".") == 0) || argc - i <= 1
 		single_arg(path, linearray, flags);
 	else
