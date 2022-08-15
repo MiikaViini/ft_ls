@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/14 19:55:57 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 10:58:55 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 typedef struct s_fileinfo
 {
 	int			links;
+	//char		link[256];
 	char		*perms;
 	char		m_time[25];
 	char		*owner;
@@ -107,6 +108,15 @@ t_fileinfo		**ft_opendir( char *dirname, t_fileinfo **linearray, t_flags *flags,
 void			print_err(char *dirname, int error);
 void 			free_linearray(t_fileinfo **linearray);
 
+void 			initialize_info_struct(t_fileinfo *line);
+void 			initialize_flags(t_flags *flags);
+int 			find_letter(char c, char *letters);
+char **sort_args(char **argv, int i, t_flags *flags);
+int is_single_arg(int argc, char *path, int i);
+int is_single_file(struct stat buf, char **argv, int i);
+int is_dd_or_no_args(int argc, char **argv, int i);
+
+//int ft_ls(int argc, char **argv);
 
 static const char	g_perms[8][4] = {
 "---",
