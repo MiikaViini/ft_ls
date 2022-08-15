@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:12:24 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:19:28 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	int			most_links;
 	int 		filecount;
 	size_t		int_len;
+	int			filenamelen;
+	int			ownernamelen;
+	int			groupnamelen;
 
 	i = -1;
 	k = 0;
@@ -30,19 +33,25 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	longest_oname = 1;
 	longest_ogroup = 1;
 	longest_fname = 0;
+	filenamelen = 0;
+	ownernamelen = 0;
+	groupnamelen = 0;
 	most_links = 0;
 	if (!linearray)
 		return ;
 	while(linearray[k] != NULL)
 	{
-		if (longest_fname < (int)ft_strlen(linearray[k]->filename))
-			longest_fname = (int)ft_strlen(linearray[k]->filename);
+		ownernamelen = (int)ft_strlen(linearray[k]->owner);
+		filenamelen = (int)ft_strlen(linearray[k]->filename);
+		groupnamelen = (int)ft_strlen(linearray[k]->owner_gr);
+		if (longest_fname < filenamelen)
+			longest_fname = filenamelen;
 		if (linearray[0]->biggest <= linearray[k]->size)
 			linearray[0]->biggest = linearray[k]->size;
-		if (longest_oname < (int)ft_strlen(linearray[k]->owner))
-			longest_oname = ft_strlen(linearray[k]->owner);
-		if (longest_ogroup < (int)ft_strlen(linearray[k]->owner_gr))
-			longest_ogroup = (int)ft_strlen(linearray[k]->owner_gr);
+		if (longest_oname < ownernamelen)
+			longest_oname = ownernamelen;
+		if (longest_ogroup < groupnamelen)
+			longest_ogroup = groupnamelen;
 		if (linearray[0]->longest_link < linearray[k]->links)
 			linearray[0]->longest_link = linearray[k]->links;
 		k++;

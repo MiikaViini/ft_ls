@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:36:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 10:40:35 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:26:32 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,15 @@ int find_letter(char c, char *letters)
 		index++;
 	}
 	return (index);
+}
+
+/*
+** Print error with matching error message
+*/
+
+void print_err(char *dirname, int error)
+{
+	if(*dirname && *dirname == '/')
+		dirname++;
+	ft_printf("ft_ls: %s: %s \n",dirname, strerror(error));
 }

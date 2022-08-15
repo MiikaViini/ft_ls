@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:11:05 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:25:34 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_fileinfo
 	char		*owner_gr;
 	long long	size;
 	char		filename[MAXNAMLEN];
-	char		link[256];
+	char		link[255];
 	int			stat_us;
 	int			blocks;
 	int			index;

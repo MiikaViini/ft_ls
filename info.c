@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:35:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:10:54 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:25:52 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static  void link_maker(t_fileinfo *line, char *path)
 {
-	char link[256];
+	char link[255];
 
-	ft_memset(link, '\0', 256);
-	readlink(path, link, 256);
+	ft_memset(link, '\0', 255);
+	readlink(path, link, 255);
 	ft_strcat(line->link, " -> ");
 	ft_strcat(line->link, link);
 }
