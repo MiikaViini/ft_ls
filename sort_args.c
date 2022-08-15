@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 09:54:12 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 11:48:25 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,13 +81,13 @@ static void	sort_files_in_args(char **argv, int i, t_flags *flags)
 	int_temp = i;
 	while(argv[i])
 	{
-		if (lstat(argv[i], &buf) >= 0 && !S_ISDIR(buf.st_mode))
+		if (lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode))
 		{
 
 			temp = argv[i];
-			argv[i] = argv[int_temp];
-			argv[int_temp] = temp;
-			i = int_temp++;
+			argv[i] = argv[i - 1];
+			argv[i - 1] = temp;
+			i = int_temp;
 		}
 		i++;
 	}
@@ -117,4 +117,3 @@ char **sort_args(char **argv, int i, t_flags *flags)
 	sort_files_in_args(argv, start, flags);
 	return (argv);
 }
-
