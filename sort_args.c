@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 11:48:25 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:55:16 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,10 @@ static void	sort_files_in_args(char **argv, int i, t_flags *flags)
 	{
 		if (lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode))
 		{
-
 			temp = argv[i];
 			argv[i] = argv[i - 1];
 			argv[i - 1] = temp;
-			i = int_temp;
+			i = int_temp++;
 		}
 		i++;
 	}
@@ -97,11 +96,16 @@ char **sort_args(char **argv, int i, t_flags *flags)
 {
 	int start;
 	char *temp;
+	struct stat buf;
+	int		has_dirs;
 
 	start = i;
 	temp = NULL;
+	has_dirs = 0;
 	while (argv[i] && argv[i + 1])
 	{
+		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+			
 		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
 			temp = argv[i];
@@ -114,6 +118,7 @@ char **sort_args(char **argv, int i, t_flags *flags)
 	if (flags->r)
 		ft_strarrrev(argv, start);
 	validate_args(argv, start, flags);
-	sort_files_in_args(argv, start, flags);
+	if (has_dirs)
+		sort_files_in_args(argv, start, flags);
 	return (argv);
 }

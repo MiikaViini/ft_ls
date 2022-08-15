@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:32:36 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 14:34:15 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,8 @@ t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flag
 
 t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
 {
-	// DIR				*dirp;
-	// struct dirent	*entity;
-	// struct stat		buf;
-	// int				i;
 	char			path[PATH_MAX];
 
-	// i = 0;
-	// flags->blocks= 0;
 	f_count = filecount(dirname);
 	if (f_count <= 0)
 		return (NULL);
@@ -127,21 +121,5 @@ t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, i
 	if (!linearray)
 		return (NULL);
 	linearray = save_info(path, dirname, linearray, flags);
-	// dirp = opendir(dirname);
-	// entity = readdir(dirp);
-	// if (ft_strcmp(dirname, "/") == 0)
-	// 	ft_memset(dirname, '\0', ft_strlen(dirname));
-	// while (entity != NULL)
-	// {
-	// 	dirname = ft_strjoin(path, entity->d_name);
-	// 	lstat(dirname, &buf);							//
-	// 	if (entity->d_name[0] != '.' || flags->a)
-	// 		linearray[i++] = get_info(buf, dirname, ft_strlen(path));
-	// 	flags->blocks += buf.st_blocks;
-	// 	entity = readdir(dirp);
-	// 	ft_strdel(&dirname);
-	// }
-	// linearray[i] = NULL;
-	// closedir(dirp);
 	return (sort_handler(linearray, flags));
 }
