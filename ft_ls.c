@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 15:06:13 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 17:42:39 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int get_flags(char **argv, t_flags *flags)
 	initialize_flags(flags);
 	k = 1;
 	i = 1;
-	while (argv[i] && argv[i][0] == '-' 
+	while (argv[i] && argv[i][0] == '-'
 		&& argv[i][1] && ft_strcmp(argv[i], "--") != 0)
 	{
 		while (argv[i][k] != '\0')
@@ -41,6 +41,7 @@ static void single_file(struct stat buf, char **argv, int i, t_flags *flags)
 	linearray[1] = NULL;
 	print_arr(linearray, flags);
 	free_linearray(linearray);
+	flags->one_file = 0;
 }
 
 static int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
@@ -71,10 +72,6 @@ static int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 	}
 	return (0);
 }
-
-
-
-
 
 static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i)
 {
@@ -111,7 +108,7 @@ int newpath(char *path, char **argv, int i)
 	{
 		i++;
 		ft_strcpy(path, argv[i]);
-	}	
+	}
 	return i;
 }
 
@@ -132,8 +129,6 @@ int ft_ls(int argc, char **argv)
 	else
 		ft_strcat(path, argv[i]);
 	i = newpath(path, argv, i);
-	// if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
-	// 	i++;
 	if (is_single_arg(argc, path, i))//argc == 1 || (argc == 2 && ft_strcmp(path, ".") == 0) || argc - i <= 1
 		single_arg(path, linearray, flags);
 	else

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:25:34 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 17:32:40 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <limits.h>
 # include <sys/ioctl.h>
 
-# define FLAGS "lRart"
+# define FLAGS "lRartf"
 /* Defining permission strings */
 # define RDWR
 # define WR
@@ -67,6 +67,7 @@ typedef struct s_flags
 	int		a;
 	int		r;
 	int		t;
+	int		f;
 	int		filecount;
 	int		no_flags;
 	int		one_file;
@@ -87,6 +88,7 @@ void			rec_flag(t_flags *flags, char *string);
 void			a_flag(t_flags *flags, char *string);
 void			r_flag(t_flags *flags, char *string);
 void			t_flag(t_flags *flags, char *string);
+void			f_flag(t_flags *flags, char *string);
 void			not_found(t_flags *flags, char *string);
 
 typedef void	(*t_fl)(t_flags *flags, char *string);
@@ -119,12 +121,13 @@ static const char	g_perms[8][4] = {
 "rwx"
 };
 
-static const t_fl	g_flags[6] = {
+static const t_fl	g_flags[7] = {
 	l_flag,
 	rec_flag,
 	a_flag,
 	r_flag,
 	t_flag,
+	f_flag,
 	not_found
 };
 #endif

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:14:50 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/09 11:00:51 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 20:10:34 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,14 @@ void	t_flag(t_flags *flags, char *string)
 	flags->t = 1;
 }
 
+void	f_flag(t_flags *flags, char *string)
+{
+	(void)string;
+	flags->f = 1;
+}
+
 void	not_found(t_flags *flags, char *string)
 {
-	//(void)string;
 	char	c;
 
 	c = '\0';
@@ -57,7 +62,7 @@ void	not_found(t_flags *flags, char *string)
 		}
 		string++;
 	}
-	ft_printf("ft_ls: illegal option -- %c\nusage: ./ft_ls [-Ralrt] [file ...]\n", c);
+	ft_printf("ft_ls: illegal option -- %c\nusage: ./ft_ls [-Raflrt] [file ...]\n", c);
 	free(flags);
 	exit(EXIT_FAILURE);
 }

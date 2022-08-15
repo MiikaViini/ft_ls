@@ -5,7 +5,7 @@ Run 'make' in terminal
 
 usage: ./ft_ls "flags" "path"
 
-"Rlart" flags supported
+"Rlart flags supported
 
 "Permission denied" errorhandling added
 

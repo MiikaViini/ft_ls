@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:34:15 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 17:41:43 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flag
 	struct dirent	*entity;
 	struct stat		buf;
 	int				i;
-	
+
 	i = 0;
 	flags->blocks= 0;
 	dirp = opendir(dirname);
@@ -98,7 +98,7 @@ t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flag
 	{
 		dirname = ft_strjoin(path, entity->d_name);
 		lstat(dirname, &buf);							//
-		if (entity->d_name[0] != '.' || flags->a)
+		if (entity->d_name[0] != '.' || flags->a || flags->f)
 			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
 		flags->blocks += buf.st_blocks;
 		entity = readdir(dirp);

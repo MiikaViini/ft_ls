@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:25:08 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 17:33:09 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void initialize_flags(t_flags *flags)
 	flags->cap_r = 0;
 	flags->r = 0;
 	flags->t = 0;
+	flags->f = 0;
 	flags->one_file = 0;
 	flags->blocks = 0;
 	flags->no_flags = 1;

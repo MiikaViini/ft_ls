@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort.c                                             :+:      :+:    :+:   */
+/*   sort_entrys.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/09 14:31:06 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/15 17:33:46 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,17 @@ void sort_reverse(t_fileinfo **linearray)
 
 t_fileinfo **sort_handler(t_fileinfo **linearray,t_flags *flags)
 {
-	alphabetical(linearray);
-	if (flags->t)
+	if(!flags->f)
 	{
-		sort_time_a(linearray);
-		sort_time(linearray);
+		flags->a = 1;
+		alphabetical(linearray);
+		if (flags->t)
+		{
+			sort_time_a(linearray);
+			sort_time(linearray);
+		}
+		if (flags->r)
+			sort_reverse(linearray);
 	}
-	if (flags->r)
-		sort_reverse(linearray);
 	return (linearray);
 }
