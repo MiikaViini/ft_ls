@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 17:33:46 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/16 08:26:27 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ t_fileinfo **sort_handler(t_fileinfo **linearray,t_flags *flags)
 {
 	if(!flags->f)
 	{
-		flags->a = 1;
 		alphabetical(linearray);
 		if (flags->t)
 		{

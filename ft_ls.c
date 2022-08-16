@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 17:42:39 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/16 14:40:09 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void single_file(struct stat buf, char **argv, int i, t_flags *flags)
 	linearray[0] = get_info(buf, argv[i], 0);
 	linearray[1] = NULL;
 	print_arr(linearray, flags);
+	if (lstat(argv[i+1], &buf) != -1 && S_ISDIR(buf.st_mode))
+		write(1, "\n", 1);
 	free_linearray(linearray);
 	flags->one_file = 0;
 }
@@ -73,6 +75,12 @@ static int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 	return (0);
 }
 
+int needs_newline(struct stat buf, char **argv, int i)
+{
+	return(argv[i + 1] != NULL && lstat(argv[i], &buf) != -1
+				&& S_ISDIR(buf.st_mode));
+}
+
 static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i)
 {
 	char	path[PATH_MAX];
@@ -93,11 +101,11 @@ static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i
 		else
 			linearray = ft_opendir(path, linearray, flags, 0);
 		print_arr(linearray, flags);
-		if (argv[++i] != NULL && lstat(argv[i], &buf) != -1
-				&& S_ISDIR(buf.st_mode))
-		write(1, "\n", 1);
+		if (needs_newline(buf, argv, i))//argv[i + 1] != NULL && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode)
+			write(1, "\n", 1);
 		if (linearray)
 			free_linearray(linearray);
+		i++;
 	}
 	return (0);
 }

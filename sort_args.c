@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 23:28:40 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/16 14:22:38 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,13 +175,14 @@ char **sort_args(char **argv, int i, t_flags *flags)
 	//exit(1);
 	if (flags->r && !flags->f)
 		ft_strarrrev(argv, start);
-	if (has_dirs)
-		sort_files_in_args(argv, start, flags);
+
 	// i = 0;
 	// while(argv[i])
 	// 	printf("files %s\n", argv[i++]);
-	// exit(1);
+	//exit(1);
 	validate_args(argv, start, flags);
+	if (has_dirs)
+		sort_files_in_args(argv, start, flags);
 	// i = 0;
 	// while(argv[i])
 	// 	printf("validation %s\n", argv[i++]);
