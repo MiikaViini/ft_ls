@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/16 14:22:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/16 15:44:30 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,8 +166,8 @@ char **sort_args(char **argv, int i, t_flags *flags)
 		}
 		i++;
 	}
-	// if (flags->t && !flags->f)
-	// 	sort_args_time(argv, start, flags);
+	if (flags->t && !flags->f)
+		sort_args_time(argv, start, flags);
 	// i = 0;
 	// i = 0;
 	// while(argv[i])

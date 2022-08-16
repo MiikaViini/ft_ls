@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 17:41:43 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/16 15:19:18 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ void	path_maker(char *dest, char *dirname)
 		dest[i++] = '/';
 	dest[i] = '\0';
 }
-
+/*
+** This is for -R flag only, go through directories recursively
+*/
 void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 {
 	t_fileinfo		**arr;

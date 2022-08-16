@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/16 14:40:09 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/16 14:57:17 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,31 +40,31 @@ static void single_file(struct stat buf, char **argv, int i, t_flags *flags)
 	linearray[0] = get_info(buf, argv[i], 0);
 	linearray[1] = NULL;
 	print_arr(linearray, flags);
-	if (lstat(argv[i+1], &buf) != -1 && S_ISDIR(buf.st_mode))
+	if (lstat(argv[i + 1], &buf) != -1 && S_ISDIR(buf.st_mode))
 		write(1, "\n", 1);
 	free_linearray(linearray);
 	flags->one_file = 0;
 }
 
-static int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
+ void single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 {
 	struct stat buf;
 	int		l_stat;
 
 	l_stat = lstat(path, &buf);
-	if (flags->cap_r)
-	{
-		recursively(path, linearray, flags);
-		return (0);
-	}
-	else if (!S_ISDIR(buf.st_mode))
+	if (!S_ISDIR(buf.st_mode))
 	{
 		if (l_stat < 0)
 		{
 			print_err(path, errno);
-			return (-1);
+			return ;
 		}
 		single_file(buf, &path, 0, flags);
+	}
+	else if (flags->cap_r)
+	{
+		recursively(path, linearray, flags);
+		return ;
 	}
 	else
 	{
@@ -72,7 +72,6 @@ static int single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 		print_arr(linearray, flags);
 		free_linearray(linearray);
 	}
-	return (0);
 }
 
 int needs_newline(struct stat buf, char **argv, int i)
@@ -101,11 +100,9 @@ static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i
 		else
 			linearray = ft_opendir(path, linearray, flags, 0);
 		print_arr(linearray, flags);
-		if (needs_newline(buf, argv, i))//argv[i + 1] != NULL && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode)
+		if (needs_newline(buf, argv, i++))//argv[i + 1] != NULL && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode)
 			write(1, "\n", 1);
-		if (linearray)
-			free_linearray(linearray);
-		i++;
+		free_linearray(linearray);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 17:33:09 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/16 15:02:48 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void initialize_info_struct(t_fileinfo *line)
 	ft_memset(line->m_time, '\0', 17);
 	line->biggest = 0;
 	line->longest_link = 0;
+	line->size = 0;
 }
 /*
 ** Initialize flags struct
@@ -49,6 +50,8 @@ void free_linearray(t_fileinfo **linearray)
 	int		i;
 
 	i = -1;
+	if (!linearray)
+		return ;
 	while (linearray[++i])
 	{
 		ft_strdel(&linearray[i]->owner);

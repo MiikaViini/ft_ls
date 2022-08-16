@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 17:32:40 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/16 15:02:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,27 +38,27 @@
 
 # define SIX_MONTHS 15778476
 
-typedef struct s_fileinfo
+typedef struct		s_fileinfo
 {
-	int			links;
-	char		*perms;
-	char		m_time[25];
-	char		*owner;
-	char		*owner_gr;
-	long long	size;
-	char		filename[MAXNAMLEN];
-	char		link[255];
-	int			stat_us;
-	int			blocks;
-	int			index;
-	long long	time_m;
-	long long	time_a;
-	long		inode;
-	long long	biggest;
-	int			longest_link;
+	int					links;
+	char				*perms;
+	char				m_time[25];
+	char				*owner;
+	char				*owner_gr;
+	long long			size;
+	char				filename[MAXNAMLEN];
+	char				link[255];
+	//int					stat_us;
+	int					blocks;
+	//int					index;
+	long long			time_m;
+	long long			time_a;
+	//long				inode;
+	long long			biggest;
+	int					longest_link;
 	unsigned int		minor;
 	unsigned int		major;
-}				t_fileinfo;
+}					t_fileinfo;
 
 typedef struct s_flags
 {
