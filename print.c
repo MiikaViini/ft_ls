@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 18:54:33 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 23:29:28 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 		most_links = ft_intlen(linearray[0]->longest_link);
 		while (linearray[++i] != NULL)
 		{
-			ft_printf("%s  ", linearray[i]->perms);
+			ft_printf("%s", linearray[i]->perms);
 			ft_printf("%*d ",most_links,linearray[i]->links);
 			ft_printf("%-*s  ",longest_oname ,linearray[i]->owner);
 			ft_printf("%-*s", longest_ogroup,linearray[i]->owner_gr);

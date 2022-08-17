@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 18:12:19 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 23:14:43 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # include <time.h>
 # include <limits.h>
 # include <sys/ioctl.h>
+# include <sys/xattr.h>
+# include <sys/acl.h>
 
 # define FLAGS "lRartfA"
 /* Defining permission strings */
@@ -77,7 +79,7 @@ typedef struct s_flags
 }			t_flags;
 
 t_fileinfo		*get_info(struct stat buf, char *path, int pathlen);
-char			*permissions(int modes, struct stat buf);
+char			*permissions(int modes, struct stat buf, char *path);
 void			print_arr(t_fileinfo **linearray, t_flags *flags);
 void			recursively(char *path, t_fileinfo **linearray, t_flags *flags);
 t_fileinfo		**line_array(char *argv, t_fileinfo **linearray);

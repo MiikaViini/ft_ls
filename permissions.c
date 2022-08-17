@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:30:25 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/12 10:06:32 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 23:28:39 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,30 @@ static void get_stickybits(int modes, char *perm)
 		perm[9] = 'T';
 }
 
-char	*permissions(int modes, struct stat buf)
+static void extended_attrs(char *perms, char *path)
+{
+	ssize_t 	ext_attr;
+	acl_t		acl;
+	acl_entry_t	entry_p;
+
+	acl = NULL;
+	acl = acl_get_link_np(path, ACL_TYPE_EXTENDED);
+	ext_attr = listxattr(path, NULL, 0, XATTR_NOFOLLOW);
+	if (acl && acl_get_entry(acl, ACL_FIRST_ENTRY, &entry_p) == -1)
+	{
+		acl_free(acl);
+		acl = NULL;
+	}
+	if (ext_attr > 0)
+		perms[10] = '@';
+	else if (acl != NULL)
+		perms[10] = '+';
+	else
+		perms[10] = ' ';
+	free(acl);
+}
+
+char	*permissions(int modes, struct stat buf, char *path)
 {
 	char	*perm;
 	int		i;
@@ -69,6 +92,7 @@ char	*permissions(int modes, struct stat buf)
 	while (temp[k] && ++i)
 		ft_strcat(&perm[i], g_perms[temp[k++] - '0']);
 	get_stickybits(modes, perm);
+	extended_attrs(perm, path);
 	ft_strdel(&temp);
 	ft_strdel(&mode);
 	return (perm);

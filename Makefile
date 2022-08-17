@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/17 18:27:40 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/17 19:05:16 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT)
+$(NAME): $(OBJ)
 	@make -C ./libft/
 	@gcc -c $(FLAGS) $(SRCS)
 	@gcc $(OBJ) -o $(NAME) $(LIBFT)
