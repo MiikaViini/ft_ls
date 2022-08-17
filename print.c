@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:19:28 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 18:54:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	ownernamelen = 0;
 	groupnamelen = 0;
 	most_links = 0;
-	if (!linearray)
+	if (!linearray || !linearray[0])
 		return ;
 	while(linearray[k] != NULL)
 	{
@@ -83,13 +83,13 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 					ft_printf("%#010x ", linearray[i]->minor);
 			}
 			ft_printf("%s ", linearray[i]->m_time);
-			
-			
+
+
 			ft_putstr(linearray[i]->filename);
 			ft_putendl(linearray[i]->link);
 				// ft_printf("%s", linearray[i]->filename);
 				// ft_printf("%s\n", linearray[i]->link);
-			
+
 			//	ft_printf("%s\n", linearray[i]->filename);
 		}
 	}
