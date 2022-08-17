@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 09:33:31 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 13:12:31 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ static void single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 100);
 	while(argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))
 	{
-		//printf("%s\n", argv[i]);
 		linearray[k++] = get_info(buf, argv[*i], 0);
 		*i += 1;
 	}
@@ -56,23 +55,22 @@ static void single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 	}
 	flags->one_file = 0;
 	*i -= 1;
-	//return (i);
 }
 
  void single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 {
 	struct stat buf;
-	int		l_stat;
+	int		i;
 
-	l_stat = lstat(path, &buf);
-	if (!S_ISDIR(buf.st_mode))
+	i = 0;
+	if (lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode))
 	{
-		if (l_stat < 0)
+		if (lstat(path, &buf) == -1)
 		{
 			print_err(path, errno);
 			return ;
 		}
-		single_file(buf, &path, 0, flags);
+		single_file(buf, &path, &i, flags);
 	}
 	else if (flags->cap_r)
 	{

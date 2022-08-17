@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 12:53:10 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 13:49:21 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,38 @@ static void ft_strarrrev(char **arr, int start)
 	int 	len;
 	char 	*temp;
 	int 	i;
+	struct stat buf;
+	int		stat;
+	int		k;
 
+	stat = 0;
 	i = start;
 	temp = NULL;
+	k = 0;
+
+	while (arr[start])
+	{
+		stat = lstat(arr[start], &buf);
+		//printf("%s %d\n", argv[start], stat);
+		if(stat == -1 || !S_ISDIR(buf.st_mode))
+			start++;
+		else
+			break;
+	}
+	k = start;
 	len = start;
+	// while(arr[k])
+	// 	printf("%s\n", arr[k++]);
+	// exit(1);
 	while(arr[start++])
 		len++;
-	len += i;
-	while(i < len / 2)
+	len += k;
+	while(k < len / 2)
 	{
-		temp = arr[i];
-		arr[i] = arr[len - i - 1];
-		arr[len - i - 1] = temp;
-		i++;
+		temp = arr[k];
+		arr[k] = arr[len - k - 1];
+		arr[len - k - 1] = temp;
+		k++;
 	}
 }
 
@@ -85,7 +104,7 @@ void sort_args_time(char **argv, int i, t_flags *flags)
 	while (argv[i])
 	{
 		stat = lstat(argv[i], &buf);
-		printf("%s %d\n", argv[i], stat);
+		//printf("%s %d\n", argv[i], stat);
 		if(stat == -1 || !S_ISDIR(buf.st_mode))
 			i++;
 		else
@@ -134,43 +153,42 @@ static void	sort_files_in_args(char **argv, int i, t_flags *flags)
 		}
 		i++;
 	}
-	if (flags->t && !flags->f)
-		sort_args_time(argv, int_temp, flags);
 
 }
 
-void sort_args_atime(char **argv, int i, t_flags *flags)
-{
-	int 	int_temp;
-	char 	*temp;
-	struct	stat buf;
-	struct	stat buf2;
 
-	temp = NULL;
-	(void)flags;
-	lstat(argv[i], &buf);
-	while (argv[i] && !S_ISDIR(buf.st_mode))
-	{
-		lstat(argv[i++], &buf);
-	}
+// void sort_args_atime(char **argv, int i, t_flags *flags)
+// {
+// 	int 	int_temp;
+// 	char 	*temp;
+// 	struct	stat buf;
+// 	struct	stat buf2;
 
-	int_temp = i;
-	while(argv[i] && argv[i + 1])
-	{
-		lstat(argv[i], &buf);
-		lstat(argv[i + 1], &buf2);
-		printf("%s %ld\n", argv[i],buf2.st_mtimespec.tv_nsec);
-		printf("%s %ld\n",argv[i + 1],  buf.st_mtimespec.tv_nsec);
-		if (buf2.st_mtimespec.tv_nsec < buf.st_mtimespec.tv_nsec)
-		{
-			temp = argv[i];
-			argv[i] = argv[i + 1];
-			argv[i + 1] = temp;
-			i = int_temp - 1;
-		}
-		i++;
-	}
-}
+// 	temp = NULL;
+// 	(void)flags;
+// 	lstat(argv[i], &buf);
+// 	while (argv[i] && !S_ISDIR(buf.st_mode))
+// 	{
+// 		lstat(argv[i++], &buf);
+// 	}
+
+// 	int_temp = i;
+// 	while(argv[i] && argv[i + 1])
+// 	{
+// 		lstat(argv[i], &buf);
+// 		lstat(argv[i + 1], &buf2);
+// 		printf("%s %ld\n", argv[i],buf2.st_mtimespec.tv_nsec);
+// 		printf("%s %ld\n",argv[i + 1],  buf.st_mtimespec.tv_nsec);
+// 		if (buf2.st_mtimespec.tv_nsec < buf.st_mtimespec.tv_nsec)
+// 		{
+// 			temp = argv[i];
+// 			argv[i] = argv[i + 1];
+// 			argv[i + 1] = temp;
+// 			i = int_temp - 1;
+// 		}
+// 		i++;
+// 	}
+// }
 
 
 
@@ -213,6 +231,11 @@ char **sort_args(char **argv, int i, t_flags *flags)
 	validate_args(argv, start, flags);
 	if (has_dirs)
 		sort_files_in_args(argv, start, flags);
+
+	if (flags->r && !flags->f)
+		ft_strarrrev(argv, start);
+	if (flags->t && !flags->f)
+		sort_args_time(argv, start, flags);
 
 	return (argv);
 }
