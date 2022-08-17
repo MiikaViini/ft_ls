@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/16 15:19:18 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 18:23:21 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,30 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	free_linearray(arr);
 }
 
+int entity_is_saveable(char *f_name, t_flags *flags)
+{
+	int res;
+
+	res = 1;
+	// printf("%d, %d", flags->a, flags->cap_a);
+	// exit(1);
+	if (f_name[0] == '.')
+	{
+		if (flags->cap_a)
+		{
+			if (ft_strcmp(f_name, ".") == 0|| ft_strcmp(f_name, "..") == 0)
+			res = 0;
+		}
+		if(flags->a && f_name[0] == '.')
+		{
+			res = 1;
+		}
+
+	}
+
+	return (res);
+}
+
 t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flags *flags)
 {
 	DIR				*dirp;
@@ -100,7 +124,7 @@ t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flag
 	{
 		dirname = ft_strjoin(path, entity->d_name);
 		lstat(dirname, &buf);							//
-		if (entity->d_name[0] != '.' || flags->a || flags->f)
+		if (entity_is_saveable(entity->d_name, flags) == 1) //entity->d_name[0] != '.' || flags->a || flags->f
 			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
 		flags->blocks += buf.st_blocks;
 		entity = readdir(dirp);

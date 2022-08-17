@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 13:12:31 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 17:23:14 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,7 @@ static void single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 	print_arr(sort_handler(linearray, flags), flags);
 	if (lstat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode))
 		write(1, "\n", 1);
-	if (!argv[*i])
-	{
-		free_linearray(linearray);
-		exit(0);
-	}
+	free_linearray(linearray);
 	flags->one_file = 0;
 	*i -= 1;
 }
@@ -97,7 +93,7 @@ static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i
 	struct 	stat buf;
 
 	ft_memset(path, '\0', PATH_MAX);
-	sort_args(argv, i, flags);
+	arg_sort_handler(argv, i, flags);
 	while (argv[i])
 	{
 		if (argv[i])

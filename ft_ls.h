@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/16 15:02:29 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 18:12:19 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <limits.h>
 # include <sys/ioctl.h>
 
-# define FLAGS "lRartf"
+# define FLAGS "lRartfA"
 /* Defining permission strings */
 # define RDWR
 # define WR
@@ -64,6 +64,7 @@ typedef struct s_flags
 {
 	int		l;
 	int		cap_r;
+	int		cap_a;
 	int		a;
 	int		r;
 	int		t;
@@ -103,10 +104,11 @@ void 			free_linearray(t_fileinfo **linearray);
 void 			initialize_info_struct(t_fileinfo *line);
 void 			initialize_flags(t_flags *flags);
 int 			find_letter(char c, char *letters);
-char **sort_args(char **argv, int i, t_flags *flags);
+char 			**arg_sort_handler(char **argv, int i, t_flags *flags);
 int is_single_arg(int argc, char *path, int i);
 int is_single_file(struct stat buf, char **argv, int i);
 int is_dd_or_no_args(int argc, char **argv, int i);
+void	cap_a_flag(t_flags *flags, char *string);
 
 //int ft_ls(int argc, char **argv);
 
@@ -121,13 +123,14 @@ static const char	g_perms[8][4] = {
 "rwx"
 };
 
-static const t_fl	g_flags[7] = {
+static const t_fl	g_flags[8] = {
 	l_flag,
 	rec_flag,
 	a_flag,
 	r_flag,
 	t_flag,
 	f_flag,
+	cap_a_flag,
 	not_found
 };
 #endif
