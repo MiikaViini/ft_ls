@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/15 14:32:04 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/16 19:47:43 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,13 +23,13 @@ LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJ)
 	@make -C ./libft/
 	@gcc -c $(FLAGS) $(SRCS)
 	@gcc $(OBJ) -o $(NAME) $(LIBFT)
 clean:
 	@make clean -C ./libft
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
 
 fclean: clean
 	@rm -f $(NAME)

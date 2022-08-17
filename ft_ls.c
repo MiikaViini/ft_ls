@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/16 14:57:17 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/17 09:33:31 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,32 @@ static int get_flags(char **argv, t_flags *flags)
 	return (i);
 }
 
-static void single_file(struct stat buf, char **argv, int i, t_flags *flags)
+static void single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 {
 	t_fileinfo **linearray;
+	int	k;
 
+	k = 0;
 	flags->one_file++;
-	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 2);
-	linearray[0] = get_info(buf, argv[i], 0);
-	linearray[1] = NULL;
-	print_arr(linearray, flags);
-	if (lstat(argv[i + 1], &buf) != -1 && S_ISDIR(buf.st_mode))
+	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 100);
+	while(argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))
+	{
+		//printf("%s\n", argv[i]);
+		linearray[k++] = get_info(buf, argv[*i], 0);
+		*i += 1;
+	}
+	linearray[k] = NULL;
+	print_arr(sort_handler(linearray, flags), flags);
+	if (lstat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode))
 		write(1, "\n", 1);
-	free_linearray(linearray);
+	if (!argv[*i])
+	{
+		free_linearray(linearray);
+		exit(0);
+	}
 	flags->one_file = 0;
+	*i -= 1;
+	//return (i);
 }
 
  void single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
@@ -96,7 +109,7 @@ static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i
 		if (flags->cap_r && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
 			recursively(path, linearray, flags);
 		else if (is_single_file(buf, argv, i))
-			single_file(buf, argv, i, flags);
+			single_file(buf, argv, &i, flags);
 		else
 			linearray = ft_opendir(path, linearray, flags, 0);
 		print_arr(linearray, flags);
