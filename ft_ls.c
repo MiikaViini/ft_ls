@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 18:34:54 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 19:40:13 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ static void	single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 	k = 0;
 	flags->one_file++;
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo));
-	while (argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))
+	while ((argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))
+		|| (argv[*i] && lstat(argv[*i], &buf) != -1
+			&& S_ISDIR(buf.st_mode) && flags->d))
 	{
 		linearray[k++] = get_info(buf, argv[*i], 0);
 		*i += 1;
@@ -71,11 +73,12 @@ static int	multi_args(char **argv, t_flags *flags,
 	{
 		if (argv[i])
 			ft_strcpy(path, argv[i]);
-		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d)
 			ft_printf("%s:\n", argv[i]);
-		if (flags->cap_r && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+		if (flags->cap_r && lstat(argv[i], &buf) != -1
+			&& S_ISDIR(buf.st_mode) && !flags->d)
 			recursively(path, linearray, flags);
-		else if (is_single_file(buf, argv, i))
+		else if (is_single_file(buf, argv, i, flags))
 			single_file(buf, argv, &i, flags);
 		else
 			linearray = open_dir(path, linearray, flags, 0);

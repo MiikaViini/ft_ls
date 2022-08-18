@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/18 16:55:18 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/18 18:42:08 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,9 @@ CC = clang
 
 FLAGS = -Wall -Werror -Wextra -O3
 
-#INCLUDES = "ft_printf.h"
-
 all: $(NAME)
 
 $(NAME): $(OBJS)
-#		@make -C ../
 		cp ../libft.a .
 		@$(CC) $(FLAGS) -c $(SRCS)
 		@ar rcs $(NAME) $(OBJS) ../libft.a

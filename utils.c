@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:36:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 17:19:17 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 19:40:37 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ int	is_single_arg(int argc, char *path, int i)
 			&& ft_strcmp(path, ".") == 0) || argc - i <= 1);
 }
 
-int	is_single_file(struct stat buf, char **argv, int i)
+int	is_single_file(struct stat buf, char **argv, int i, t_flags *flags)
 {
-	return (lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode));
+	return ((lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode))
+		|| (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && flags->d));
 }
 
 int	is_dd_or_no_args(int argc, char **argv, int i)
