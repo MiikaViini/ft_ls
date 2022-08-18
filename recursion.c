@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 12:20:50 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 13:38:59 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,6 @@ static int filecount(char *dir)
 	return (count);
 }
 
-void	path_maker(char *dest, char *dirname)
-{
-	int	i;
-
-	i = -1;
-	ft_memset(dest, '\0', ft_strlen(dirname) + 2);
-	while (dirname[++i])
-		dest[i] = dirname[i];
-	if (dest[i] != '/')
-		dest[i++] = '/';
-	dest[i] = '\0';
-}
-
 void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 {
 	t_fileinfo		**arr;
@@ -59,7 +46,7 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	f_count = filecount(dirname);
 	if (f_count <= 0)
 		return ;
-	arr = ft_opendir(dirname, linearray, flags, f_count);
+	arr = open_dir(dirname, linearray, flags, f_count);
 	if (!arr)
 		return ;
 	print_arr(sort_handler(arr, flags), flags);
@@ -125,7 +112,7 @@ t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flag
 	return (linearray);
 }
 
-t_fileinfo	**ft_opendir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
+t_fileinfo	**open_dir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
 {
 	char			path[PATH_MAX];
 

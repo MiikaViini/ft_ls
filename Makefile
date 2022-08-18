@@ -6,14 +6,15 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/18 09:47:57 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/18 14:13:01 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
-SRCS = ft_ls.c permissions.c sort_args.c sort_entrys.c print.c \
-	recursion.c flags.c utils.c init_and_mem.c info.c
+SRCS = ft_ls.c permissions.c sort_args.c sort_args2.c sort_entrys.c print.c \
+	recursion.c flags.c flags2.c utils.c utils2.c init_and_mem.c \
+	info.c error.c
 
 OBJ = $(SRCS:.c=.o)
 

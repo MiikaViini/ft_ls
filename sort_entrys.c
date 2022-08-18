@@ -6,16 +6,16 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/16 08:26:27 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 13:58:39 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_fileinfo **alphabetical(t_fileinfo **info)
+t_fileinfo	**alphabetical(t_fileinfo **info)
 {
-	int i;
-	t_fileinfo *temp;
+	int			i;
+	t_fileinfo	*temp;
 
 	i = -1;
 	if (!info)
@@ -33,10 +33,10 @@ t_fileinfo **alphabetical(t_fileinfo **info)
 	return (info);
 }
 
-void sort_time(t_fileinfo **linearray)
+void	sort_time(t_fileinfo **linearray)
 {
-	int i;
-	t_fileinfo *temp;
+	int			i;
+	t_fileinfo	*temp;
 
 	i = -1;
 	temp = NULL;
@@ -52,10 +52,10 @@ void sort_time(t_fileinfo **linearray)
 	}
 }
 
-void sort_time_a(t_fileinfo **linearray)
+void	sort_time_a(t_fileinfo **linearray)
 {
-	int i;
-	t_fileinfo *temp;
+	int			i;
+	t_fileinfo	*temp;
 
 	i = -1;
 	temp = NULL;
@@ -63,7 +63,6 @@ void sort_time_a(t_fileinfo **linearray)
 	{
 		if (linearray[i]->time_a < linearray[i + 1]->time_a)
 		{
-
 			temp = linearray[i];
 			linearray[i] = linearray[i + 1];
 			linearray[i + 1] = temp;
@@ -72,11 +71,11 @@ void sort_time_a(t_fileinfo **linearray)
 	}
 }
 
-void sort_reverse(t_fileinfo **linearray)
+void	sort_reverse(t_fileinfo **linearray)
 {
-	int i;
-	int f_count;
-	t_fileinfo *temp;
+	int			i;
+	int			f_count;
+	t_fileinfo	*temp;
 
 	i = -1;
 	f_count = 0;
@@ -92,9 +91,9 @@ void sort_reverse(t_fileinfo **linearray)
 	}
 }
 
-t_fileinfo **sort_handler(t_fileinfo **linearray,t_flags *flags)
+t_fileinfo	**sort_handler(t_fileinfo **linearray, t_flags *flags)
 {
-	if(!flags->f)
+	if (!flags->f)
 	{
 		alphabetical(linearray);
 		if (flags->t)

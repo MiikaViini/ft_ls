@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:36:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/15 14:59:51 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 13:56:47 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,21 @@ int find_letter(char c, char *letters)
 	return (index);
 }
 
-/*
-** Print error with matching error message
-*/
-
-void print_err(char *dirname, int error)
+int get_flags(char **argv, t_flags *flags)
 {
-	if(*dirname && *dirname == '/')
-		dirname++;
-	ft_printf("ft_ls: %s: %s \n",dirname, strerror(error));
+	int i;
+	int k;
+
+	initialize_flags(flags);
+	k = 1;
+	i = 1;
+	while (argv[i] && argv[i][0] == '-'
+		&& argv[i][1] && ft_strcmp(argv[i], "--") != 0)
+	{
+		while (argv[i][k] != '\0')
+			g_flags[find_letter(argv[i][k++], FLAGS)](flags, argv[i]);
+		k = 1;
+		i++;
+	}
+	return (i);
 }

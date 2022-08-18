@@ -6,15 +6,12 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 12:50:26 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 12:55:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-/*
-** Initialize fileinfo struct
-*/
 void initialize_info_struct(t_fileinfo *line)
 {
 	line->major = 0;
@@ -26,9 +23,7 @@ void initialize_info_struct(t_fileinfo *line)
 	line->longest_link = 0;
 	line->size = 0;
 }
-/*
-** Initialize flags struct
-*/
+
 void initialize_flags(t_flags *flags)
 {
 	flags->l = 0;
@@ -55,9 +50,7 @@ void initialize_padds(t_padds *padds)
 	padds->ownername_len = 0;
 	padds->groupname_len = 0;
 }
-/*
-** Delete allocated memory in fileinfo struct
-*/
+
 void free_linearray(t_fileinfo **linearray)
 {
 	int		i;
