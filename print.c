@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 17:11:23 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 18:28:58 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,18 @@ void	print_arr(t_fileinfo **linearray, t_flags *flags)
 	t_padds		*padds;
 
 	i = -1;
-	padds = (t_padds *)malloc(sizeof(t_padds));
 	if (!linearray || !linearray[0])
+		return ;
+	padds = (t_padds *)malloc(sizeof(t_padds));
+	if (!padds)
 		return ;
 	set_padding_values(linearray, padds);
 	if (flags->l)
 		print_long_format(linearray, flags, padds, i);
 	else
+	{
 		while (linearray[++i])
 			ft_printf("%s\n", linearray[i]->filename);
+	}
+	free(padds);
 }
