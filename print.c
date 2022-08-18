@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 18:28:58 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 21:53:11 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,28 @@ static void	print_min_maj_nums(t_fileinfo **linearray, int i)
 		ft_printf("%#010x ", linearray[i]->minor);
 }
 
+static void	apply_cap_f_flag(t_fileinfo *line, char *perms)
+{
+	struct stat	buf;
+
+	lstat(line->filename, &buf);
+	if (perms[0] == 'l')
+		ft_strcat(line->filename, "@");
+	else if (perms[0] == '-')
+	{
+		if (perms[3] == 'x' || perms[6] == 'x' || perms[9] == 'x')
+			ft_strcat(line->filename, "*");
+	}
+	else if (perms[0] == 'd')
+		ft_strcat(line->filename, "/");
+	else if (perms[0] == 's')
+		ft_strcat(line->filename, "=");
+	else if (perms[0] == 'w')
+		ft_strcat(line->filename, "%");
+	else if (perms[0] == 'p')
+		ft_strcat(line->filename, "|");
+}
+
 static void	print_long_format(t_fileinfo **linearray, t_flags *flags,
 	t_padds *padds, int i)
 {
@@ -55,12 +77,14 @@ static void	print_long_format(t_fileinfo **linearray, t_flags *flags,
 	padds->most_links = ft_intlen(linearray[0]->longest_link);
 	while (linearray[++i] != NULL)
 	{
+		if (flags->cap_f)
+			apply_cap_f_flag(linearray[i], linearray[i]->perms);
 		ft_printf("%s", linearray[i]->perms);
 		ft_printf("%*d ", padds->most_links, linearray[i]->links);
 		ft_printf("%-*s  ", padds->longest_oname, linearray[i]->owner);
 		ft_printf("%-*s", padds->longest_ogroup, linearray[i]->owner_gr);
 		if (!linearray[i]->major && !linearray[i]->minor)
-			ft_printf("%*lld ", padds->int_len + 1, linearray[i]->size);
+			ft_printf("%*lld ", padds->int_len, linearray[i]->size);
 		else
 			print_min_maj_nums(linearray, i);
 		ft_printf("%s ", linearray[i]->m_time);

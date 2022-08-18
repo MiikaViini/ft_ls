@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 19:40:13 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 20:50:47 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 		|| (argv[*i] && lstat(argv[*i], &buf) != -1
 			&& S_ISDIR(buf.st_mode) && flags->d))
 	{
-		linearray[k++] = get_info(buf, argv[*i], 0);
+		linearray[k++] = get_info(buf, argv[*i], 0, flags);
 		*i += 1;
 	}
 	linearray[k] = NULL;

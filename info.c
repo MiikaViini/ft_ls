@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:35:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 20:13:02 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 21:02:27 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,20 +74,23 @@ static void	set_device_min_maj(struct stat buf, t_fileinfo *line)
 	}
 }
 
-t_fileinfo	*get_info(struct stat buf, char *path, int pathlen)
+t_fileinfo	*get_info(struct stat buf, char *path, int pathlen, t_flags *flags)
 {
 	t_fileinfo	*line;
 
 	line = malloc(sizeof(t_fileinfo));
+	if (!line)
+		return (NULL);
+	(void)flags;
 	initialize_info_struct(line);
 	insert_timeinfo(line, buf);
 	set_owner_group_info(buf, line);
 	set_device_min_maj(buf, line);
 	line->links = buf.st_nlink;
+	line->perms = permissions(buf.st_mode, buf, path);
 	ft_strcat(line->filename, path + pathlen);
 	line->blocks = buf.st_blocks;
 	if (S_ISLNK(buf.st_mode))
 		link_maker(line, path);
-	line->perms = permissions(buf.st_mode, buf, path);
 	return (line);
 }

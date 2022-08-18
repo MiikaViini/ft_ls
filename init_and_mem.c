@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 19:24:19 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 21:52:59 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	initialize_flags(t_flags *flags)
 	flags->a = 0;
 	flags->cap_r = 0;
 	flags->cap_a = 0;
+	flags->cap_f = 0;
 	flags->r = 0;
 	flags->t = 0;
 	flags->f = 0;
@@ -46,7 +47,7 @@ void	initialize_padds(t_padds *padds)
 	padds->longest_oname = 1;
 	padds->longest_ogroup = 1;
 	padds->most_links = 0;
-	padds->int_len = 0;
+	padds->int_len = 1;
 	padds->filename_len = 0;
 	padds->ownername_len = 0;
 	padds->groupname_len = 0;

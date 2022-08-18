@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   recursion.c                                        :+:      :+:    :+:   */
+/*   open_and_save.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 15:13:06 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 20:50:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_fileinfo	**save_info(char *path, char *dirname,
 		dirname = ft_strjoin(path, entity->d_name);
 		lstat(dirname, &buf);
 		if (entity_is_saveable(entity->d_name, flags) == 1)
-			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
+			linearray[i++] = get_info(buf, dirname, ft_strlen(path), flags);
 		flags->blocks += buf.st_blocks;
 		entity = readdir(dirp);
 		ft_strdel(&dirname);

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 19:39:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 20:49:18 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <sys/xattr.h>
 # include <sys/acl.h>
 
-# define FLAGS "lRartfAd"
+# define FLAGS "lRartfAdF"
 # define SIX_MONTHS 15778476
 
 typedef struct s_fileinfo
@@ -67,6 +67,7 @@ typedef struct s_flags
 	int		l;
 	int		cap_r;
 	int		cap_a;
+	int		cap_f;
 	int		a;
 	int		r;
 	int		t;
@@ -89,6 +90,7 @@ void		r_flag(t_flags *flags, char *string);
 void		t_flag(t_flags *flags, char *string);
 void		f_flag(t_flags *flags, char *string);
 void		d_flag(t_flags *flags, char *string);
+void		cap_f_flag(t_flags *flags, char *string);
 void		cap_a_flag(t_flags *flags, char *string);
 void		not_found(t_flags *flags, char *string);
 int			find_letter(char c, char *letters);
@@ -132,7 +134,7 @@ int			newpath(char *path, char **argv, int i);
 /***********************************/
 t_fileinfo	**open_dir( char *dirname, t_fileinfo **linearray,
 				t_flags *flags, int f_count);
-t_fileinfo	*get_info(struct stat buf, char *path, int pathlen);
+t_fileinfo	*get_info(struct stat buf, char *path, int pathlen, t_flags *flags);
 char		*permissions(int modes, struct stat buf, char *path);
 void		print_arr(t_fileinfo **linearray, t_flags *flags);
 void		recursively(char *path, t_fileinfo **linearray, t_flags *flags);
@@ -152,7 +154,7 @@ static const char	g_perms[8][4] = {
 	"rwx"
 };
 
-static const t_fl	g_flags[9] = {
+static const t_fl	g_flags[10] = {
 	l_flag,
 	rec_flag,
 	a_flag,
@@ -161,6 +163,7 @@ static const t_fl	g_flags[9] = {
 	f_flag,
 	cap_a_flag,
 	d_flag,
+	cap_f_flag,
 	not_found
 };
 #endif
