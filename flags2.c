@@ -6,13 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:24:14 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 13:26:54 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 17:02:03 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-
 
 void	f_flag(t_flags *flags, char *string)
 {
@@ -37,7 +35,7 @@ void	not_found(t_flags *flags, char *string)
 		if (!ft_strchr(FLAGS, *string))
 		{
 			c = *string;
-			break;
+			break ;
 		}
 		string++;
 	}

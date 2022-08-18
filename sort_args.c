@@ -6,13 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 14:04:53 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:11:13 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
-
-
 
 static void	validate_args(char **argv, int i, t_flags *flags)
 {
@@ -84,7 +82,7 @@ static void	sort_args_lex(char **argv, int i, int *has_dirs, t_flags *flags)
 	}
 }
 
-char **arg_sort_handler(char **argv, int i, t_flags *flags)
+char	**arg_sort_handler(char **argv, int i, t_flags *flags)
 {
 	int	has_dirs;
 

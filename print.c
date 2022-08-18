@@ -6,18 +6,19 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 12:54:15 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 17:11:23 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
 static void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
 {
 	int		k;
-	
+
 	k = 0;
 	initialize_padds(padds);
-	while(linearray[k] != NULL)
+	while (linearray[k] != NULL)
 	{
 		padds->ownername_len = (int)ft_strlen(linearray[k]->owner);
 		padds->filename_len = (int)ft_strlen(linearray[k]->filename);
@@ -36,29 +37,30 @@ static void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
 	}
 }
 
-static void print_min_maj_nums(t_fileinfo **linearray, int i)
+static void	print_min_maj_nums(t_fileinfo **linearray, int i)
 {
-	ft_printf("%12u, " ,linearray[i]->major);
+	ft_printf("%12u, ", linearray[i]->major);
 	if (linearray[i]->minor < 500)
 		ft_printf("%5u ", linearray[i]->minor);
 	else
 		ft_printf("%#010x ", linearray[i]->minor);
 }
 
-static void print_long_format(t_fileinfo **linearray, t_flags *flags, t_padds *padds, int i)
+static void	print_long_format(t_fileinfo **linearray, t_flags *flags,
+	t_padds *padds, int i)
 {
 	if (flags->one_file == 0)
-			ft_printf("total %d\n", flags->blocks);
+		ft_printf("total %d\n", flags->blocks);
 	padds->int_len += ft_intlen(linearray[0]->biggest);
 	padds->most_links = ft_intlen(linearray[0]->longest_link);
 	while (linearray[++i] != NULL)
 	{
 		ft_printf("%s", linearray[i]->perms);
-		ft_printf("%*d ",padds->most_links,linearray[i]->links);
-		ft_printf("%-*s  ",padds->longest_oname ,linearray[i]->owner);
-		ft_printf("%-*s", padds->longest_ogroup,linearray[i]->owner_gr);
+		ft_printf("%*d ", padds->most_links, linearray[i]->links);
+		ft_printf("%-*s  ", padds->longest_oname, linearray[i]->owner);
+		ft_printf("%-*s", padds->longest_ogroup, linearray[i]->owner_gr);
 		if (!linearray[i]->major && !linearray[i]->minor)
-			ft_printf("%*lld ",padds->int_len + 1,linearray[i]->size);
+			ft_printf("%*lld ", padds->int_len + 1, linearray[i]->size);
 		else
 			print_min_maj_nums(linearray, i);
 		ft_printf("%s ", linearray[i]->m_time);

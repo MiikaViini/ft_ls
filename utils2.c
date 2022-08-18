@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:35:10 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 13:57:42 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 17:10:50 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	path_maker(char *dest, char *dirname)
 
 int	newpath(char *path, char **argv, int i)
 {
-	if (argv[i] && ft_strcmp(argv[i], "--") == 0  && argv[i + 1] != NULL)
+	if (argv[i] && ft_strcmp(argv[i], "--") == 0 && argv[i + 1] != NULL)
 	{
 		i++;
 		ft_strcpy(path, argv[i]);
@@ -37,6 +37,6 @@ int	newpath(char *path, char **argv, int i)
 
 int	needs_newline(struct stat buf, char **argv, int i)
 {
-	return (argv[i + 1] != NULL && lstat(argv[i], &buf) != -1 
+	return (argv[i + 1] != NULL && lstat(argv[i], &buf) != -1
 		&& S_ISDIR(buf.st_mode));
 }

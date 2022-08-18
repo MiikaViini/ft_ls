@@ -6,33 +6,33 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:36:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 13:56:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 17:19:17 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int is_single_arg(int argc, char *path, int i)
+int	is_single_arg(int argc, char *path, int i)
 {
 	return (argc == 1 || (argc == 2
-		&& ft_strcmp(path, ".") == 0) || argc - i <= 1);
+			&& ft_strcmp(path, ".") == 0) || argc - i <= 1);
 }
 
-int is_single_file(struct stat buf, char **argv, int i)
+int	is_single_file(struct stat buf, char **argv, int i)
 {
-	return(lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode));
+	return (lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode));
 }
 
-int is_dd_or_no_args(int argc, char **argv, int i)
+int	is_dd_or_no_args(int argc, char **argv, int i)
 {
-	return(argv[1] == NULL || (i > 1 && argv[i] == NULL)
-		|| (ft_strcmp(argv[i], "--") == 0  && argv[i + 1] == NULL)
+	return (argv[1] == NULL || (i > 1 && argv[i] == NULL)
+		|| (ft_strcmp(argv[i], "--") == 0 && argv[i + 1] == NULL)
 		|| (ft_strcmp(argv[i], "--") == 0 && argc - i <= 1));
 }
 
-int find_letter(char c, char *letters)
+int	find_letter(char c, char *letters)
 {
-	int index;
+	int	index;
 
 	index = 0;
 	while (letters[index])
@@ -44,10 +44,10 @@ int find_letter(char c, char *letters)
 	return (index);
 }
 
-int get_flags(char **argv, t_flags *flags)
+int	get_flags(char **argv, t_flags *flags)
 {
-	int i;
-	int k;
+	int		i;
+	int		k;
 
 	initialize_flags(flags);
 	k = 1;
@@ -56,7 +56,7 @@ int get_flags(char **argv, t_flags *flags)
 		&& argv[i][1] && ft_strcmp(argv[i], "--") != 0)
 	{
 		while (argv[i][k] != '\0')
-			g_flags[find_letter(argv[i][k++], FLAGS)](flags, argv[i]);
+			(void)g_flags[find_letter(argv[i][k++], FLAGS)](flags, argv[i]);
 		k = 1;
 		i++;
 	}

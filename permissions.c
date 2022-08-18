@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:30:25 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 23:33:57 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:01:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,25 +34,25 @@ static char	get_filetype(struct stat buf)
 	return (file_c);
 }
 
-static void get_stickybits(int modes, char *perm)
+static void	get_stickybits(int modes, char *perm)
 {
-	if((modes & S_IXUSR) && (modes & S_ISUID))
+	if ((modes & S_IXUSR) && (modes & S_ISUID))
 		perm[3] = 's';
 	else if (!(modes & S_IXUSR) && (modes & S_ISUID))
 		perm[3] = 'S';
-	if((modes & S_IXGRP) && (modes & S_ISGID))
+	if ((modes & S_IXGRP) && (modes & S_ISGID))
 		perm[6] = 's';
 	else if (!(modes & S_IXGRP) && (modes & S_ISGID))
 		perm[6] = 'S';
-	if((modes & S_IXOTH) && (modes & S_ISVTX))
+	if ((modes & S_IXOTH) && (modes & S_ISVTX))
 		perm[9] = 't';
 	else if (!(modes & S_IXOTH) && (modes & S_ISVTX))
 		perm[9] = 'T';
 }
 
-static void extended_attrs(char *perms, char *path)
+static void	extended_attrs(char *perms, char *path)
 {
-	ssize_t 	ext_attr;
+	ssize_t		ext_attr;
 	acl_t		acl;
 	acl_entry_t	entry_p;
 

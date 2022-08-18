@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/07/31 11:33:43 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/18 16:55:18 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ FLAGS = -Wall -Werror -Wextra -O3
 
 all: $(NAME)
 
-$(NAME):
+$(NAME): $(OBJS)
 #		@make -C ../
 		cp ../libft.a .
 		@$(CC) $(FLAGS) -c $(SRCS)

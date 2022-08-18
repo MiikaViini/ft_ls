@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 12:55:33 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:14:37 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void initialize_info_struct(t_fileinfo *line)
+void	initialize_info_struct(t_fileinfo *line)
 {
 	line->major = 0;
 	line->minor = 0;
@@ -24,7 +24,7 @@ void initialize_info_struct(t_fileinfo *line)
 	line->size = 0;
 }
 
-void initialize_flags(t_flags *flags)
+void	initialize_flags(t_flags *flags)
 {
 	flags->l = 0;
 	flags->a = 0;
@@ -39,7 +39,7 @@ void initialize_flags(t_flags *flags)
 	flags->haslink = 0;
 }
 
-void initialize_padds(t_padds *padds)
+void	initialize_padds(t_padds *padds)
 {
 	padds->longest_fname = 0;
 	padds->longest_oname = 1;
@@ -51,7 +51,7 @@ void initialize_padds(t_padds *padds)
 	padds->groupname_len = 0;
 }
 
-void free_linearray(t_fileinfo **linearray)
+void	free_linearray(t_fileinfo **linearray)
 {
 	int		i;
 

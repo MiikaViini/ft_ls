@@ -6,15 +6,15 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 13:38:59 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:13:06 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static int filecount(char *dir)
+static int	filecount(char *dir)
 {
-	DIR 			*dir_s;
+	DIR				*dir_s;
 	struct dirent	*entity;
 	int				count;
 
@@ -35,7 +35,7 @@ static int filecount(char *dir)
 	return (count);
 }
 
-void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
+void	recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 {
 	t_fileinfo		**arr;
 	char			path[PATH_MAX];
@@ -52,7 +52,8 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	print_arr(sort_handler(arr, flags), flags);
 	while (arr[++i])
 	{
-		if (arr[i]->perms[0] == 'd' && ft_strcmp(arr[i]->filename, ".") != 0 && ft_strcmp(arr[i]->filename, "..") != 0)
+		if (arr[i]->perms[0] == 'd' && ft_strcmp(arr[i]->filename, ".") != 0
+			&& ft_strcmp(arr[i]->filename, "..") != 0)
 		{
 			path_maker(path, dirname);
 			ft_strcat(path, arr[i]->filename);
@@ -63,9 +64,9 @@ void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	free_linearray(arr);
 }
 
-int entity_is_saveable(char *f_name, t_flags *flags)
+int	entity_is_saveable(char *f_name, t_flags *flags)
 {
-	int res;
+	int	res;
 
 	res = 1;
 	if (f_name[0] == '.')
@@ -76,7 +77,7 @@ int entity_is_saveable(char *f_name, t_flags *flags)
 			if (ft_strcmp(f_name, ".") != 0 && ft_strcmp(f_name, "..") != 0)
 				res = 1;
 		}
-		if(flags->a && f_name[0] == '.')
+		if (flags->a && f_name[0] == '.')
 		{
 			res = 1;
 		}
@@ -84,7 +85,8 @@ int entity_is_saveable(char *f_name, t_flags *flags)
 	return (res);
 }
 
-t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flags *flags)
+t_fileinfo	**save_info(char *path, char *dirname,
+	t_fileinfo **linearray, t_flags *flags)
 {
 	DIR				*dirp;
 	struct dirent	*entity;
@@ -92,7 +94,7 @@ t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flag
 	int				i;
 
 	i = 0;
-	flags->blocks= 0;
+	flags->blocks = 0;
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
 	if (ft_strcmp(dirname, "/") == 0)
@@ -100,8 +102,8 @@ t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flag
 	while (entity != NULL)
 	{
 		dirname = ft_strjoin(path, entity->d_name);
-		lstat(dirname, &buf);							//
-		if (entity_is_saveable(entity->d_name, flags) == 1) //entity->d_name[0] != '.' || flags->a || flags->f
+		lstat(dirname, &buf);
+		if (entity_is_saveable(entity->d_name, flags) == 1)
 			linearray[i++] = get_info(buf, dirname, ft_strlen(path));
 		flags->blocks += buf.st_blocks;
 		entity = readdir(dirp);
@@ -112,7 +114,8 @@ t_fileinfo **save_info(char *path, char *dirname, t_fileinfo **linearray, t_flag
 	return (linearray);
 }
 
-t_fileinfo	**open_dir(char *dirname, t_fileinfo **linearray, t_flags *flags, int f_count)
+t_fileinfo	**open_dir(char *dirname, t_fileinfo **linearray,
+				t_flags *flags, int f_count)
 {
 	char			path[PATH_MAX];
 

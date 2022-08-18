@@ -6,21 +6,21 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 13:50:24 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 15:05:12 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void single_file(struct stat buf, char **argv, int *i, t_flags *flags)
+static void	single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 {
-	t_fileinfo **linearray;
-	int	k;
+	t_fileinfo	**linearray;
+	int			k;
 
 	k = 0;
 	flags->one_file++;
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * 100);
-	while(argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))
+	while (argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))
 	{
 		linearray[k++] = get_info(buf, argv[*i], 0);
 		*i += 1;
@@ -34,10 +34,10 @@ static void single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 	*i -= 1;
 }
 
-static void single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
+static void	single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 {
-	struct stat buf;
-	int		i;
+	struct stat	buf;
+	int			i;
 
 	i = 0;
 	if (lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode))
@@ -59,10 +59,11 @@ static void single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 	}
 }
 
-static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i)
+static int	multi_args(char **argv, t_flags *flags,
+							t_fileinfo **linearray, int i)
 {
-	char	path[PATH_MAX];
-	struct 	stat buf;
+	char		path[PATH_MAX];
+	struct stat	buf;
 
 	ft_memset(path, '\0', PATH_MAX);
 	arg_sort_handler(argv, i, flags);
@@ -71,7 +72,7 @@ static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i
 		if (argv[i])
 			ft_strcpy(path, argv[i]);
 		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
-				ft_printf("%s:\n", argv[i]);
+			ft_printf("%s:\n", argv[i]);
 		if (flags->cap_r && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
 			recursively(path, linearray, flags);
 		else if (is_single_file(buf, argv, i))
@@ -86,12 +87,12 @@ static int multi_args(char **argv, t_flags *flags, t_fileinfo **linearray, int i
 	return (0);
 }
 
-int ft_ls(int argc, char **argv)
+int	ft_ls(int argc, char **argv)
 {
-	t_fileinfo 	**linearray;
-	t_flags 	*flags;
-	char 		path[PATH_MAX];
-	int 		i;
+	t_fileinfo	**linearray;
+	t_flags		*flags;
+	char		path[PATH_MAX];
+	int			i;
 
 	i = 1;
 	linearray = NULL;
@@ -111,7 +112,7 @@ int ft_ls(int argc, char **argv)
 	return (0);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	ft_ls(argc, argv);
 	return (0);
