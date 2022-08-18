@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/17 19:05:16 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/18 09:47:57 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
+$(NAME): $(OBJ) Makefile libft
 	@make -C ./libft/
 	@gcc -c $(FLAGS) $(SRCS)
 	@gcc $(OBJ) -o $(NAME) $(LIBFT)
@@ -41,3 +41,4 @@ re: fclean all
 so:
 	clang-11 -nostartfiles -fPIC $(FLAGS) $(SRCS)
 	gcc -nostartfiles -shared -o libft.so $(OBJ)
+

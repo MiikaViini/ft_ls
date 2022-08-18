@@ -6,15 +6,12 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 18:23:21 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 12:20:50 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-/*
-** Count files in directory
-*/
 static int filecount(char *dir)
 {
 	DIR 			*dir_s;
@@ -37,9 +34,7 @@ static int filecount(char *dir)
 	closedir(dir_s);
 	return (count);
 }
-/*
-** Make path for opendir function
-*/
+
 void	path_maker(char *dest, char *dirname)
 {
 	int	i;
@@ -52,9 +47,7 @@ void	path_maker(char *dest, char *dirname)
 		dest[i++] = '/';
 	dest[i] = '\0';
 }
-/*
-** This is for -R flag only, go through directories recursively
-*/
+
 void recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 {
 	t_fileinfo		**arr;
@@ -88,22 +81,19 @@ int entity_is_saveable(char *f_name, t_flags *flags)
 	int res;
 
 	res = 1;
-	// printf("%d, %d", flags->a, flags->cap_a);
-	// exit(1);
 	if (f_name[0] == '.')
 	{
+		res = 0;
 		if (flags->cap_a)
 		{
-			if (ft_strcmp(f_name, ".") == 0|| ft_strcmp(f_name, "..") == 0)
-			res = 0;
+			if (ft_strcmp(f_name, ".") != 0 && ft_strcmp(f_name, "..") != 0)
+				res = 1;
 		}
 		if(flags->a && f_name[0] == '.')
 		{
 			res = 1;
 		}
-
 	}
-
 	return (res);
 }
 

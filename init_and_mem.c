@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 23:35:12 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 12:50:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,18 @@ void initialize_flags(t_flags *flags)
 	flags->blocks = 0;
 	flags->no_flags = 1;
 	flags->haslink = 0;
+}
+
+void initialize_padds(t_padds *padds)
+{
+	padds->longest_fname = 0;
+	padds->longest_oname = 1;
+	padds->longest_ogroup = 1;
+	padds->most_links = 0;
+	padds->int_len = 0;
+	padds->filename_len = 0;
+	padds->ownername_len = 0;
+	padds->groupname_len = 0;
 }
 /*
 ** Delete allocated memory in fileinfo struct

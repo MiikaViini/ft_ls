@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:35:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 23:00:24 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 12:38:19 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,3 +92,7 @@ t_fileinfo *get_info(struct stat buf, char *path, int pathlen)
 	line->perms = permissions(buf.st_mode, buf, path);
 	return (line);
 }
+
+
+
+

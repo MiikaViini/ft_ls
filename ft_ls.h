@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/17 23:14:43 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 12:49:08 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,26 @@ typedef struct		s_fileinfo
 	long long			size;
 	char				filename[MAXNAMLEN];
 	char				link[255];
-	//int					stat_us;
 	int					blocks;
-	//int					index;
 	long long			time_m;
 	long long			time_a;
-	//long				inode;
 	long long			biggest;
 	int					longest_link;
 	unsigned int		minor;
 	unsigned int		major;
 }					t_fileinfo;
+
+typedef struct	s_padds
+{
+	int			longest_fname;
+	int			longest_oname;
+	int			longest_ogroup;
+	int			most_links;
+	size_t		int_len;
+	int			filename_len;
+	int			ownername_len;
+	int			groupname_len;
+}				t_padds;
 
 typedef struct s_flags
 {
@@ -107,10 +116,11 @@ void 			initialize_info_struct(t_fileinfo *line);
 void 			initialize_flags(t_flags *flags);
 int 			find_letter(char c, char *letters);
 char 			**arg_sort_handler(char **argv, int i, t_flags *flags);
-int is_single_arg(int argc, char *path, int i);
-int is_single_file(struct stat buf, char **argv, int i);
-int is_dd_or_no_args(int argc, char **argv, int i);
-void	cap_a_flag(t_flags *flags, char *string);
+int 			is_single_arg(int argc, char *path, int i);
+int 			is_single_file(struct stat buf, char **argv, int i);
+int 			is_dd_or_no_args(int argc, char **argv, int i);
+void			cap_a_flag(t_flags *flags, char *string);
+void 			initialize_padds(t_padds *padds);
 
 //int ft_ls(int argc, char **argv);
 

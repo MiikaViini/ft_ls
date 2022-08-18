@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 12:06:49 by mviinika          #+#    #+#             */
-/*   Updated: 2022/03/23 13:59:32 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 09:47:48 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,3 +37,6 @@ char	*ft_utoa(unsigned long long n)
 	}
 	return (res);
 }
+
+
+
