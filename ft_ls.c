@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 20:50:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:15:01 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,16 @@ static void	single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 	k = 0;
 	flags->one_file++;
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo));
+	if (!linearray)
+		return ;
 	while ((argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))
 		|| (argv[*i] && lstat(argv[*i], &buf) != -1
 			&& S_ISDIR(buf.st_mode) && flags->d))
 	{
-		linearray[k++] = get_info(buf, argv[*i], 0, flags);
+		linearray[k] = get_info(buf, argv[*i], 0, flags);
+		if (linearray[k] == NULL)
+			return ;
+		k++;
 		*i += 1;
 	}
 	linearray[k] = NULL;
@@ -71,8 +76,7 @@ static int	multi_args(char **argv, t_flags *flags,
 	arg_sort_handler(argv, i, flags);
 	while (argv[i])
 	{
-		if (argv[i])
-			ft_strcpy(path, argv[i]);
+		ft_strcpy(path, argv[i]);
 		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d)
 			ft_printf("%s:\n", argv[i]);
 		if (flags->cap_r && lstat(argv[i], &buf) != -1
@@ -100,6 +104,8 @@ int	ft_ls(int argc, char **argv)
 	i = 1;
 	linearray = NULL;
 	flags = (t_flags *)malloc(sizeof(t_flags));
+	if (!flags)
+		return (-1);
 	i = get_flags(argv, flags);
 	ft_memset(path, '\0', PATH_MAX);
 	if (is_dd_or_no_args(argc, argv, i))

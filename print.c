@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 21:53:11 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:02:00 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,6 @@ static void	print_min_maj_nums(t_fileinfo **linearray, int i)
 
 static void	apply_cap_f_flag(t_fileinfo *line, char *perms)
 {
-	struct stat	buf;
-
-	lstat(line->filename, &buf);
 	if (perms[0] == 'l')
 		ft_strcat(line->filename, "@");
 	else if (perms[0] == '-')
