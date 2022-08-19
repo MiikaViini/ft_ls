@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:23:07 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 09:00:13 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 12:07:23 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_err(char *dirname, int error)
 {
-	if (ft_strrchr(dirname, '/'))
+	if (ft_strrchr(dirname, '/') && error != 2 && error != 9)
 	{
 		dirname = ft_strrchr(dirname, '/');
 		dirname++;

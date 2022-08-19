@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 22:22:39 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 11:03:38 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,24 +52,27 @@ void	sort_time(t_fileinfo **linearray)
 	}
 }
 
-void	sort_time_a(t_fileinfo **linearray)
-{
-	int			i;
-	t_fileinfo	*temp;
+// void	sort_time_a(t_fileinfo **linearray)
+// {
+// 	int			i;
+// 	t_fileinfo	*temp;
 
-	i = -1;
-	temp = NULL;
-	while (linearray[++i] && linearray[i + 1])
-	{
-		if (linearray[i]->time_a < linearray[i + 1]->time_a)
-		{
-			temp = linearray[i];
-			linearray[i] = linearray[i + 1];
-			linearray[i + 1] = temp;
-			i = -1;
-		}
-	}
-}
+// 	i = -1;
+// 	temp = NULL;
+// 	while (linearray[++i] && linearray[i + 1])
+// 	{
+// 		ft_printf("linearray[i]:%lu	linearray[i + 1]:%lu\n", linearray[i]->time_a, linearray[i + 1]->time_a);
+// 		if (linearray[i]->time_a > linearray[i + 1]->time_a)
+// 		{
+// 			ft_printf("it was\n");
+// 			temp = linearray[i];
+// 			linearray[i] = linearray[i + 1];
+// 			linearray[i + 1] = temp;
+// 			i = -1;
+// 		}
+// 	}
+// 	exit(1);
+// }
 
 void	sort_reverse(t_fileinfo **linearray)
 {
@@ -98,8 +101,8 @@ t_fileinfo	**sort_handler(t_fileinfo **linearray, t_flags *flags)
 		sort_lexico(linearray);
 		if (flags->t)
 		{
-			sort_time_a(linearray);
 			sort_time(linearray);
+			//sort_time_a(linearray);
 		}
 		if (flags->r)
 			sort_reverse(linearray);

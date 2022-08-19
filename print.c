@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 09:48:48 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 11:23:10 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
 		padds->groupname_len = (int)ft_strlen(linearray[k]->owner_gr);
 		if (padds->longest_fname < padds->filename_len)
 			padds->longest_fname = padds->filename_len;
-		if (linearray[0]->biggest <= linearray[k]->size)
+		if (linearray[0]->biggest < linearray[k]->size)
 			linearray[0]->biggest = linearray[k]->size;
 		if (padds->longest_oname < padds->ownername_len)
 			padds->longest_oname = padds->ownername_len;
@@ -39,7 +39,7 @@ static void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
 
 static void	print_min_maj_nums(t_fileinfo **linearray, int i)
 {
-	ft_printf("%12u, ", linearray[i]->major);
+	ft_printf("%5u, ", linearray[i]->major);
 	if (linearray[i]->minor < 500)
 		ft_printf("%5u ", linearray[i]->minor);
 	else
@@ -78,7 +78,7 @@ static void	print_long_format(t_fileinfo **linearray, t_flags *flags,
 		ft_printf("%*d ", padds->most_links, linearray[i]->links);
 		ft_printf("%-*s  ", padds->longest_oname, linearray[i]->owner);
 		ft_printf("%-*s", padds->longest_ogroup, linearray[i]->owner_gr);
-		if (!linearray[i]->major && !linearray[i]->minor)
+		if (!linearray[i]->major)
 			ft_printf("%*lld ", padds->int_len, linearray[i]->size);
 		else
 			print_min_maj_nums(linearray, i);

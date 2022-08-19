@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 09:46:23 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:44:50 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,8 @@ int	entity_is_saveable(char *f_name, t_flags *flags)
 			if (ft_strcmp(f_name, ".") != 0 && ft_strcmp(f_name, "..") != 0)
 				res = 1;
 		}
-		if ((flags->a && f_name[0] == '.' )|| (flags->f && f_name[0] == '.' ))
-		{
+		if ((flags->a && f_name[0] == '.') || (flags->f && f_name[0] == '.'))
 			res = 1;
-		}
 	}
 	return (res);
 }

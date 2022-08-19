@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:24:14 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 09:43:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 10:44:06 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	f_flag(t_flags *flags, char *string)
 {
 	(void)string;
 	flags->f = 1;
-	//flags->a = 1;
 }
 
 void	cap_a_flag(t_flags *flags, char *string)
