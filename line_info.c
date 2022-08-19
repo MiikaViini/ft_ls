@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:35:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 11:22:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 14:11:51 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	set_owner_group_info(struct stat buf, t_fileinfo *line)
 	else
 		line->owner = ft_strdup(pwd->pw_name);
 	if (grp == NULL)
-		line->owner = ft_itoa(buf.st_gid);
+		line->owner_gr = ft_itoa(buf.st_gid);
 	else
 		line->owner_gr = ft_strdup(grp->gr_name);
 }

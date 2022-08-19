@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 11:03:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 15:02:13 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,42 @@ t_fileinfo	**sort_lexico(t_fileinfo **info)
 		}
 	}
 	return (info);
+}
+
+void	swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp)
+{
+	temp = linearray[i];
+	linearray[i] = linearray[j];
+	linearray[j] = temp;
+}
+
+void	ft_quicksort(t_fileinfo **linearray, int first, int last)
+{
+	int			i;
+	int			j;
+	int			pivot;
+	t_fileinfo	*temp;
+
+	temp = NULL;
+	if (first < last)
+	{
+		pivot = first;
+		i = first;
+		j = last;
+		while (i < j)
+		{
+			while (ft_strcmp(linearray[i]->filename, linearray[pivot]->filename) < 0 && i < last)
+				i++;
+			while (ft_strcmp(linearray[j]->filename, linearray[pivot]->filename) > 0)
+				j--;
+			if (i < j)
+				swap_line(linearray, i, j, temp);
+
+		}
+		swap_line(linearray, pivot, j, temp);
+		ft_quicksort(linearray, first, j - 1);
+		ft_quicksort(linearray, j + 1, last);
+	}
 }
 
 void	sort_time(t_fileinfo **linearray)
@@ -96,9 +132,17 @@ void	sort_reverse(t_fileinfo **linearray)
 
 t_fileinfo	**sort_handler(t_fileinfo **linearray, t_flags *flags)
 {
+	int i;
+	int f_count;
+
+	i = 0;
+	f_count = 0;
+	while (linearray[++i])
+		f_count++;
 	if (!flags->f)
 	{
-		sort_lexico(linearray);
+		//sort_lexico(linearray);
+		ft_quicksort(linearray, 0, f_count - 1);
 		if (flags->t)
 		{
 			sort_time(linearray);
