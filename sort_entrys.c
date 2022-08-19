@@ -6,32 +6,32 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 15:02:13 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 21:26:42 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_fileinfo	**sort_lexico(t_fileinfo **info)
-{
-	int			i;
-	t_fileinfo	*temp;
+// t_fileinfo	**sort_lexico(t_fileinfo **info)
+// {
+// 	int			i;
+// 	t_fileinfo	*temp;
 
-	i = -1;
-	if (!info)
-		return (NULL);
-	while (info[++i] && info[i + 1])
-	{
-		if (ft_strcmp(info[i]->filename, info[i + 1]->filename) > 0)
-		{
-			temp = info[i];
-			info[i] = info[i + 1];
-			info[i + 1] = temp;
-			i = -1;
-		}
-	}
-	return (info);
-}
+// 	i = -1;
+// 	if (!info)
+// 		return (NULL);
+// 	while (info[++i] && info[i + 1])
+// 	{
+// 		if (ft_strcmp(info[i]->filename, info[i + 1]->filename) > 0)
+// 		{
+// 			temp = info[i];
+// 			info[i] = info[i + 1];
+// 			info[i + 1] = temp;
+// 			i = -1;
+// 		}
+// 	}
+// 	return (info);
+// }
 
 void	swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp)
 {
@@ -40,12 +40,11 @@ void	swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp)
 	linearray[j] = temp;
 }
 
-void	ft_quicksort(t_fileinfo **linearray, int first, int last)
+void	ft_qsort(t_fileinfo **linearray, int first, int last, t_fileinfo *temp)
 {
 	int			i;
 	int			j;
 	int			pivot;
-	t_fileinfo	*temp;
 
 	temp = NULL;
 	if (first < last)
@@ -55,17 +54,18 @@ void	ft_quicksort(t_fileinfo **linearray, int first, int last)
 		j = last;
 		while (i < j)
 		{
-			while (ft_strcmp(linearray[i]->filename, linearray[pivot]->filename) < 0 && i < last)
+			while (ft_strcmp(linearray[i]->filename,
+					linearray[pivot]->filename) < 0 && i < last)
 				i++;
-			while (ft_strcmp(linearray[j]->filename, linearray[pivot]->filename) > 0)
+			while (ft_strcmp(linearray[j]->filename,
+					linearray[pivot]->filename) > 0)
 				j--;
 			if (i < j)
 				swap_line(linearray, i, j, temp);
-
 		}
 		swap_line(linearray, pivot, j, temp);
-		ft_quicksort(linearray, first, j - 1);
-		ft_quicksort(linearray, j + 1, last);
+		ft_qsort(linearray, first, j - 1, temp);
+		ft_qsort(linearray, j + 1, last, temp);
 	}
 }
 
@@ -132,17 +132,21 @@ void	sort_reverse(t_fileinfo **linearray)
 
 t_fileinfo	**sort_handler(t_fileinfo **linearray, t_flags *flags)
 {
-	int i;
-	int f_count;
+	int			i;
+	int			f_count;
+	t_fileinfo	*temp;
 
-	i = 0;
+	i = -1;
 	f_count = 0;
+	temp = NULL;
+	if (!linearray)
+		return (NULL);
 	while (linearray[++i])
 		f_count++;
 	if (!flags->f)
 	{
 		//sort_lexico(linearray);
-		ft_quicksort(linearray, 0, f_count - 1);
+		ft_qsort(linearray, 0, f_count - 1, temp);
 		if (flags->t)
 		{
 			sort_time(linearray);
