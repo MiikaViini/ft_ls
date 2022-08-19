@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 13:58:39 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/18 22:22:39 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-t_fileinfo	**alphabetical(t_fileinfo **info)
+t_fileinfo	**sort_lexico(t_fileinfo **info)
 {
 	int			i;
 	t_fileinfo	*temp;
@@ -95,7 +95,7 @@ t_fileinfo	**sort_handler(t_fileinfo **linearray, t_flags *flags)
 {
 	if (!flags->f)
 	{
-		alphabetical(linearray);
+		sort_lexico(linearray);
 		if (flags->t)
 		{
 			sort_time_a(linearray);

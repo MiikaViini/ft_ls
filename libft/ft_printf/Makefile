@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/18 18:42:08 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/18 22:35:58 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,22 +27,18 @@ SRCS = ft_printf.c length.c \
 
 OBJS = $(SRCS:.c=.o)
 
-CC = clang
-
 FLAGS = -Wall -Werror -Wextra -O3
 
-all: $(NAME)
+all: $(NAME) $(OBJS)
 
 $(NAME): $(OBJS)
 		cp ../libft.a .
-		@$(CC) $(FLAGS) -c $(SRCS)
+		@gcc $(FLAGS) -c $(SRCS)
 		@ar rcs $(NAME) $(OBJS) ../libft.a
 clean:
-#@make fclean -C ./libft
 		@rm -f *.o
 
 fclean: clean
-#@make fclean -C ./libft
 		@rm -f $(NAME)
 debug:
 	@gcc main.c libftprintf.a

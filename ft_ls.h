@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 20:49:18 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 08:40:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define FT_LS_H
 
 # include "libft/libft.h"
-# include <stdio.h>
+//# include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -99,11 +99,10 @@ int			get_flags(char **argv, t_flags *flags);
 /***********/
 /**SORTING**/
 /***********/
-t_fileinfo	**alphabetical(t_fileinfo **info);
+t_fileinfo	**sort_lexico(t_fileinfo **info);
 void		sort_time(t_fileinfo **linearray);
 void		sort_time_a(t_fileinfo **linearray);
 t_fileinfo	**sort_handler(t_fileinfo **linearray, t_flags *flags);
-
 char		**arg_sort_handler(char **argv, int i, t_flags *flags);
 void		sort_args_time(char **argv, int i);
 void		ft_strarrrev(char **arr, int start);
