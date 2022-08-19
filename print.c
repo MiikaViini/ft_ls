@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 08:42:24 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/19 09:48:48 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ static void	print_long_format(t_fileinfo **linearray, t_flags *flags,
 	padds->most_links = ft_intlen(linearray[0]->longest_link);
 	while (linearray[++i] != NULL)
 	{
-		if (flags->cap_f)
-			apply_cap_f_flag(linearray[i], linearray[i]->perms);
 		ft_printf("%s", linearray[i]->perms);
 		ft_printf("%*d ", padds->most_links, linearray[i]->links);
 		ft_printf("%-*s  ", padds->longest_oname, linearray[i]->owner);
