@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 13:41:43 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:17:51 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,23 @@ static void	print_min_maj_nums(t_fileinfo **linearray, int i)
 		ft_printf("%#010x ", linearray[i]->minor);
 }
 
-static void	apply_cap_f_flag(t_fileinfo *line, char *perms)
+static void	apply_cap_f_flag(char *perms)
 {
 	if (perms[0] == 'l')
-		ft_strcat(line->filename, "@");
+		write(1, "@", 1);
 	else if (perms[0] == '-')
 	{
 		if (perms[3] == 'x' || perms[6] == 'x' || perms[9] == 'x')
-			ft_strcat(line->filename, "*");
+			write(1, "*", 1);
 	}
 	else if (perms[0] == 'd')
-		ft_strcat(line->filename, "/");
+		write(1, "/", 1);
 	else if (perms[0] == 's')
-		ft_strcat(line->filename, "=");
+		write(1, "=", 1);
 	else if (perms[0] == 'w')
-		ft_strcat(line->filename, "%");
+		write(1, "*", 1);
 	else if (perms[0] == 'p')
-		ft_strcat(line->filename, "|");
+		write(1, "|", 1);
 }
 
 static void	print_long_format(t_fileinfo **linearray, t_info *info,
@@ -84,6 +84,8 @@ static void	print_long_format(t_fileinfo **linearray, t_info *info,
 			print_min_maj_nums(linearray, i);
 		ft_printf("%s ", linearray[i]->m_time);
 		ft_putstr(linearray[i]->filename);
+		if (info->cap_f)
+			apply_cap_f_flag(linearray[i]->perms);
 		ft_putendl(linearray[i]->link);
 	}
 }
@@ -99,16 +101,23 @@ void	print_arr(t_fileinfo **linearray, t_info *flags)
 	padds = (t_padds *)malloc(sizeof(t_padds));
 	if (!padds)
 		return ;
-	set_padding_values(linearray, padds);
 	if (flags->l)
+	{
+		set_padding_values(linearray, padds);
 		print_long_format(linearray, flags, padds, i);
+	}
 	else
 	{
 		while (linearray[++i])
 		{
+			ft_printf("%s", linearray[i]->filename);
 			if (flags->cap_f)
-				apply_cap_f_flag(linearray[i], linearray[i]->perms);
-			ft_printf("%s\n", linearray[i]->filename);
+			{
+				apply_cap_f_flag(linearray[i]->perms);
+				write(1, "\n", 1);
+			}
+			else
+				write(1, "\n", 1);
 		}
 	}
 	free(padds);
