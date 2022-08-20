@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 21:12:16 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 22:21:32 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,13 @@
 # include <sys/ioctl.h>
 # include <sys/xattr.h>
 # include <sys/acl.h>
+
 # define FLAGS "lRartfAdFnG"
 # define SIX_MONTHS 15778476
 
+/***************/
+/**TEXT COLORS**/
+/***************/
 # define BLK "\e[0;30m"
 # define RED "\e[0;31m"
 # define GRN "\e[0;32m"
@@ -38,9 +42,9 @@
 # define CYN "\e[0;36m"
 # define WHT "\e[0;37m"
 # define C_RES "\e[0m"
-/*
-** Background colours
-*/
+/**********************/
+/**BACKGROUND COLORS**/
+/**********************/
 # define BLKB "\e[40m"
 # define REDB "\e[41m"
 # define GRNB "\e[42m"
@@ -95,7 +99,6 @@ typedef struct s_info
 	int		n;
 	int		one_file;
 	int		blocks;
-	int		haslink;
 }			t_info;
 
 /*********/
@@ -161,11 +164,8 @@ void		print_arr(t_fileinfo **linearray, t_info *flags);
 void		recursively(char *path, t_fileinfo **linearray, t_info *flags);
 int			needs_newline(struct stat buf, char **argv, int i);
 typedef void		(*t_fl)(t_info *flags, char *string);
-void	print_colors(t_fileinfo *line);
-void		set_padding_values(t_fileinfo **linearray, t_padds *padds);
-void	print_fname(t_fileinfo **linearray, t_info *flags, int i);
-void	print_long_format(t_fileinfo **linearray, t_info *info, t_padds *padds, int i);
-void	print_min_maj_nums(t_fileinfo **linearray, int i);
+void		print_colors(t_fileinfo *line);
+
 /**************/
 /**JUMPTABLES**/
 /**************/
