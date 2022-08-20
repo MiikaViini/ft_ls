@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 12:47:45 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 13:58:44 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	validate_args(char **argv, int i, t_flags *flags)
+static void	validate_args(char **argv, int i)
 {
 	int			start;
 	char		*temp;
@@ -30,7 +30,6 @@ static void	validate_args(char **argv, int i, t_flags *flags)
 		}
 		i++;
 	}
-	(void)flags;
 }
 
 static void	sort_files_in_args(char **argv, int i)
@@ -57,7 +56,7 @@ static void	sort_files_in_args(char **argv, int i)
 	}
 }
 
-static void	sort_args_lex(char **argv, int i, int *has_dirs, t_flags *flags)
+static void	sort_args_lex(char **argv, int i, int *has_dirs, t_info *flags)
 {
 	int			start;
 	char		*temp;
@@ -82,14 +81,14 @@ static void	sort_args_lex(char **argv, int i, int *has_dirs, t_flags *flags)
 	}
 }
 
-char	**arg_sort_handler(char **argv, int i, t_flags *flags)
+char	**arg_sort_handler(char **argv, int i, t_info *flags)
 {
 	int	has_dirs;
 
 	has_dirs = 0;
 	if (!flags->f)
 		sort_args_lex(argv, i, &has_dirs, flags);
-	validate_args(argv, i, flags);
+	validate_args(argv, i);
 	if (has_dirs)
 		sort_files_in_args(argv, i);
 	if (flags->t && !flags->f)

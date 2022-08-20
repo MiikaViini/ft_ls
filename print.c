@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 11:23:10 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 13:41:43 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
 		padds->groupname_len = (int)ft_strlen(linearray[k]->owner_gr);
 		if (padds->longest_fname < padds->filename_len)
 			padds->longest_fname = padds->filename_len;
-		if (linearray[0]->biggest < linearray[k]->size)
-			linearray[0]->biggest = linearray[k]->size;
+		if (padds->biggest < linearray[k]->size)
+			padds->biggest = linearray[k]->size;
 		if (padds->longest_oname < padds->ownername_len)
 			padds->longest_oname = padds->ownername_len;
 		if (padds->longest_ogroup < padds->groupname_len)
 			padds->longest_ogroup = padds->groupname_len;
-		if (linearray[0]->longest_link < linearray[k]->links)
-			linearray[0]->longest_link = linearray[k]->links;
+		if (padds->longest_link < linearray[k]->links)
+			padds->longest_link = linearray[k]->links;
 		k++;
 	}
 }
@@ -65,13 +65,13 @@ static void	apply_cap_f_flag(t_fileinfo *line, char *perms)
 		ft_strcat(line->filename, "|");
 }
 
-static void	print_long_format(t_fileinfo **linearray, t_flags *flags,
+static void	print_long_format(t_fileinfo **linearray, t_info *info,
 	t_padds *padds, int i)
 {
-	if (flags->one_file == 0)
-		ft_printf("total %d\n", flags->blocks);
-	padds->int_len += ft_intlen(linearray[0]->biggest);
-	padds->most_links = ft_intlen(linearray[0]->longest_link);
+	if (info->one_file == 0)
+		ft_printf("total %d\n", info->blocks);
+	padds->int_len += ft_intlen(padds->biggest);
+	padds->most_links = ft_intlen(padds->longest_link);
 	while (linearray[++i] != NULL)
 	{
 		ft_printf("%s", linearray[i]->perms);
@@ -88,7 +88,7 @@ static void	print_long_format(t_fileinfo **linearray, t_flags *flags,
 	}
 }
 
-void	print_arr(t_fileinfo **linearray, t_flags *flags)
+void	print_arr(t_fileinfo **linearray, t_info *flags)
 {
 	int			i;
 	t_padds		*padds;

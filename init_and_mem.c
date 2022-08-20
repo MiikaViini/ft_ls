@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 21:52:59 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 14:12:07 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,26 +19,23 @@ void	initialize_info_struct(t_fileinfo *line)
 	ft_memset(line->filename, '\0', MAXNAMLEN);
 	ft_memset(line->link, '\0', 256);
 	ft_memset(line->m_time, '\0', 17);
-	line->biggest = 0;
-	line->longest_link = 0;
 	line->size = 0;
 }
 
-void	initialize_flags(t_flags *flags)
+void	initialize_flags(t_info *info)
 {
-	flags->l = 0;
-	flags->a = 0;
-	flags->cap_r = 0;
-	flags->cap_a = 0;
-	flags->cap_f = 0;
-	flags->r = 0;
-	flags->t = 0;
-	flags->f = 0;
-	flags->d = 0;
-	flags->one_file = 0;
-	flags->blocks = 0;
-	flags->no_flags = 1;
-	flags->haslink = 0;
+	info->l = 0;
+	info->a = 0;
+	info->cap_r = 0;
+	info->cap_a = 0;
+	info->cap_f = 0;
+	info->r = 0;
+	info->t = 0;
+	info->f = 0;
+	info->d = 0;
+	info->one_file = 0;
+	info->blocks = 0;
+	info->haslink = 0;
 }
 
 void	initialize_padds(t_padds *padds)
@@ -51,6 +48,8 @@ void	initialize_padds(t_padds *padds)
 	padds->filename_len = 0;
 	padds->ownername_len = 0;
 	padds->groupname_len = 0;
+	padds->biggest = 0;
+	padds->longest_link = 0;
 }
 
 void	free_linearray(t_fileinfo **linearray)

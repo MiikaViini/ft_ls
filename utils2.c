@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:35:10 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 17:10:50 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 12:42:49 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,11 @@ int	needs_newline(struct stat buf, char **argv, int i)
 {
 	return (argv[i + 1] != NULL && lstat(argv[i], &buf) != -1
 		&& S_ISDIR(buf.st_mode));
+}
+
+void	swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp)
+{
+	temp = linearray[i];
+	linearray[i] = linearray[j];
+	linearray[j] = temp;
 }

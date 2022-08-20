@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 22:15:01 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 13:58:16 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	single_file(struct stat buf, char **argv, int *i, t_flags *flags)
+static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 {
 	t_fileinfo	**linearray;
 	int			k;
@@ -41,7 +41,7 @@ static void	single_file(struct stat buf, char **argv, int *i, t_flags *flags)
 	*i -= 1;
 }
 
-static void	single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
+static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 {
 	struct stat	buf;
 	int			i;
@@ -66,7 +66,7 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_flags *flags)
 	}
 }
 
-static int	multi_args(char **argv, t_flags *flags,
+static int	multi_args(char **argv, t_info *flags,
 							t_fileinfo **linearray, int i)
 {
 	char		path[PATH_MAX];
@@ -97,16 +97,16 @@ static int	multi_args(char **argv, t_flags *flags,
 int	ft_ls(int argc, char **argv)
 {
 	t_fileinfo	**linearray;
-	t_flags		*flags;
+	t_info		*info;
 	char		path[PATH_MAX];
 	int			i;
 
 	i = 1;
 	linearray = NULL;
-	flags = (t_flags *)malloc(sizeof(t_flags));
-	if (!flags)
+	info = (t_info *)malloc(sizeof(t_info));
+	if (!info)
 		return (-1);
-	i = get_flags(argv, flags);
+	i = get_flags(argv, info);
 	ft_memset(path, '\0', PATH_MAX);
 	if (is_dd_or_no_args(argc, argv, i))
 		path[0] = '.';
@@ -114,10 +114,10 @@ int	ft_ls(int argc, char **argv)
 		ft_strcat(path, argv[i]);
 	i = newpath(path, argv, i);
 	if (is_single_arg(argc, path, i))
-		single_arg(path, linearray, flags);
+		single_arg(path, linearray, info);
 	else
-		multi_args(argv, flags, linearray, i);
-	free(flags);
+		multi_args(argv, info, linearray, i);
+	free(info);
 	return (0);
 }
 

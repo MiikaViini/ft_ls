@@ -6,45 +6,54 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 21:26:42 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 13:51:54 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-// t_fileinfo	**sort_lexico(t_fileinfo **info)
-// {
-// 	int			i;
-// 	t_fileinfo	*temp;
-
-// 	i = -1;
-// 	if (!info)
-// 		return (NULL);
-// 	while (info[++i] && info[i + 1])
-// 	{
-// 		if (ft_strcmp(info[i]->filename, info[i + 1]->filename) > 0)
-// 		{
-// 			temp = info[i];
-// 			info[i] = info[i + 1];
-// 			info[i + 1] = temp;
-// 			i = -1;
-// 		}
-// 	}
-// 	return (info);
-// }
-
-void	swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp)
+static int	comp_ascii(t_fileinfo **linearray, int i, int pivot)
 {
-	temp = linearray[i];
-	linearray[i] = linearray[j];
-	linearray[j] = temp;
+	if (ft_strcmp(linearray[i]->filename, linearray[pivot]->filename) > 0)
+		return (1);
+	else if (ft_strcmp(linearray[i]->filename, linearray[pivot]->filename) < 0)
+		return (-1);
+	else
+		return (0);
 }
 
-void	ft_qsort(t_fileinfo **linearray, int first, int last, t_fileinfo *temp)
+static int	comp_time(t_fileinfo **linearray, int i, int pivot)
+{
+	if (linearray[i]->time_m < linearray[pivot]->time_m)
+		return (1);
+	else if (linearray[i]->time_m > linearray[pivot]->time_m)
+		return (-1);
+	else
+	{
+		if (linearray[i]->time_a < linearray[pivot]->time_a)
+			return (1);
+		else if (linearray[i]->time_a > linearray[pivot]->time_a)
+			return (-1);
+		else
+		{
+			if (comp_ascii(linearray, i, pivot) > 0)
+				return (1);
+			else if (comp_ascii(linearray, i, pivot) < 0)
+				return (-1);
+			else
+				return (0);
+		}
+		return (0);
+	}
+}
+
+static void	ft_qsort(t_fileinfo **linearray, int first,
+		int last, int (*f)(t_fileinfo **, int, int))
 {
 	int			i;
 	int			j;
 	int			pivot;
+	t_fileinfo	*temp;
 
 	temp = NULL;
 	if (first < last)
@@ -54,73 +63,24 @@ void	ft_qsort(t_fileinfo **linearray, int first, int last, t_fileinfo *temp)
 		j = last;
 		while (i < j)
 		{
-			while (ft_strcmp(linearray[i]->filename,
-					linearray[pivot]->filename) < 0 && i < last)
+			while (f(linearray, i, pivot) < 0 && i < last)
 				i++;
-			while (ft_strcmp(linearray[j]->filename,
-					linearray[pivot]->filename) > 0)
+			while (f(linearray, j, pivot) > 0)
 				j--;
 			if (i < j)
 				swap_line(linearray, i, j, temp);
 		}
 		swap_line(linearray, pivot, j, temp);
-		ft_qsort(linearray, first, j - 1, temp);
-		ft_qsort(linearray, j + 1, last, temp);
+		ft_qsort(linearray, first, j - 1, f);
+		ft_qsort(linearray, j + 1, last, f);
 	}
 }
 
-void	sort_time(t_fileinfo **linearray)
+static void	sort_reverse(t_fileinfo **linearray, int f_count)
 {
 	int			i;
 	t_fileinfo	*temp;
 
-	i = -1;
-	temp = NULL;
-	while (linearray[++i] && linearray[i + 1])
-	{
-		if (linearray[i]->time_m < linearray[i + 1]->time_m)
-		{
-			temp = linearray[i];
-			linearray[i] = linearray[i + 1];
-			linearray[i + 1] = temp;
-			i = -1;
-		}
-	}
-}
-
-// void	sort_time_a(t_fileinfo **linearray)
-// {
-// 	int			i;
-// 	t_fileinfo	*temp;
-
-// 	i = -1;
-// 	temp = NULL;
-// 	while (linearray[++i] && linearray[i + 1])
-// 	{
-// 		ft_printf("linearray[i]:%lu	linearray[i + 1]:%lu\n", linearray[i]->time_a, linearray[i + 1]->time_a);
-// 		if (linearray[i]->time_a > linearray[i + 1]->time_a)
-// 		{
-// 			ft_printf("it was\n");
-// 			temp = linearray[i];
-// 			linearray[i] = linearray[i + 1];
-// 			linearray[i + 1] = temp;
-// 			i = -1;
-// 		}
-// 	}
-// 	exit(1);
-// }
-
-void	sort_reverse(t_fileinfo **linearray)
-{
-	int			i;
-	int			f_count;
-	t_fileinfo	*temp;
-
-	i = -1;
-	f_count = 0;
-	temp = NULL;
-	while (linearray[++i])
-		f_count++;
 	i = -1;
 	while (++i < f_count / 2)
 	{
@@ -130,30 +90,24 @@ void	sort_reverse(t_fileinfo **linearray)
 	}
 }
 
-t_fileinfo	**sort_handler(t_fileinfo **linearray, t_flags *flags)
+t_fileinfo	**sort_handler(t_fileinfo **linearray, t_info *flags)
 {
 	int			i;
 	int			f_count;
-	t_fileinfo	*temp;
 
 	i = -1;
 	f_count = 0;
-	temp = NULL;
 	if (!linearray)
 		return (NULL);
 	while (linearray[++i])
 		f_count++;
 	if (!flags->f)
 	{
-		//sort_lexico(linearray);
-		ft_qsort(linearray, 0, f_count - 1, temp);
+		ft_qsort(linearray, 0, f_count - 1, comp_ascii);
 		if (flags->t)
-		{
-			sort_time(linearray);
-			//sort_time_a(linearray);
-		}
+			ft_qsort(linearray, 0, f_count - 1, comp_time);
 		if (flags->r)
-			sort_reverse(linearray);
+			sort_reverse(linearray, f_count);
 	}
 	return (linearray);
 }

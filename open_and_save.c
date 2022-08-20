@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/19 10:44:50 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 13:43:47 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	filecount(char *dir)
 	return (count);
 }
 
-void	recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
+void	recursively(char *dirname, t_fileinfo **linearray, t_info *flags)
 {
 	t_fileinfo		**arr;
 	char			path[PATH_MAX];
@@ -64,7 +64,7 @@ void	recursively(char *dirname, t_fileinfo **linearray, t_flags *flags)
 	free_linearray(arr);
 }
 
-int	entity_is_saveable(char *f_name, t_flags *flags)
+int	entity_is_saveable(char *f_name, t_info *flags)
 {
 	int	res;
 
@@ -84,7 +84,7 @@ int	entity_is_saveable(char *f_name, t_flags *flags)
 }
 
 t_fileinfo	**save_info(char *path, char *dirname,
-	t_fileinfo **linearray, t_flags *flags)
+	t_fileinfo **linearray, t_info *info)
 {
 	DIR				*dirp;
 	struct dirent	*entity;
@@ -92,7 +92,7 @@ t_fileinfo	**save_info(char *path, char *dirname,
 	int				i;
 
 	i = 0;
-	flags->blocks = 0;
+	info->blocks = 0;
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
 	if (ft_strcmp(dirname, "/") == 0)
@@ -101,9 +101,9 @@ t_fileinfo	**save_info(char *path, char *dirname,
 	{
 		dirname = ft_strjoin(path, entity->d_name);
 		lstat(dirname, &buf);
-		if (entity_is_saveable(entity->d_name, flags) == 1)
-			linearray[i++] = get_info(buf, dirname, ft_strlen(path), flags);
-		flags->blocks += buf.st_blocks;
+		if (entity_is_saveable(entity->d_name, info) == 1)
+			linearray[i++] = get_info(buf, dirname, ft_strlen(path), info);
+		info->blocks += buf.st_blocks;
 		entity = readdir(dirp);
 		ft_strdel(&dirname);
 	}
@@ -113,7 +113,7 @@ t_fileinfo	**save_info(char *path, char *dirname,
 }
 
 t_fileinfo	**open_dir(char *dirname, t_fileinfo **linearray,
-				t_flags *flags, int f_count)
+				t_info *flags, int f_count)
 {
 	char			path[PATH_MAX];
 
