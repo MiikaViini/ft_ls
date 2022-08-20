@@ -46,18 +46,18 @@ static void	insert_timeinfo(t_fileinfo *line, struct stat buf)
 	}
 }
 
-static void	set_owner_group_info(struct stat buf, t_fileinfo *line)
+static void	set_pwd_grp(struct stat buf, t_fileinfo *line, t_info *info)
 {
 	struct passwd	*pwd;
 	struct group	*grp;
 
 	pwd = getpwuid(buf.st_uid);
 	grp = getgrgid(buf.st_gid);
-	if (pwd == NULL)
+	if (pwd == NULL || info->n)
 		line->owner = ft_itoa(buf.st_uid);
 	else
 		line->owner = ft_strdup(pwd->pw_name);
-	if (grp == NULL)
+	if (grp == NULL || info->n)
 		line->owner_gr = ft_itoa(buf.st_gid);
 	else
 		line->owner_gr = ft_strdup(grp->gr_name);
@@ -84,7 +84,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen, t_info *info)
 	(void)info;
 	initialize_info_struct(line);
 	insert_timeinfo(line, buf);
-	set_owner_group_info(buf, line);
+	set_pwd_grp(buf, line, info);
 	set_device_min_maj(buf, line);
 	line->links = buf.st_nlink;
 	line->perms = permissions(buf.st_mode, buf, path);

@@ -1,31 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   flags3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/18 13:23:07 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 13:47:56 by mviinika         ###   ########.fr       */
+/*   Created: 2022/08/20 19:41:12 by mviinika          #+#    #+#             */
+/*   Updated: 2022/08/20 20:16:40 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	print_err(char *dirname, int error)
+void	n_flag(t_info *flags, char *string)
 {
-	if (ft_strrchr(dirname, '/') && error != 2 && error != 9)
-	{
-		dirname = ft_strrchr(dirname, '/');
-		dirname++;
-	}
-	ft_printf("ft_ls: %s: %s\n", dirname, strerror(error));
+	(void)string;
+	flags->n = 1;
+	flags->l = 1;
 }
 
-void	print_flag_err(t_info *flags, char c)
+void	cap_g_flag(t_info *flags, char *string)
 {
-	write(1, "ft_ls: illegal option -- ", 25);
-	ft_printf("%c\nusage: ./ft_ls [-AFRaflnrt] [file ...]\n", c);
-	free(flags);
-	exit(EXIT_FAILURE);
+	(void)string;
+	flags->cap_g = 1;
 }

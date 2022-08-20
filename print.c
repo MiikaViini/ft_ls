@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 19:17:51 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 21:00:08 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-static void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
+void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
 {
 	int		k;
 
@@ -37,7 +37,7 @@ static void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
 	}
 }
 
-static void	print_min_maj_nums(t_fileinfo **linearray, int i)
+void	print_min_maj_nums(t_fileinfo **linearray, int i)
 {
 	ft_printf("%5u, ", linearray[i]->major);
 	if (linearray[i]->minor < 500)
@@ -46,26 +46,22 @@ static void	print_min_maj_nums(t_fileinfo **linearray, int i)
 		ft_printf("%#010x ", linearray[i]->minor);
 }
 
-static void	apply_cap_f_flag(char *perms)
+void	print_fname(t_fileinfo **linearray, t_info *flags, int i)
 {
-	if (perms[0] == 'l')
-		write(1, "@", 1);
-	else if (perms[0] == '-')
+	while (linearray[++i])
 	{
-		if (perms[3] == 'x' || perms[6] == 'x' || perms[9] == 'x')
-			write(1, "*", 1);
+		ft_printf("%s", linearray[i]->filename);
+		if (flags->cap_f)
+		{
+			print_type(linearray[i]->perms);
+			write(1, "\n", 1);
+		}
+		else
+			write(1, "\n", 1);
 	}
-	else if (perms[0] == 'd')
-		write(1, "/", 1);
-	else if (perms[0] == 's')
-		write(1, "=", 1);
-	else if (perms[0] == 'w')
-		write(1, "*", 1);
-	else if (perms[0] == 'p')
-		write(1, "|", 1);
 }
 
-static void	print_long_format(t_fileinfo **linearray, t_info *info,
+void	print_long_format(t_fileinfo **linearray, t_info *info,
 	t_padds *padds, int i)
 {
 	if (info->one_file == 0)
@@ -82,13 +78,18 @@ static void	print_long_format(t_fileinfo **linearray, t_info *info,
 			ft_printf("%*lld ", padds->int_len, linearray[i]->size);
 		else
 			print_min_maj_nums(linearray, i);
-		ft_printf("%s ", linearray[i]->m_time);
-		ft_putstr(linearray[i]->filename);
+		ft_printf(" %s ", linearray[i]->m_time);
+		if (info->cap_g)
+			print_colors(linearray[i]);
+		else
+			ft_printf("%s", linearray[i]->filename);
 		if (info->cap_f)
-			apply_cap_f_flag(linearray[i]->perms);
+			print_type(linearray[i]->perms);
 		ft_putendl(linearray[i]->link);
 	}
 }
+
+
 
 void	print_arr(t_fileinfo **linearray, t_info *flags)
 {
@@ -101,24 +102,12 @@ void	print_arr(t_fileinfo **linearray, t_info *flags)
 	padds = (t_padds *)malloc(sizeof(t_padds));
 	if (!padds)
 		return ;
-	if (flags->l)
+	else if (flags->l)
 	{
 		set_padding_values(linearray, padds);
 		print_long_format(linearray, flags, padds, i);
 	}
 	else
-	{
-		while (linearray[++i])
-		{
-			ft_printf("%s", linearray[i]->filename);
-			if (flags->cap_f)
-			{
-				apply_cap_f_flag(linearray[i]->perms);
-				write(1, "\n", 1);
-			}
-			else
-				write(1, "\n", 1);
-		}
-	}
+		print_fname(linearray, flags, i);
 	free(padds);
 }

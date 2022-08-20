@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:35:10 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 12:42:49 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 19:35:44 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,23 @@ void	swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp)
 	temp = linearray[i];
 	linearray[i] = linearray[j];
 	linearray[j] = temp;
+}
+
+void	print_type(char *perms)
+{
+	if (perms[0] == 'l')
+		write(1, "@", 1);
+	else if (perms[0] == '-')
+	{
+		if (perms[3] == 'x' || perms[6] == 'x' || perms[9] == 'x')
+			write(1, "*", 1);
+	}
+	else if (perms[0] == 'd')
+		write(1, "/", 1);
+	else if (perms[0] == 's')
+		write(1, "=", 1);
+	else if (perms[0] == 'w')
+		write(1, "*", 1);
+	else if (perms[0] == 'p')
+		write(1, "|", 1);
 }

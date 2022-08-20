@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 14:11:36 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/20 21:12:16 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,29 @@
 # include <sys/ioctl.h>
 # include <sys/xattr.h>
 # include <sys/acl.h>
-# define FLAGS "lRartfAdF"
+# define FLAGS "lRartfAdFnG"
 # define SIX_MONTHS 15778476
+
+# define BLK "\e[0;30m"
+# define RED "\e[0;31m"
+# define GRN "\e[0;32m"
+# define YEL "\e[0;33m"
+# define BLU "\e[0;34m"
+# define MAG "\e[0;35m"
+# define CYN "\e[0;36m"
+# define WHT "\e[0;37m"
+# define C_RES "\e[0m"
+/*
+** Background colours
+*/
+# define BLKB "\e[40m"
+# define REDB "\e[41m"
+# define GRNB "\e[42m"
+# define YELB "\e[43m"
+# define BLUB "\e[44m"
+# define MAGB "\e[45m"
+# define CYNB "\e[46m"
+# define WHTB "\e[47m"
 
 typedef struct s_fileinfo
 {
@@ -44,11 +65,6 @@ typedef struct s_fileinfo
 	unsigned int		minor;
 	unsigned int		major;
 }					t_fileinfo;
-
-// typedef struct s_pr_info
-// {
-
-// }				t_pr_info;
 
 typedef struct s_padds
 {
@@ -70,11 +86,13 @@ typedef struct s_info
 	int		cap_r;
 	int		cap_a;
 	int		cap_f;
+	int		cap_g;
 	int		a;
 	int		r;
 	int		t;
 	int		f;
 	int		d;
+	int		n;
 	int		one_file;
 	int		blocks;
 	int		haslink;
@@ -92,9 +110,12 @@ void		f_flag(t_info *flags, char *string);
 void		d_flag(t_info *flags, char *string);
 void		cap_f_flag(t_info *flags, char *string);
 void		cap_a_flag(t_info *flags, char *string);
+void		cap_g_flag(t_info *flags, char *string);
+void		n_flag(t_info *flags, char *string);
 void		not_found(t_info *flags, char *string);
 int			find_letter(char c, char *letters);
 int			get_flags(char **argv, t_info *flags);
+void		print_type(char *perms);
 
 /***********/
 /**SORTING**/
@@ -140,6 +161,11 @@ void		print_arr(t_fileinfo **linearray, t_info *flags);
 void		recursively(char *path, t_fileinfo **linearray, t_info *flags);
 int			needs_newline(struct stat buf, char **argv, int i);
 typedef void		(*t_fl)(t_info *flags, char *string);
+void	print_colors(t_fileinfo *line);
+void		set_padding_values(t_fileinfo **linearray, t_padds *padds);
+void	print_fname(t_fileinfo **linearray, t_info *flags, int i);
+void	print_long_format(t_fileinfo **linearray, t_info *info, t_padds *padds, int i);
+void	print_min_maj_nums(t_fileinfo **linearray, int i);
 /**************/
 /**JUMPTABLES**/
 /**************/
@@ -154,7 +180,7 @@ static const char	g_perms[8][4] = {
 	"rwx"
 };
 
-static const t_fl	g_flags[10] = {
+static const t_fl	g_flags[12] = {
 	l_flag,
 	rec_flag,
 	a_flag,
@@ -164,6 +190,8 @@ static const t_fl	g_flags[10] = {
 	cap_a_flag,
 	d_flag,
 	cap_f_flag,
+	n_flag,
+	cap_g_flag,
 	not_found
 };
 #endif
