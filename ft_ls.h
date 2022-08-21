@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 22:21:32 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 12:52:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/ioctl.h>
 # include <sys/xattr.h>
 # include <sys/acl.h>
+# include <sys/ioctl.h>
 
 # define FLAGS "lRartfAdFnG"
 # define SIX_MONTHS 15778476
@@ -99,6 +100,7 @@ typedef struct s_info
 	int		n;
 	int		one_file;
 	int		blocks;
+	int		f_count;
 }			t_info;
 
 /*********/
@@ -165,7 +167,9 @@ void		recursively(char *path, t_fileinfo **linearray, t_info *flags);
 int			needs_newline(struct stat buf, char **argv, int i);
 typedef void		(*t_fl)(t_info *flags, char *string);
 void		print_colors(t_fileinfo *line);
-
+int	get_tty(void);
+//int	get_columns(t_info *info, t_fileinfo **linearray);
+int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds);
 /**************/
 /**JUMPTABLES**/
 /**************/

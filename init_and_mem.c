@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 21:59:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 12:15:41 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	initialize_flags(t_info *info)
 	info->d = 0;
 	info->one_file = 0;
 	info->blocks = 0;
+	info->f_count = 0;
 }
 
 void	initialize_padds(t_padds *padds)

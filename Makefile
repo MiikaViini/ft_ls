@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/20 20:18:11 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/21 11:26:51 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = ft_ls
 
 SRCS = ft_ls.c permissions.c sort_args.c sort_args2.c sort_entrys.c print.c \
 	open_and_save.c flags.c flags2.c flags3.c utils.c utils2.c init_and_mem.c \
-	line_info.c error.c print_colors.c
+	line_info.c error.c print_colors.c print_multicolumn.c
 
 OBJS = $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 13:58:16 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 12:55:12 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int	ft_ls(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
+	// get_tty();
+	// exit(1);
 	ft_ls(argc, argv);
 	return (0);
 }
