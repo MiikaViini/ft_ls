@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/21 16:31:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 21:03:07 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,32 @@ static void	print_min_maj_nums(t_fileinfo **linearray, int i)
 
 static void	print_fname(t_fileinfo **linearray, t_info *flags, int i, t_padds *padds)
 {
-	get_columns(flags, linearray, padds);
-	while (linearray[++i])
+	int	padd;
+
+	padd = 0;
+	if (!flags->one)
 	{
-		if (flags->cap_g)
-			print_colors(linearray[i]);
-		else
-			ft_printf("%s", linearray[i]->filename);
-		if (flags->cap_f)
-		{
-			print_type(linearray[i]->perms);
-			write(1, "\n", 1);
-		}
-		else
-			write(1, "\n", 1);
+		padd = padds->longest_fname;
+		get_columns(flags, linearray, padd);
 	}
+	else
+	{
+		while (linearray[++i])
+		{
+			if (flags->cap_g)
+				print_colors(linearray[i], padd);
+			else
+				ft_printf("%s", linearray[i]->filename);
+			if (flags->cap_f)
+			{
+				print_type(linearray[i]->perms);
+				write(1, "\n", 1);
+			}
+			else
+				write(1, "\n", 1);
+		}
+	}
+
 }
 
 static void	print_long_format(t_fileinfo **linearray, t_info *info,
@@ -84,7 +95,7 @@ static void	print_long_format(t_fileinfo **linearray, t_info *info,
 			print_min_maj_nums(linearray, i);
 		ft_printf(" %s ", linearray[i]->m_time);
 		if (info->cap_g)
-			print_colors(linearray[i]);
+			print_colors(linearray[i], 0);
 		else
 			ft_printf("%s", linearray[i]->filename);
 		if (info->cap_f)

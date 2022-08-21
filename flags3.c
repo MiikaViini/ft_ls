@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 19:41:12 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 20:16:40 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 20:58:09 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,10 @@ void	cap_g_flag(t_info *flags, char *string)
 {
 	(void)string;
 	flags->cap_g = 1;
+}
+
+void	one_flag(t_info *flags, char *string)
+{
+	(void)string;
+	flags->one = 1;
 }

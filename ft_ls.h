@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/21 12:52:26 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 21:01:57 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <sys/acl.h>
 # include <sys/ioctl.h>
 
-# define FLAGS "lRartfAdFnG"
+# define FLAGS "lRartfAdFnG1"
 # define SIX_MONTHS 15778476
 
 /***************/
@@ -92,6 +92,7 @@ typedef struct s_info
 	int		cap_a;
 	int		cap_f;
 	int		cap_g;
+	int		one;
 	int		a;
 	int		r;
 	int		t;
@@ -117,6 +118,7 @@ void		cap_f_flag(t_info *flags, char *string);
 void		cap_a_flag(t_info *flags, char *string);
 void		cap_g_flag(t_info *flags, char *string);
 void		n_flag(t_info *flags, char *string);
+void		one_flag(t_info *flags, char *string);
 void		not_found(t_info *flags, char *string);
 int			find_letter(char c, char *letters);
 int			get_flags(char **argv, t_info *flags);
@@ -166,10 +168,10 @@ void		print_arr(t_fileinfo **linearray, t_info *flags);
 void		recursively(char *path, t_fileinfo **linearray, t_info *flags);
 int			needs_newline(struct stat buf, char **argv, int i);
 typedef void		(*t_fl)(t_info *flags, char *string);
-void		print_colors(t_fileinfo *line);
-int	get_tty(void);
+void		print_colors(t_fileinfo *line, int padd);
+int			get_tty(void);
 //int	get_columns(t_info *info, t_fileinfo **linearray);
-int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds);
+int			get_columns(t_info *info, t_fileinfo **linearray, int padd);
 /**************/
 /**JUMPTABLES**/
 /**************/
@@ -184,7 +186,7 @@ static const char	g_perms[8][4] = {
 	"rwx"
 };
 
-static const t_fl	g_flags[12] = {
+static const t_fl	g_flags[13] = {
 	l_flag,
 	rec_flag,
 	a_flag,
@@ -196,6 +198,7 @@ static const t_fl	g_flags[12] = {
 	cap_f_flag,
 	n_flag,
 	cap_g_flag,
+	one_flag,
 	not_found
 };
 #endif

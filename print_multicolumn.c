@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:19:39 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/21 16:26:35 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 21:16:19 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 int	get_tty(void)
 {
 	struct ttysize	ts;
-	
-	ioctl(0, TIOCGWINSZ, &ts);
 
-	// ft_printf("%d", ts.ts_cols);
+	ioctl(0, TIOCGWINSZ, &ts);
 	return (ts.ts_cols);
 }
 
-int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
+int	get_columns(t_info *info, t_fileinfo **linearray, int padd)
 {
 	int	width;
 	int	max_cols;
@@ -37,14 +35,21 @@ int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
 	x = 0;
 	y = 0;
 	i = 0;
-	while (width < padds->longest_fname)
+	while (width < padd)
 		width += 8;
-	if (padds->longest_fname > get_tty())
+	if (padd > get_tty())
 		return (0);
 	max_cols = get_tty() / width;
 	max_rows = info->f_count / max_cols;
 	if (info->f_count % max_cols != 0)
 		max_rows += 1;
+	if (info->cap_g)
+	{
+		max_cols++;
+		max_rows = info->f_count / max_cols;
+		padd += 1;
+	}
+		
 	while (count > 0)
 	{
 		if (x > max_cols - 1)
@@ -62,9 +67,17 @@ int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
 			i = y;
 			write(1, "\n", 1);
 		}
-		ft_printf("%-*s	",padds->longest_fname, linearray[i]->filename);
+		if (info->cap_g)
+			print_colors(linearray[i], padd);
+		else
+			ft_printf("%-*s", padd + 5, linearray[i]->filename);
 		count--;
 		x += 1;
 	}
-	return 1;
+	return (1);
 }
+
+// void	print_multicolumn(t_fileinfo **linearray, t_info *info, t_padds *padds)
+// {
+	
+// }
