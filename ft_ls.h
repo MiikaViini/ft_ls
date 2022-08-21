@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/21 21:01:57 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 22:37:23 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void		one_flag(t_info *flags, char *string);
 void		not_found(t_info *flags, char *string);
 int			find_letter(char c, char *letters);
 int			get_flags(char **argv, t_info *flags);
-void		print_type(char *perms);
+char		print_type(char *perms);
 
 /***********/
 /**SORTING**/

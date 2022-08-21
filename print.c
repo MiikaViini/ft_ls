@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/21 21:03:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/21 22:51:39 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ static void	print_fname(t_fileinfo **linearray, t_info *flags, int i, t_padds *p
 static void	print_long_format(t_fileinfo **linearray, t_info *info,
 	t_padds *padds, int i)
 {
+	// char c;
+
+	// c = '\0';
 	if (info->one_file == 0)
 		ft_printf("total %d\n", info->blocks);
 	padds->int_len += ft_intlen(padds->biggest);
@@ -98,9 +101,9 @@ static void	print_long_format(t_fileinfo **linearray, t_info *info,
 			print_colors(linearray[i], 0);
 		else
 			ft_printf("%s", linearray[i]->filename);
-		if (info->cap_f)
-			print_type(linearray[i]->perms);
-		ft_putendl(linearray[i]->link);
+		// if (info->cap_f)
+		// 	c = print_type(linearray[i]->perms);
+		ft_printf("%c%s\n", linearray[i]->link);
 	}
 }
 
