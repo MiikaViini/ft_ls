@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:19:39 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 13:12:05 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 14:59:27 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,33 +43,36 @@ int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
 	i = 0;
 	check = 0;
 	padd = 0;
-	while (width < padds->longest_fname)
+	while (width <= padds->longest_fname)
 		width += 8;
 	if (padds->longest_fname > get_tty())
 		return (0);
 	max_cols = get_tty() / width;
 	max_rows = info->f_count / max_cols;
-	if ((max_cols) * padds->longest_fname >= get_tty())
+	if ((max_cols) * width >= get_tty())
 		c = '\0';
-	if (max_cols >= max_rows && max_cols != 0 && max_rows != 0)
-	{
-		ft_swap(&max_cols, &max_rows);
-	}
-	if (info->f_count % max_cols != 0)
+	if (max_cols % max_rows + 1 != 0) // ((max_cols) * width < get_tty()
 	{
 		max_rows += 1;
-		//padds->longest_fname += 1;
-	//	padds->longest_fname += 1;
+		// padds->longest_fname += 1;
 		// max_cols++;
 		// max_rows = info->f_count / max_cols;
 	}
-	// if (info->cap_g && ((max_cols + 1) * padds->longest_fname) < get_tty())
+	// if (max_cols > max_rows && max_cols != 0 && max_rows != 0)
+	// {
+	// 	ft_swap(&max_cols, &max_rows);
+	// }
+	// if (max_cols > max_rows && max_cols != 0 && max_rows != 0)
+	// {
+	// 	ft_swap(&max_cols, &max_rows);
+	// }
+	// if (((max_cols + 1) * padds->longest_fname) < get_tty())
 	// {
 	// 	padds->longest_fname += 1;
 	// 	max_cols++;
 	// 	max_rows = info->f_count / max_cols;
 	// }
-	ft_printf("max_cols * padd: %d max_cols %d, max_rows %d, width %d padd %d\n",max_cols * padds->longest_fname ,max_cols, max_rows, get_tty(), width);
+	ft_printf("max_cols * width: %d max_cols %d, max_rows %d, tty_width %d width %d\n",max_cols * width ,max_cols, max_rows, get_tty(), width);
 	while (count > 0)
 	{
 		if (x > max_cols - 1)
@@ -93,7 +96,7 @@ int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
 			print_colors(linearray[i]);
 			// if (ft_strlen(linearray[i]->filename))
 			// 	ft_printf("%d", ft_strlen(linearray[i]->filename) - padds->longest_fname);
-			ft_printf("%*c", ((ft_strlen(linearray[i]->filename) - padds->longest_fname)), ' ');
+			ft_printf("%*c", ((ft_strlen(linearray[i]->filename) - width)), ' ');
 			if (count == 0 || x > max_cols - 1)
 				write(1, "\n", 1);
 		}
