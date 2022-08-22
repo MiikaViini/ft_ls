@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 10:45:29 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:03:48 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <sys/acl.h>
 # include <sys/ioctl.h>
 
-# define FLAGS "lRartfAdFnG1"
+# define FLAGS "lRartfAdnG1"
 # define SIX_MONTHS 15778476
 
 /***************/
@@ -114,7 +114,6 @@ void		r_flag(t_info *flags, char *string);
 void		t_flag(t_info *flags, char *string);
 void		f_flag(t_info *flags, char *string);
 void		d_flag(t_info *flags, char *string);
-void		cap_f_flag(t_info *flags, char *string);
 void		cap_a_flag(t_info *flags, char *string);
 void		cap_g_flag(t_info *flags, char *string);
 void		n_flag(t_info *flags, char *string);
@@ -186,7 +185,7 @@ static const char	g_perms[8][4] = {
 	"rwx"
 };
 
-static const t_fl	g_flags[13] = {
+static const t_fl	g_flags[12] = {
 	l_flag,
 	rec_flag,
 	a_flag,
@@ -195,7 +194,6 @@ static const t_fl	g_flags[13] = {
 	f_flag,
 	cap_a_flag,
 	d_flag,
-	cap_f_flag,
 	n_flag,
 	cap_g_flag,
 	one_flag,

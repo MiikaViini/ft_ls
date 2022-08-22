@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:24:14 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 13:48:20 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:03:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,6 @@ void	d_flag(t_info *flags, char *string)
 {
 	(void)string;
 	flags->d = 1;
-}
-
-void	cap_f_flag(t_info *flags, char *string)
-{
-	(void)string;
-	flags->cap_f = 1;
 }
 
 void	not_found(t_info *flags, char *string)

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 10:45:53 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 11:05:32 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,24 +64,14 @@ static void	print_fname(t_fileinfo **linearray, t_info *flags, int i, t_padds *p
 			if (flags->cap_g)
 				print_colors(linearray[i]);
 			else
-				ft_printf("%s", linearray[i]->filename);
-			if (flags->cap_f)
-			{
-				print_type(linearray[i]->perms);
-				write(1, "\n", 1);
-			}
-			else
-				write(1, "\n", 1);
+				ft_printf("%s\n", linearray[i]->filename);
 		}
 	}
 }
 
 static void	print_long_format(t_fileinfo **linearray, t_info *info,
 	t_padds *padds, int i)
- {
-// 	char c;
-
-// 	c = '\0';
+{
 	if (info->one_file == 0)
 		ft_printf("total %d\n", info->blocks);
 	padds->int_len += ft_intlen(padds->biggest);
@@ -118,9 +108,7 @@ void	print_arr(t_fileinfo **linearray, t_info *flags)
 		return ;
 	set_padding_values(linearray, padds);
 	if (flags->l)
-	{
 		print_long_format(linearray, flags, padds, i);
-	}
 	else
 		print_fname(linearray, flags, i, padds);
 	free(padds);
