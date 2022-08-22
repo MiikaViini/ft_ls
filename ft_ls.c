@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 22:38:37 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:50:30 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 	free_linearray(linearray);
 	*i -= 1;
 }
-	
 
 static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 {
@@ -48,7 +47,8 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 	int			i;
 
 	i = 0;
-	if (lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode))
+	if ((lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode))
+		|| (S_ISDIR(buf.st_mode) && flags->d))
 	{
 		if (lstat(path, &buf) == -1)
 		{
