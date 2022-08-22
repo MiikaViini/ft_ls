@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:19:39 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 20:14:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 20:30:15 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,21 @@ int	get_tty(void)
 	return (ts.ts_cols);
 }
 
+void	reset_x(int *x, int *y, int max_rows)
+{
+	if (*y < max_rows)
+		*y += 1;
+	*x = 0;
+}
+
+void	add_y(int *x, int *y, int *i)
+{
+	*x = 0;
+	*y += 1;
+	*i = *y;
+	write(1, "\n", 1);
+}
+
 int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
 {
 	int	width;
@@ -30,9 +45,7 @@ int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
 	int i;
 	int count;
 	char c;
-	int tab;
 
-	tab = 5;
 	count = info->f_count;
 	width = 8;
 	c = '\t';
@@ -52,19 +65,10 @@ int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
 	while (count > 0)
 	{
 		if (x > max_cols - 1)
-		{
-			if (y < max_rows)
-				y += 1;
-			x = 0;
-		}
+			reset_x(&x, &y, max_rows);
 		i = (x * max_rows) + y;
 		if (i >= info->f_count)
-		{
-			x = 0;
-			y += 1;
-			i = y;
-			write(1, "\n", 1);
-		}
+			add_y(&x, &y, &i);
 		count--;
 		x += 1;
 		if (count == 0 || x > max_cols - 1)

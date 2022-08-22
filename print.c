@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 20:14:25 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 20:20:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,7 @@ static void	print_fname(t_fileinfo **linearray, t_info *flags, int i, t_padds *p
 	{
 		while (linearray[++i])
 		{
-			if (flags->cap_g)
-				print_colors(linearray[i]);
-			else
-				ft_printf("%s\n", linearray[i]->filename);
+			ft_printf("%s\n", linearray[i]->filename);
 		}
 	}
 }
@@ -89,10 +86,7 @@ static void	print_long_format(t_fileinfo **linearray, t_info *info,
 		else
 			print_min_maj_nums(linearray, i);
 		ft_printf(" %s ", linearray[i]->m_time);
-		if (info->cap_g)
-			print_colors(linearray[i]);
-		else
-			ft_printf("%s", linearray[i]->filename);
+		ft_printf("%s", linearray[i]->filename);
 		ft_printf("%s\n", linearray[i]->link);
 	}
 }

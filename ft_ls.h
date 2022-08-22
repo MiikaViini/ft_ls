@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 11:03:48 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 20:22:34 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,32 +28,8 @@
 # include <sys/acl.h>
 # include <sys/ioctl.h>
 
-# define FLAGS "lRartfAdnG1"
+# define FLAGS "lRartfAdn1"
 # define SIX_MONTHS 15778476
-
-/***************/
-/**TEXT COLORS**/
-/***************/
-# define BLK "\e[0;30m"
-# define RED "\e[0;31m"
-# define GRN "\e[0;32m"
-# define YEL "\e[0;33m"
-# define BLU "\e[0;34m"
-# define MAG "\e[0;35m"
-# define CYN "\e[0;36m"
-# define WHT "\e[0;37m"
-# define C_RES "\e[0m"
-/**********************/
-/**BACKGROUND COLORS**/
-/**********************/
-# define BLKB "\e[40m"
-# define REDB "\e[41m"
-# define GRNB "\e[42m"
-# define YELB "\e[43m"
-# define BLUB "\e[44m"
-# define MAGB "\e[45m"
-# define CYNB "\e[46m"
-# define WHTB "\e[47m"
 
 typedef struct s_fileinfo
 {
@@ -91,7 +67,6 @@ typedef struct s_info
 	int		cap_r;
 	int		cap_a;
 	int		cap_f;
-	int		cap_g;
 	int		one;
 	int		a;
 	int		r;
@@ -169,7 +144,6 @@ int			needs_newline(struct stat buf, char **argv, int i);
 typedef void		(*t_fl)(t_info *flags, char *string);
 void		print_colors(t_fileinfo *line);
 int			get_tty(void);
-//int	get_columns(t_info *info, t_fileinfo **linearray);
 int			get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds);
 /**************/
 /**JUMPTABLES**/
@@ -185,7 +159,7 @@ static const char	g_perms[8][4] = {
 	"rwx"
 };
 
-static const t_fl	g_flags[12] = {
+static const t_fl	g_flags[11] = {
 	l_flag,
 	rec_flag,
 	a_flag,
@@ -195,7 +169,6 @@ static const t_fl	g_flags[12] = {
 	cap_a_flag,
 	d_flag,
 	n_flag,
-	cap_g_flag,
 	one_flag,
 	not_found
 };
