@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:19:39 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 20:30:15 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:39:44 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-int	get_tty(void)
+static int	get_tty(void)
 {
 	struct ttysize	ts;
 
@@ -20,66 +20,62 @@ int	get_tty(void)
 	return (ts.ts_cols);
 }
 
-void	reset_x(int *x, int *y, int max_rows)
+static void	reset_x(t_mc_val *values)
 {
-	if (*y < max_rows)
-		*y += 1;
-	*x = 0;
+	if (values->y < values->max_rows)
+		values->y += 1;
+	values->x = 0;
 }
 
-void	add_y(int *x, int *y, int *i)
+void	add_y(t_mc_val *values, int *i)
 {
-	*x = 0;
-	*y += 1;
-	*i = *y;
+	values->x = 0;
+	values->y += 1;
+	*i = values->y;
 	write(1, "\n", 1);
 }
 
-int	get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds)
+static int	set_values(t_info *info, int name_len, t_mc_val *values)
 {
-	int	width;
-	int	max_cols;
-	int	max_rows;
-	int x;
-	int y;
-	int i;
-	int count;
-	char c;
-
-	count = info->f_count;
-	width = 8;
-	c = '\t';
-	x = 0;
-	y = 0;
-	i = 0;
-	while (width <= padds->longest_fname)
-		width += 8;
-	if (width > get_tty())
+	initialize_mc_val(values);
+	while (values->width <= name_len)
+		values->width += 8;
+	if (values->width > get_tty())
 		return (-1);
-	max_cols = get_tty() / width;
-	max_rows = info->f_count / max_cols;
-	if ((max_cols) * width >= get_tty())
-		c = '\0';
-	if (info->f_count % max_cols)
-		max_rows += 1;
-	while (count > 0)
-	{
-		if (x > max_cols - 1)
-			reset_x(&x, &y, max_rows);
-		i = (x * max_rows) + y;
-		if (i >= info->f_count)
-			add_y(&x, &y, &i);
-		count--;
-		x += 1;
-		if (count == 0 || x > max_cols - 1)
-			ft_printf("%s\n", linearray[i]->filename);
-		else
-			ft_printf("%-*s%c", padds->longest_fname, linearray[i]->filename, c);
-	}
+	values->max_cols = get_tty() / values->width;
+	values->max_rows = info->f_count / values-> max_cols;
+	if ((values->max_cols) * values->width >= get_tty())
+		values->c = '\0';
+	if (info->f_count % values->max_cols)
+		values->max_rows += 1;
 	return (0);
 }
 
-// void	print_multicolumn(t_fileinfo **linearray, t_info *info, t_padds *padds)
-// {
-	
-// }
+int	print_multicolumn(t_info *info, t_fileinfo **linearray, t_padds *padds)
+{
+	int			i;
+	int			count;
+	t_mc_val	*values;
+
+	count = info->f_count;
+	i = 0;
+	values = (t_mc_val *)malloc(sizeof(t_mc_val));
+	set_values(info, padds->longest_fname, values);
+	while (count > 0)
+	{
+		if (values->x > values->max_cols - 1)
+			reset_x(values);
+		i = (values->x * values->max_rows) + values->y;
+		if (i >= info->f_count)
+			add_y(values, &i);
+		count--;
+		values->x += 1;
+		if (count == 0 || values->x > values->max_cols - 1)
+			ft_printf("%s\n", linearray[i]->filename);
+		else
+			ft_printf("%-*s%c", padds->longest_fname,
+				linearray[i]->filename, values->c);
+	}
+	free(values);
+	return (0);
+}

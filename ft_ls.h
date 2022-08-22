@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 20:22:34 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:24:49 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,16 @@ typedef struct s_info
 	int		f_count;
 }			t_info;
 
+typedef struct s_mc_val
+{
+	int		width;
+	int		max_cols;
+	int		max_rows;
+	int		x;
+	int		y;
+	char	c;
+}			t_mc_val;
+
 /*********/
 /**FLAGS**/
 /*********/
@@ -115,6 +125,7 @@ void		swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp);
 /**ERROR HANDLING, INITIALIZATION AND MEMORY**/
 /*********************************************/
 void		initialize_padds(t_padds *padds);
+void		initialize_mc_val(t_mc_val *values);
 void		free_linearray(t_fileinfo **linearray);
 void		initialize_info_struct(t_fileinfo *line);
 void		initialize_flags(t_info *flags);
@@ -142,9 +153,9 @@ void		print_arr(t_fileinfo **linearray, t_info *flags);
 void		recursively(char *path, t_fileinfo **linearray, t_info *flags);
 int			needs_newline(struct stat buf, char **argv, int i);
 typedef void		(*t_fl)(t_info *flags, char *string);
-void		print_colors(t_fileinfo *line);
-int			get_tty(void);
-int			get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds);
+int			print_multicolumn(t_info *info,
+				t_fileinfo **linearray, t_padds *padds);
+
 /**************/
 /**JUMPTABLES**/
 /**************/

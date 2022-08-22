@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 20:20:26 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:30:24 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static void	print_min_maj_nums(t_fileinfo **linearray, int i)
 		ft_printf("%#010x ", linearray[i]->minor);
 }
 
-static void	print_fname(t_fileinfo **linearray, t_info *flags, int i, t_padds *padds)
+static void	print_fname(t_fileinfo **linearray,
+				t_info *flags, int i, t_padds *padds)
 {
 	int	padd;
 	int	ret;
@@ -56,7 +57,7 @@ static void	print_fname(t_fileinfo **linearray, t_info *flags, int i, t_padds *p
 	if (!flags->one)
 	{
 		padd = padds->longest_fname;
-		ret = get_columns(flags, linearray, padds);
+		ret = print_multicolumn(flags, linearray, padds);
 		flags->f_count = 0;
 	}
 	if (flags->one || ret == -1)

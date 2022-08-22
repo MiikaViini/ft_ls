@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/21 12:55:12 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 22:38:37 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,16 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 			return ;
 		k++;
 		*i += 1;
+		flags->f_count++;
 	}
 	linearray[k] = NULL;
 	print_arr(sort_handler(linearray, flags), flags);
 	if (lstat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode))
 		write(1, "\n", 1);
 	free_linearray(linearray);
-	flags->one_file = 0;
 	*i -= 1;
 }
+	
 
 static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 {
@@ -55,6 +56,7 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 			return ;
 		}
 		single_file(buf, &path, &i, flags);
+		flags->one_file = 0;
 	}
 	else if (flags->cap_r)
 		recursively(path, linearray, flags);

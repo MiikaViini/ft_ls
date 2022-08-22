@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 20:20:50 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 21:19:49 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ void	initialize_padds(t_padds *padds)
 	padds->groupname_len = 0;
 	padds->biggest = 0;
 	padds->longest_link = 0;
+}
+
+void	initialize_mc_val(t_mc_val *values)
+{
+	values->max_cols = 0;
+	values->max_rows = 0;
+	values->width = 8;
+	values->x = 0;
+	values->y = 0;
+	values->c = '\t';
 }
 
 void	free_linearray(t_fileinfo **linearray)
