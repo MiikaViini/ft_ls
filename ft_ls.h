@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/21 22:37:23 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 10:45:29 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,10 +168,10 @@ void		print_arr(t_fileinfo **linearray, t_info *flags);
 void		recursively(char *path, t_fileinfo **linearray, t_info *flags);
 int			needs_newline(struct stat buf, char **argv, int i);
 typedef void		(*t_fl)(t_info *flags, char *string);
-void		print_colors(t_fileinfo *line, int padd);
+void		print_colors(t_fileinfo *line);
 int			get_tty(void);
 //int	get_columns(t_info *info, t_fileinfo **linearray);
-int			get_columns(t_info *info, t_fileinfo **linearray, int padd);
+int			get_columns(t_info *info, t_fileinfo **linearray, t_padds *padds);
 /**************/
 /**JUMPTABLES**/
 /**************/

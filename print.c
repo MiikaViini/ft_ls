@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/21 22:51:39 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/22 10:45:53 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,15 @@ static void	print_fname(t_fileinfo **linearray, t_info *flags, int i, t_padds *p
 	if (!flags->one)
 	{
 		padd = padds->longest_fname;
-		get_columns(flags, linearray, padd);
+		get_columns(flags, linearray, padds);
+		flags->f_count = 0;
 	}
 	else
 	{
 		while (linearray[++i])
 		{
 			if (flags->cap_g)
-				print_colors(linearray[i], padd);
+				print_colors(linearray[i]);
 			else
 				ft_printf("%s", linearray[i]->filename);
 			if (flags->cap_f)
@@ -73,15 +74,14 @@ static void	print_fname(t_fileinfo **linearray, t_info *flags, int i, t_padds *p
 				write(1, "\n", 1);
 		}
 	}
-
 }
 
 static void	print_long_format(t_fileinfo **linearray, t_info *info,
 	t_padds *padds, int i)
-{
-	// char c;
+ {
+// 	char c;
 
-	// c = '\0';
+// 	c = '\0';
 	if (info->one_file == 0)
 		ft_printf("total %d\n", info->blocks);
 	padds->int_len += ft_intlen(padds->biggest);
@@ -98,12 +98,10 @@ static void	print_long_format(t_fileinfo **linearray, t_info *info,
 			print_min_maj_nums(linearray, i);
 		ft_printf(" %s ", linearray[i]->m_time);
 		if (info->cap_g)
-			print_colors(linearray[i], 0);
+			print_colors(linearray[i]);
 		else
 			ft_printf("%s", linearray[i]->filename);
-		// if (info->cap_f)
-		// 	c = print_type(linearray[i]->perms);
-		ft_printf("%c%s\n", linearray[i]->link);
+		ft_printf("%s\n", linearray[i]->link);
 	}
 }
 
