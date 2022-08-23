@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/23 14:48:58 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 00:52:00 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void		sort_time(t_fileinfo **linearray);
 void		sort_time_a(t_fileinfo **linearray);
 t_fileinfo	**sort_handler(t_fileinfo **linearray, t_info *flags);
 char		**arg_sort_handler(char **argv, int i, t_info *flags);
-void		sort_args_time(char **argv, int i, t_info *flags);
+void		sort_args_time(char **argv, int i);
 void		ft_strarrrev(char **arr, int start);
 int			move_index(char **arr, int start);
 void		swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp);

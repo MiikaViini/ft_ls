@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:04:35 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/23 15:33:53 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 00:52:06 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	sort_args_time(char **argv, int i, t_info *flags)
+void	sort_args_time(char **argv, int i)
 {
 	int			int_temp;
 	char		*temp;
@@ -35,8 +35,6 @@ void	sort_args_time(char **argv, int i, t_info *flags)
 		}
 		i++;
 	}
-	if (flags->r && !flags->f)
-		ft_strarrrev(argv, int_temp);
 }
 
 int	move_index(char **arr, int start)
@@ -63,18 +61,17 @@ void	ft_strarrrev(char **arr, int start)
 	int			k;
 
 	temp = NULL;
-	k = 0;
-	k = start;
-	len = start;
 	start = move_index(arr, start);
-	while (arr[start++])
-		len++;
-	len += k;
-	while (k < len / 2)
+	k = start;
+	while (arr[start])
+		start++;
+	len = start;
+	while (arr[k] && k < len)
 	{
 		temp = arr[k];
-		arr[k] = arr[len - k - 1];
-		arr[len - k - 1] = temp;
+		arr[k] = arr[len - 1];
+		arr[len - 1] = temp;
 		k++;
+		len--;
 	}
 }
