@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:19:39 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 22:39:44 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/23 14:08:00 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,13 @@ void	add_y(t_mc_val *values, int *i)
 
 static int	set_values(t_info *info, int name_len, t_mc_val *values)
 {
+	
+	if (!values)
+		return (-1);
 	initialize_mc_val(values);
 	while (values->width <= name_len)
 		values->width += 8;
-	if (values->width > get_tty())
+	if (name_len > get_tty())
 		return (-1);
 	values->max_cols = get_tty() / values->width;
 	values->max_rows = info->f_count / values-> max_cols;
@@ -60,15 +63,15 @@ int	print_multicolumn(t_info *info, t_fileinfo **linearray, t_padds *padds)
 	count = info->f_count;
 	i = 0;
 	values = (t_mc_val *)malloc(sizeof(t_mc_val));
-	set_values(info, padds->longest_fname, values);
-	while (count > 0)
+	if (set_values(info, padds->longest_fname, values))
+		return (-1);
+	while (count-- > 0)
 	{
 		if (values->x > values->max_cols - 1)
 			reset_x(values);
 		i = (values->x * values->max_rows) + values->y;
 		if (i >= info->f_count)
 			add_y(values, &i);
-		count--;
 		values->x += 1;
 		if (count == 0 || values->x > values->max_cols - 1)
 			ft_printf("%s\n", linearray[i]->filename);

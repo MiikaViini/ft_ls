@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 22:50:30 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/23 14:23:42 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 		write(1, "\n", 1);
 	free_linearray(linearray);
 	*i -= 1;
+	flags->one_file = 0;
 }
 
 static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
