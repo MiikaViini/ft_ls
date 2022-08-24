@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/20 19:41:12 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 20:18:31 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 14:25:13 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ void	one_flag(t_info *flags, char *string)
 {
 	(void)string;
 	flags->one = 1;
+	flags->l = 0;
 }

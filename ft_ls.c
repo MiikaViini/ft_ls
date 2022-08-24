@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/23 14:23:42 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 16:00:46 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 		write(1, "\n", 1);
 	free_linearray(linearray);
 	*i -= 1;
-	flags->one_file = 0;
 }
 
 static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 {
 	struct stat	buf;
 	int			i;
+	int			stat;
 
 	i = 0;
-	if ((lstat(path, &buf) == 0 && !S_ISDIR(buf.st_mode))
-		|| (S_ISDIR(buf.st_mode) && flags->d))
+	stat = lstat(path, &buf);
+	if (!stat && !S_ISLNK(buf.st_mode) && !S_ISDIR(buf.st_mode && flags->d))
 	{
 		if (lstat(path, &buf) == -1)
 		{
@@ -68,7 +68,7 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 		free_linearray(linearray);
 	}
 }
-
+//|| (S_ISDIR(buf.st_mode) )
 static int	multi_args(char **argv, t_info *flags,
 							t_fileinfo **linearray, int i)
 {
@@ -126,8 +126,6 @@ int	ft_ls(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	// get_tty();
-	// exit(1);
 	ft_ls(argc, argv);
 	return (0);
 }

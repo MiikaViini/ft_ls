@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/18 22:35:58 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/24 09:04:17 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,10 @@ OBJS = $(SRCS:.c=.o)
 
 FLAGS = -Wall -Werror -Wextra -O3
 
-all: $(NAME) $(OBJS)
+all: $(NAME)
 
 $(NAME): $(OBJS)
-		cp ../libft.a .
+		@cp ../libft.a .
 		@gcc $(FLAGS) -c $(SRCS)
 		@ar rcs $(NAME) $(OBJS) ../libft.a
 clean:
@@ -40,7 +40,5 @@ clean:
 
 fclean: clean
 		@rm -f $(NAME)
-debug:
-	@gcc main.c libftprintf.a
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 17:53:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 10:21:20 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ static int	comp_ascii(t_fileinfo **linearray, int i, int pivot)
 {
 	if (ft_strcmp(linearray[i]->filename, linearray[pivot]->filename) > 0)
 		return (1);
-	else if (ft_strcmp(linearray[i]->filename, linearray[pivot]->filename) < 0)
-		return (-1);
 	else
-		return (0);
+		return (-1);
 }
 
 static int	comp_time(t_fileinfo **linearray, int i, int pivot)

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:19:39 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/23 14:08:00 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:07:06 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	add_y(t_mc_val *values, int *i)
 
 static int	set_values(t_info *info, int name_len, t_mc_val *values)
 {
-	
 	if (!values)
 		return (-1);
 	initialize_mc_val(values);

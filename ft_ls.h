@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 00:52:00 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:25:22 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void		one_flag(t_info *flags, char *string);
 void		not_found(t_info *flags, char *string);
 int			find_letter(char c, char *letters);
 int			get_flags(char **argv, t_info *flags);
-char		print_type(char *perms);
 
 /***********/
 /**SORTING**/
@@ -139,7 +138,7 @@ int			ft_ls(int argc, char **argv);
 int			is_single_arg(int argc, char *path, int i);
 int			is_single_file(struct stat buf, char **argv, int i, t_info *flags);
 int			is_dd_or_no_args(int argc, char **argv, int i);
-void		path_maker(char *dest, char *dirname);
+void		path_maker(char *dest, char *dirname, t_info *info);
 int			newpath(char *path, char **argv, int i);
 
 /***********************************/

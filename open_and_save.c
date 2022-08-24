@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 11:27:02 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:54:01 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	recursively(char *dirname, t_fileinfo **linearray, t_info *flags)
 		if (arr[i]->perms[0] == 'd' && ft_strcmp(arr[i]->filename, ".") != 0
 			&& ft_strcmp(arr[i]->filename, "..") != 0)
 		{
-			path_maker(path, dirname);
+			path_maker(path, dirname, flags);
 			ft_strcat(path, arr[i]->filename);
 			ft_printf("\n%s:\n", path);
 			recursively(path, arr, flags);
@@ -105,7 +105,6 @@ t_fileinfo	**save_info(char *path, char *dirname,
 		lstat(dirname, &buf);
 		if (entity_is_saveable(entity->d_name, info) == 1)
 			linearray[i++] = get_info(buf, dirname, ft_strlen(path), info);
-		info->blocks += buf.st_blocks;
 		entity = readdir(dirp);
 		ft_strdel(&dirname);
 	}
@@ -122,7 +121,7 @@ t_fileinfo	**open_dir(char *dirname, t_fileinfo **linearray,
 	f_count = filecount(dirname);
 	if (f_count <= 0)
 		return (NULL);
-	path_maker(path, dirname);
+	path_maker(path, dirname, flags);
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 2);
 	if (!linearray)
 		return (NULL);

@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/30 09:25:07 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/18 16:50:49 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/24 09:02:30 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,8 +55,8 @@ $(NAME): $(OBJ)
 
 	@gcc -c $(FLAGS) $(SRCS)
 	@ar rcs $(NAME) $(OBJ)
-	make -C ./ft_printf/
-	cp $(FT_PRINTF) $(NAME)
+	@make -C ./ft_printf/
+	@cp $(FT_PRINTF) $(NAME)
 	@gcc -c $(FLAGS) $(SRCS) $(GET_NEXT_LINE_SRC)
 	@ar rcs $(NAME) $(OBJ) *.o $(GET_NEXT_LINE_OBJ)
 clean:

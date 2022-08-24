@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:35:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 14:10:12 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 15:17:51 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen, t_info *info)
 	line = malloc(sizeof(t_fileinfo));
 	if (!line)
 		return (NULL);
-	(void)info;
+	info->blocks += buf.st_blocks;
 	initialize_info_struct(line);
 	insert_timeinfo(line, buf);
 	set_pwd_grp(buf, line, info);
