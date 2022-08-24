@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 16:00:46 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 22:25:42 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 
 	i = 0;
 	stat = lstat(path, &buf);
-	if (!stat && !S_ISLNK(buf.st_mode) && !S_ISDIR(buf.st_mode && flags->d))
+	if ((stat == 0 && S_ISDIR(buf.st_mode) && flags->d) || (stat == 0 && !S_ISDIR(buf.st_mode)))
 	{
 		if (lstat(path, &buf) == -1)
 		{

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:35:10 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 15:58:59 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/24 22:02:44 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ void	path_maker(char *dest, char *dirname, t_info *info)
 	int			i;
 	int			i_stat;
 	struct stat	buf;
-	char		link[255];
+	//char		link[255];
 
 	i = -1;
 	i_stat = lstat(dirname, &buf);
-	if (S_ISLNK(buf.st_mode) && !info->l)
-	{
-		ft_printf("%s", dirname);
-		ft_memset(link, '\0', 255);
-		readlink(dirname, link, 255);
-		ft_memset(dirname, '\0', 255);
-		ft_strcat(dirname, "/");
-		ft_strcat(dirname, link);
-	}
+	// if (S_ISLNK(buf.st_mode) && !info->l)
+	// {
+	// 	ft_printf("%s", dirname);
+	// 	ft_memset(link, '\0', 255);
+	// 	readlink(dirname, link, 255);
+	// 	ft_memset(dirname, '\0', 255);
+	// 	ft_strcat(dirname, "/");
+	// 	ft_strcat(dirname, link);
+	// }
+	(void)info;
 	ft_memset(dest, '\0', 255);
 	while (dirname[++i])
 		dest[i] = dirname[i];
