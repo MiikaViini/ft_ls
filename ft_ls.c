@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/26 23:52:49 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/27 00:22:23 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo));
 	if (!linearray)
 		return ;
-	while ((argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))
-		|| (argv[*i] && lstat(argv[*i], &buf) != -1
-			&& S_ISDIR(buf.st_mode) && flags->d))
+	while (treated_like_file(argv[*i], flags) == 2)
 	{
 		linearray[k] = get_info(buf, argv[*i], 0, flags);
 		if (linearray[k] == NULL)
@@ -35,7 +33,8 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 	}
 	linearray[k] = NULL;
 	print_arr(sort_handler(linearray, flags), flags);
-	if (lstat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode))
+	if ((lstat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode))
+		|| (stat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode)))
 		write(1, "\n", 1);
 	free_linearray(linearray);
 	flags->one_file = 0;
@@ -68,7 +67,7 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 		free_linearray(linearray);
 	}
 }
-//|| (S_ISDIR(buf.st_mode) )
+
 static int	multi_args(char **argv, t_info *flags,
 							t_fileinfo **linearray, int i)
 {
@@ -80,12 +79,12 @@ static int	multi_args(char **argv, t_info *flags,
 	while (argv[i])
 	{
 		ft_strcpy(path, argv[i]);
-		if (!is_single_file(buf, argv, i, flags) && lstat(argv[i], &buf) != -1)
+		lstat(path, &buf);
+		if (treated_like_file(path, flags) == 1)
 			ft_printf("%s:\n", argv[i]);
-		if (flags->cap_r && lstat(argv[i], &buf) != -1
-			&& S_ISDIR(buf.st_mode) && !flags->d)
+		if (flags->cap_r && treated_like_file(path, flags) == 1)
 			recursively(path, linearray, flags);
-		else if (treated_like_file(path, flags) == 2)//is_single_file(buf, argv, i, flags)
+		else if (treated_like_file(path, flags) == 2)
 			single_file(buf, argv, &i, flags);
 		else
 			linearray = open_dir(path, linearray, flags, 0);
@@ -96,9 +95,7 @@ static int	multi_args(char **argv, t_info *flags,
 	}
 	return (0);
 }
-// lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d
-// (stat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d)
-// 			|| (lstat(argv[i], &buf) != -1 && S_ISLNK(buf.st_mode) && !flags->l)
+
 int	ft_ls(int argc, char **argv)
 {
 	t_fileinfo	**linearray;
@@ -135,3 +132,16 @@ int	main(int argc, char **argv)
 // i_stat == 0 && S_ISDIR(buf.st_mode) && flags->d) 
 // 		|| (i_stat == 0 && S_ISDIR(buf.st_mode) && flags->l && !lstat(path, &buf) && S_ISLNK(buf.st_mode))
 // 		|| (!lstat(path, &buf) && !S_ISDIR(buf.st_mode) && !stat(path, &buf) && !S_ISDIR(buf.st_mode)))
+
+// lstat(argv[i], &buf) != -1
+// 			&& S_ISDIR(buf.st_mode) && !flags->d)
+
+// (argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))  //TREATED LIKE FILE
+// 		|| (argv[*i] && lstat(argv[*i], &buf) != -1
+// 			&& S_ISDIR(buf.st_mode) && flags->d))
+
+//!is_single_file(buf, argv, i, flags) && lstat(argv[i], &buf) != -1
+
+// lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d
+// (stat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d)
+// 			|| (lstat(argv[i], &buf) != -1 && S_ISLNK(buf.st_mode) && !flags->l)
