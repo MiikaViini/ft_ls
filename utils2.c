@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:35:10 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 22:02:44 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/26 13:05:31 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	newpath(char *path, char **argv, int i)
 
 int	needs_newline(struct stat buf, char **argv, int i)
 {
-	return (argv[i + 1] != NULL && lstat(argv[i], &buf) != -1
+	return (argv[i + 1] != NULL && stat(argv[i], &buf) != -1
 		&& S_ISDIR(buf.st_mode));
 }
 

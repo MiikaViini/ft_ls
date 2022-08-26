@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 22:25:42 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/26 12:56:26 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 {
 	struct stat	buf;
 	int			i;
-	int			stat;
+	int			i_stat;
 
 	i = 0;
-	stat = lstat(path, &buf);
-	if ((stat == 0 && S_ISDIR(buf.st_mode) && flags->d) || (stat == 0 && !S_ISDIR(buf.st_mode)))
+	i_stat = stat(path, &buf);
+	if ((i_stat == 0 && S_ISDIR(buf.st_mode) && flags->d) 
+		|| (i_stat == 0 && S_ISDIR(buf.st_mode) && flags->l)
+		|| (!lstat(path, &buf) && !S_ISDIR(buf.st_mode) && stat(path, &buf) && !S_ISDIR(buf.st_mode)))
 	{
 		if (lstat(path, &buf) == -1)
 		{
@@ -80,7 +82,7 @@ static int	multi_args(char **argv, t_info *flags,
 	while (argv[i])
 	{
 		ft_strcpy(path, argv[i]);
-		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d)
+		if (!is_single_file(buf, argv, i, flags))
 			ft_printf("%s:\n", argv[i]);
 		if (flags->cap_r && lstat(argv[i], &buf) != -1
 			&& S_ISDIR(buf.st_mode) && !flags->d)
@@ -96,7 +98,9 @@ static int	multi_args(char **argv, t_info *flags,
 	}
 	return (0);
 }
-
+// lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d
+// (stat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d)
+// 			|| (lstat(argv[i], &buf) != -1 && S_ISLNK(buf.st_mode) && !flags->l)
 int	ft_ls(int argc, char **argv)
 {
 	t_fileinfo	**linearray;

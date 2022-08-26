@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 15:07:19 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/26 11:48:30 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	validate_args(char **argv, int i, int *start)
 	}
 }
 
-static void	sort_files_in_args(char **argv, int i, int *start)
+static void	sort_files_in_args(char **argv, int i, int *start, t_info *flags)
 {
 	char		*temp;
 	struct stat	buf;
@@ -42,8 +42,9 @@ static void	sort_files_in_args(char **argv, int i, int *start)
 	*start = i;
 	while (argv[i])
 	{
-		if (lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode)
-			&& lstat(argv[i - 1], &buf) != -1 && S_ISDIR(buf.st_mode))
+		if ((lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode)
+				&& stat(argv[i - 1], &buf) != -1
+				&& S_ISDIR(buf.st_mode) && !flags->l))
 		{
 			temp = argv[i];
 			argv[i] = argv[i - 1];
@@ -64,7 +65,7 @@ static void	sort_args_lex(char **argv, int i, int *has_dirs)
 	temp = NULL;
 	while (argv[i] && argv[i + 1])
 	{
-		if (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+		if (stat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
 			*has_dirs = 1;
 		if (ft_strcmp(argv[i], argv[i + 1]) > 0)
 		{
@@ -88,10 +89,13 @@ char	**arg_sort_handler(char **argv, int i, t_info *flags)
 		sort_args_lex(argv, i, &has_dirs);
 	validate_args(argv, i, &start);
 	if (has_dirs)
-		sort_files_in_args(argv, i, &start);
+		sort_files_in_args(argv, i, &start, flags);
 	if (flags->t && !flags->f)
 		sort_args_time(argv, i);
 	if (flags->r && !flags->f)
 		ft_strarrrev(argv, start);
+		// while (argv[i])
+		// 	ft_printf("%s\n",argv[i++]);
+		// exit(1);
 	return (argv);
 }

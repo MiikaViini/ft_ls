@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:36:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/20 22:04:48 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/26 13:04:25 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,34 @@ int	is_single_arg(int argc, char *path, int i)
 
 int	is_single_file(struct stat buf, char **argv, int i, t_info *flags)
 {
-	return ((lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode))
-		|| (lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && flags->d));
-}
+	struct stat	buf2;
 
+	stat(argv[i], &buf2);
+	if (S_ISDIR(buf2.st_mode))
+	{
+		if (lstat(argv[i], &buf) != -1 && S_ISLNK(buf.st_mode))
+		{
+			if (flags->l)
+			{
+				return (1);
+			}
+			else
+				return (0);
+		}
+		else
+		{
+			if (flags->d)
+				return (1);
+			else
+				return (0);
+		}
+	}
+	return (1);
+}
+// ((lstat(argv[i], &buf) != -1 && !S_ISDIR(buf.st_mode))
+// 		|| ((lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && flags->d)
+// 		|| (S_ISDIR(buf2.st_mode) && flags->l)
+// 		|| (S_ISDIR(buf2.st_mode) && flags->d)));
 int	is_dd_or_no_args(int argc, char **argv, int i)
 {
 	return (argv[1] == NULL || (i > 1 && argv[i] == NULL)

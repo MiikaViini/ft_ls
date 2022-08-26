@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/22 21:19:49 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/26 11:05:04 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	free_linearray(t_fileinfo **linearray)
 	int		i;
 
 	i = -1;
-	if (!linearray)
+	if (!linearray || !linearray[i + 1])
 		return ;
 	while (linearray[++i])
 	{
