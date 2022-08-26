@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/26 16:04:14 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/26 23:43:53 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,19 @@ static void	validate_args(char **argv, int i, int *start)
 int	treated_like_file(char *str, t_info *flags)
 {
 	struct stat	buf;
+	struct stat	buf2;
 	int			res;
+	int			res2;
 
 	res = lstat(str, &buf);
-	ft_printf("res %d, str %s\n", res, str);
+	res2 = stat(str, &buf2);
 	if (res != -1)
 	{
-		if ((stat(str, &buf) != -1 && S_ISDIR(buf.st_mode) && flags->l)
-			|| (stat(str, &buf) != -1 && S_ISDIR(buf.st_mode) && flags->d))
+		if (!S_ISDIR(buf2.st_mode) || (S_ISLNK(buf.st_mode) && res2 == -1))
 			return (2);
-		else if (lstat(str, &buf) != -1 && !S_ISDIR(buf.st_mode))
+		else if (S_ISDIR(buf2.st_mode) && flags->d)
+			return (2);
+		else if (!S_ISDIR(buf.st_mode) && S_ISDIR(buf2.st_mode) && flags->l)
 			return (2);
 		else
 			return (1);
@@ -61,14 +64,14 @@ static void	sort_files_in_args(char **argv, int i, int *start, t_info *flags)
 		i++;
 	*start = i;
 	//(void)flags;
-	while (argv[i])
+	while (argv[i] && argv[i + 1])
 	{
-		if (treated_like_file(argv[i], flags) == 2  && treated_like_file(argv[i - 1], flags) == 1)
+		if (treated_like_file(argv[i], flags) == 1 && treated_like_file(argv[i + 1], flags) == 2)
 		{
 			temp = argv[i];
-			argv[i] = argv[i - 1];
-			argv[i - 1] = temp;
-			i = *start;
+			argv[i] = argv[i + 1];
+			argv[i + 1] = temp;
+			i = *start - 1;
 		}
 		i++;
 	}
@@ -113,8 +116,8 @@ char	**arg_sort_handler(char **argv, int i, t_info *flags)
 		sort_args_time(argv, i);
 	if (flags->r && !flags->f)
 		ft_strarrrev(argv, start);
-	while (argv[start])
-			ft_printf("%s\n",argv[start++]);
-	exit(1);	
+	// while (argv[start])
+	// 		ft_printf("%s\n",argv[start++]);
+	// exit(1);	
 	return (argv);
 }

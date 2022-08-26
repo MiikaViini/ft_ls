@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/26 14:57:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/26 23:52:49 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 	if (lstat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode))
 		write(1, "\n", 1);
 	free_linearray(linearray);
+	flags->one_file = 0;
 	*i -= 1;
 }
 
@@ -49,9 +50,7 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 
 	i = 0;
 	i_stat = stat(path, &buf);
-	if ((i_stat == 0 && S_ISDIR(buf.st_mode) && flags->d) 
-		|| (i_stat == 0 && S_ISDIR(buf.st_mode) && flags->l && !lstat(path, &buf) && S_ISLNK(buf.st_mode))
-		|| (!lstat(path, &buf) && !S_ISDIR(buf.st_mode) && !stat(path, &buf) && !S_ISDIR(buf.st_mode)))
+	if (treated_like_file(path, flags) == 2)
 	{
 		if (lstat(path, &buf) == -1)
 		{
@@ -59,7 +58,6 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 			return ;
 		}
 		single_file(buf, &path, &i, flags);
-		flags->one_file = 0;
 	}
 	else if (flags->cap_r)
 		recursively(path, linearray, flags);
@@ -87,7 +85,7 @@ static int	multi_args(char **argv, t_info *flags,
 		if (flags->cap_r && lstat(argv[i], &buf) != -1
 			&& S_ISDIR(buf.st_mode) && !flags->d)
 			recursively(path, linearray, flags);
-		else if (is_single_file(buf, argv, i, flags))
+		else if (treated_like_file(path, flags) == 2)//is_single_file(buf, argv, i, flags)
 			single_file(buf, argv, &i, flags);
 		else
 			linearray = open_dir(path, linearray, flags, 0);
@@ -133,3 +131,7 @@ int	main(int argc, char **argv)
 	ft_ls(argc, argv);
 	return (0);
 }
+
+// i_stat == 0 && S_ISDIR(buf.st_mode) && flags->d) 
+// 		|| (i_stat == 0 && S_ISDIR(buf.st_mode) && flags->l && !lstat(path, &buf) && S_ISLNK(buf.st_mode))
+// 		|| (!lstat(path, &buf) && !S_ISDIR(buf.st_mode) && !stat(path, &buf) && !S_ISDIR(buf.st_mode)))

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 15:25:22 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/26 23:46:43 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		sort_args_time(char **argv, int i);
 void		ft_strarrrev(char **arr, int start);
 int			move_index(char **arr, int start);
 void		swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp);
+int			treated_like_file(char *str, t_info *flags);
 
 /*********************************************/
 /**ERROR HANDLING, INITIALIZATION AND MEMORY**/
