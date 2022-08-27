@@ -6,11 +6,28 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:04:35 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 14:48:57 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/27 13:44:47 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
+
+static int	move_index(char **arr, int start)
+{
+	struct stat	buf;
+	int			stat;
+
+	stat = 0;
+	while (arr[start])
+	{
+		stat = lstat(arr[start], &buf);
+		if (stat == -1 || !S_ISDIR(buf.st_mode))
+			start++;
+		else
+			break ;
+	}
+	return (start);
+}
 
 void	sort_args_time(char **argv, int i)
 {
@@ -35,23 +52,6 @@ void	sort_args_time(char **argv, int i)
 		}
 		i++;
 	}
-}
-
-int	move_index(char **arr, int start)
-{
-	struct stat	buf;
-	int			stat;
-
-	stat = 0;
-	while (arr[start])
-	{
-		stat = lstat(arr[start], &buf);
-		if (stat == -1 || !S_ISDIR(buf.st_mode))
-			start++;
-		else
-			break ;
-	}
-	return (start);
 }
 
 void	ft_strarrrev(char **arr, int start)

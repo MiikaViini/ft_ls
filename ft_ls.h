@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/26 23:46:43 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/27 13:41:17 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_fileinfo
 	char				*owner_gr;
 	long long			size;
 	char				filename[MAXNAMLEN];
-	char				link[255];
+	char				link[MAXNAMLEN];
 	long long			time_m;
 	long long			time_a;
 	unsigned int		minor;
@@ -117,7 +117,6 @@ t_fileinfo	**sort_handler(t_fileinfo **linearray, t_info *flags);
 char		**arg_sort_handler(char **argv, int i, t_info *flags);
 void		sort_args_time(char **argv, int i);
 void		ft_strarrrev(char **arr, int start);
-int			move_index(char **arr, int start);
 void		swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp);
 int			treated_like_file(char *str, t_info *flags);
 
@@ -137,9 +136,8 @@ void		print_err(char *dirname, int error);
 /********************/
 int			ft_ls(int argc, char **argv);
 int			is_single_arg(int argc, char *path, int i);
-int			is_single_file(struct stat buf, char **argv, int i, t_info *flags);
 int			is_dd_or_no_args(int argc, char **argv, int i);
-void		path_maker(char *dest, char *dirname, t_info *info);
+void		path_maker(char *dest, char *dirname);
 int			newpath(char *path, char **argv, int i);
 
 /***********************************/

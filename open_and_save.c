@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 15:54:01 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/27 13:37:14 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	recursively(char *dirname, t_fileinfo **linearray, t_info *flags)
 		if (arr[i]->perms[0] == 'd' && ft_strcmp(arr[i]->filename, ".") != 0
 			&& ft_strcmp(arr[i]->filename, "..") != 0)
 		{
-			path_maker(path, dirname, flags);
+			path_maker(path, dirname);
 			ft_strcat(path, arr[i]->filename);
 			ft_printf("\n%s:\n", path);
 			recursively(path, arr, flags);
@@ -121,7 +121,7 @@ t_fileinfo	**open_dir(char *dirname, t_fileinfo **linearray,
 	f_count = filecount(dirname);
 	if (f_count <= 0)
 		return (NULL);
-	path_maker(path, dirname, flags);
+	path_maker(path, dirname);
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * f_count + 2);
 	if (!linearray)
 		return (NULL);

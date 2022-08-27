@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/27 00:22:23 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/27 13:42:41 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,20 +128,3 @@ int	main(int argc, char **argv)
 	ft_ls(argc, argv);
 	return (0);
 }
-
-// i_stat == 0 && S_ISDIR(buf.st_mode) && flags->d) 
-// 		|| (i_stat == 0 && S_ISDIR(buf.st_mode) && flags->l && !lstat(path, &buf) && S_ISLNK(buf.st_mode))
-// 		|| (!lstat(path, &buf) && !S_ISDIR(buf.st_mode) && !stat(path, &buf) && !S_ISDIR(buf.st_mode)))
-
-// lstat(argv[i], &buf) != -1
-// 			&& S_ISDIR(buf.st_mode) && !flags->d)
-
-// (argv[*i] && lstat(argv[*i], &buf) != -1 && !S_ISDIR(buf.st_mode))  //TREATED LIKE FILE
-// 		|| (argv[*i] && lstat(argv[*i], &buf) != -1
-// 			&& S_ISDIR(buf.st_mode) && flags->d))
-
-//!is_single_file(buf, argv, i, flags) && lstat(argv[i], &buf) != -1
-
-// lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d
-// (stat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode) && !flags->d)
-// 			|| (lstat(argv[i], &buf) != -1 && S_ISLNK(buf.st_mode) && !flags->l)

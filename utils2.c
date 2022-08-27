@@ -6,32 +6,18 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:35:10 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/26 13:05:31 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/27 13:40:01 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls.h"
 
-void	path_maker(char *dest, char *dirname, t_info *info)
+void	path_maker(char *dest, char *dirname)
 {
 	int			i;
-	int			i_stat;
-	struct stat	buf;
-	//char		link[255];
 
 	i = -1;
-	i_stat = lstat(dirname, &buf);
-	// if (S_ISLNK(buf.st_mode) && !info->l)
-	// {
-	// 	ft_printf("%s", dirname);
-	// 	ft_memset(link, '\0', 255);
-	// 	readlink(dirname, link, 255);
-	// 	ft_memset(dirname, '\0', 255);
-	// 	ft_strcat(dirname, "/");
-	// 	ft_strcat(dirname, link);
-	// }
-	(void)info;
-	ft_memset(dest, '\0', 255);
+	ft_memset(dest, '\0', ft_strlen(dirname) + 2);
 	while (dirname[++i])
 		dest[i] = dirname[i];
 	if (dest[i] != '/')
@@ -60,4 +46,27 @@ void	swap_line(t_fileinfo **linearray, int i, int j, t_fileinfo *temp)
 	temp = linearray[i];
 	linearray[i] = linearray[j];
 	linearray[j] = temp;
+}
+
+int	treated_like_file(char *str, t_info *flags)
+{
+	struct stat	buf;
+	struct stat	buf2;
+	int			res;
+	int			res2;
+
+	res = lstat(str, &buf);
+	res2 = stat(str, &buf2);
+	if (res != -1)
+	{
+		if (!S_ISDIR(buf2.st_mode) || (S_ISLNK(buf.st_mode) && res2 == -1))
+			return (2);
+		else if (S_ISDIR(buf2.st_mode) && flags->d)
+			return (2);
+		else if (!S_ISDIR(buf.st_mode) && S_ISDIR(buf2.st_mode) && flags->l)
+			return (2);
+		else
+			return (1);
+	}
+	return (0);
 }
