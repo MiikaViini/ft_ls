@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/28 17:01:31 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/28 20:05:41 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 
 	k = 0;
 	flags->one_file++;
-	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo));
+	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * flags->f_count + 1);
 	if (!linearray)
 		return ;
+	flags->f_count = 0;
 	while (treated_like_file(argv[*i], flags) == 2)
 	{
 		linearray[k] = get_info(buf, argv[*i], 0, flags);

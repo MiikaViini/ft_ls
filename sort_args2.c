@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 14:04:35 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/27 13:44:47 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/28 20:04:52 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ static int	move_index(char **arr, int start)
 	int			stat;
 
 	stat = 0;
+	
 	while (arr[start])
 	{
 		stat = lstat(arr[start], &buf);
@@ -29,7 +30,7 @@ static int	move_index(char **arr, int start)
 	return (start);
 }
 
-void	sort_args_time(char **argv, int i)
+void	sort_args_time(char **argv, int i, t_info *flags)
 {
 	int			int_temp;
 	char		*temp;
@@ -37,9 +38,11 @@ void	sort_args_time(char **argv, int i)
 	struct stat	buf2;
 
 	temp = NULL;
-	i = move_index(argv, i);
 	int_temp = i;
-	while (argv[i] && argv[i + 1])
+	i = move_index(argv, i);
+	flags->f_count = i - int_temp;
+	int_temp = i;
+	while (argv[i] && argv[i + 1] && flags->t && !flags->f)
 	{
 		lstat(argv[i], &buf);
 		lstat(argv[i + 1], &buf2);

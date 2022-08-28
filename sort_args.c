@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:31:15 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/27 13:40:06 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/28 19:46:41 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ char	**arg_sort_handler(char **argv, int i, t_info *flags)
 		sort_args_lex(argv, i);
 	validate_args(argv, i, &start);
 	sort_files(argv, i, &start, flags);
-	if (flags->t && !flags->f)
-		sort_args_time(argv, i);
+	sort_args_time(argv, i, flags);
 	if (flags->r && !flags->f)
 		ft_strarrrev(argv, start);
 	return (argv);
