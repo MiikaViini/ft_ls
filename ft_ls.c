@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/27 13:42:41 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/28 17:01:31 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,7 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 	i = 0;
 	i_stat = stat(path, &buf);
 	if (treated_like_file(path, flags) == 2)
-	{
-		if (lstat(path, &buf) == -1)
-		{
-			print_err(path, errno);
-			return ;
-		}
 		single_file(buf, &path, &i, flags);
-	}
 	else if (flags->cap_r)
 		recursively(path, linearray, flags);
 	else

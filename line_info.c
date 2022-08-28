@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:35:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/27 12:44:14 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/27 20:01:59 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,6 @@ static void	insert_timeinfo(t_fileinfo *line, struct stat buf)
 	line->time_m = buf.st_mtimespec.tv_sec;
 	line->time_a = buf.st_mtimespec.tv_nsec;
 	l_time = time(&today);
-	if (l_time == -1)
-	{
-		ft_printf("%s\n", strerror(errno));
-		free(line);
-		exit(1);
-	}
 	if (l_time - line->time_m < SIX_MONTHS && l_time - line->time_m > 0)
 		ft_strncat(line->m_time, ctime(&buf.st_mtime) + 4, 12);
 	else

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/27 13:41:17 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/28 16:42:52 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <pwd.h>
 # include <grp.h>
 # include <dirent.h>
-# include <errno.h>
 # include <time.h>
 # include <limits.h>
 # include <sys/ioctl.h>
@@ -30,6 +29,10 @@
 
 # define FLAGS "lRartfAdn1"
 # define SIX_MONTHS 15778476
+
+# define NO_ACCS 13
+# define NOT_DIR 20
+# define NO_ENT 2
 
 typedef struct s_fileinfo
 {
@@ -130,6 +133,7 @@ void		initialize_info_struct(t_fileinfo *line);
 void		initialize_flags(t_info *flags);
 void		print_flag_err(t_info *flags, char c);
 void		print_err(char *dirname, int error);
+int			get_error(char *dir);
 
 /********************/
 /**ARGUMENT PARSING**/
