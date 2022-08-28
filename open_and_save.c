@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/28 16:42:26 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/28 20:43:35 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_fileinfo	**save_info(char *path, char *dirname,
 
 	i = 0;
 	info->blocks = 0;
+	info->f_count = 0;
 	dirp = opendir(dirname);
 	entity = readdir(dirp);
 	if (ft_strcmp(dirname, "/") == 0)
