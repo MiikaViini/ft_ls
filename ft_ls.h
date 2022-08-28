@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/28 19:48:37 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/28 22:09:49 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <sys/xattr.h>
 # include <sys/acl.h>
 # include <sys/ioctl.h>
+# include <stdio.h>
 
 # define FLAGS "lRartfAdn1"
 # define SIX_MONTHS 15778476
@@ -132,8 +133,7 @@ void		free_linearray(t_fileinfo **linearray);
 void		initialize_info_struct(t_fileinfo *line);
 void		initialize_flags(t_info *flags);
 void		print_flag_err(t_info *flags, char c);
-void		print_err(char *dirname, int error);
-int			get_error(char *dir);
+void		print_err(char *dirname);
 
 /********************/
 /**ARGUMENT PARSING**/

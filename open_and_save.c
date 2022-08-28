@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/28 20:43:35 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/28 22:07:21 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static int	filecount(char *dir)
 	count = 0;
 	dir_s = opendir(dir);
 	if (dir_s == NULL)
-		return (get_error(dir));
+	{
+		print_err(dir);
+		return (-1);
+	}
 	entity = readdir(dir_s);
 	while (entity != NULL)
 	{
