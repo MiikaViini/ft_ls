@@ -6,25 +6,25 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/27 17:26:13 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/29 10:52:58 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = ft_ls
 
-SRCS = ft_ls.c permissions.c sort_args.c sort_args2.c sort_entrys.c print.c \
-	open_and_save.c flags.c flags2.c flags3.c utils.c utils2.c init_and_mem.c \
-	line_info.c error.c print_multicolumn.c
+SRCS = error.c flags.c flags2.c ft_ls.c init_and_mem.c long_format_info.c \
+	open_and_save.c permissions.c print_long_format.c print_multicolumn.c \
+	sort_args.c sort_args2.c sort_entrys.c utils.c utils2.c \
 
 OBJS = $(SRCS:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror -O3 -g
+FLAGS = -Wall -Wextra -Werror -O3
 
 LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME): ft_ls.h Makefile ./libft/ $(OBJS)
+$(NAME): $(OBJS) ft_ls.h Makefile
 	@make -C ./libft/
 	@gcc -c $(FLAGS) $(SRCS)
 	@gcc $(OBJS) -o $(NAME) $(LIBFT)

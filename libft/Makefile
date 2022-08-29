@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/30 09:25:07 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/24 09:02:30 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/29 15:37:56 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,23 +44,21 @@ GET_NEXT_LINE_SRC = get_next_line/get_next_line.c
 
 GET_NEXT_LINE_OBJ = get_next_line.o
 
-#INC = libft.h ft_printf/ft_printf.h  get_next_line/get_next_line.h
-
 FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-#ft_printf/Makefile libft.h
-
+$(NAME): libft.h Makefile $(OBJ) 
 	@gcc -c $(FLAGS) $(SRCS)
 	@ar rcs $(NAME) $(OBJ)
 	@make -C ./ft_printf/
 	@cp $(FT_PRINTF) $(NAME)
 	@gcc -c $(FLAGS) $(SRCS) $(GET_NEXT_LINE_SRC)
 	@ar rcs $(NAME) $(OBJ) *.o $(GET_NEXT_LINE_OBJ)
+
 clean:
 	@rm -f $(OBJ) get_next_line.o
+	@make clean -C ./ft_printf
 
 fclean: clean
 	@rm -f $(NAME)

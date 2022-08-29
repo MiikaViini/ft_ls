@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/24 09:04:17 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/29 10:58:00 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ OBJS = $(SRCS:.c=.o)
 
 FLAGS = -Wall -Werror -Wextra -O3
 
-all: $(NAME)
+all: $(NAME) Makefile ft_printf.h
 
 $(NAME): $(OBJS)
 		@cp ../libft.a .
@@ -40,5 +40,6 @@ clean:
 
 fclean: clean
 		@rm -f $(NAME)
+		@rm -f libft.a
 
 re: fclean all

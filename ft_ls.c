@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/28 20:36:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 15:44:17 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int	ft_ls(int argc, char **argv)
 	if (!info)
 		return (-1);
 	i = get_flags(argv, info);
+	if (i < 0)
+		return (-1);
 	ft_memset(path, '\0', PATH_MAX);
 	if (is_dd_or_no_args(argc, argv, i))
 		path[0] = '.';
@@ -118,6 +120,8 @@ int	ft_ls(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	ft_ls(argc, argv);
-	return (0);
+	int	ret;
+
+	ret = ft_ls(argc, argv);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:23:07 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/28 22:08:00 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 10:44:48 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 void	print_err(char *dirname)
 {
-	errno_t	err;
-
-	err = 0;
-	if (ft_strrchr(dirname, '/') && err != 2 && err != 9 && err != 20)
+	if (ft_strrchr(dirname, '/') && errno != 2 && errno != 20)
 	{
 		dirname = ft_strrchr(dirname, '/');
 		dirname++;
@@ -32,4 +29,22 @@ void	print_flag_err(t_info *flags, char c)
 	ft_printf("%c\nusage: ./ft_ls [-ARadflnrt1] [file ...]\n", c);
 	free(flags);
 	exit(EXIT_FAILURE);
+}
+
+void	not_found(t_info *flags, char *string)
+{
+	char	c;
+
+	c = '\0';
+	string++;
+	while (string)
+	{
+		if (!ft_strchr(FLAGS, *string))
+		{
+			c = *string;
+			break ;
+		}
+		string++;
+	}
+	print_flag_err(flags, c);
 }

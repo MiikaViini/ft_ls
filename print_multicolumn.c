@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/21 11:19:39 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/24 15:07:06 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 10:35:03 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ static int	set_values(t_info *info, int name_len, t_mc_val *values)
 	while (values->width <= name_len)
 		values->width += 8;
 	if (name_len > get_tty())
+	{
+		free(values);
 		return (-1);
+	}
 	values->max_cols = get_tty() / values->width;
 	values->max_rows = info->f_count / values-> max_cols;
 	if ((values->max_cols) * values->width >= get_tty())
@@ -62,7 +65,7 @@ int	print_multicolumn(t_info *info, t_fileinfo **linearray, t_padds *padds)
 	count = info->f_count;
 	i = 0;
 	values = (t_mc_val *)malloc(sizeof(t_mc_val));
-	if (set_values(info, padds->longest_fname, values))
+	if (set_values(info, padds->longest_fname, values) == -1)
 		return (-1);
 	while (count-- > 0)
 	{

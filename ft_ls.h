@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/28 22:09:49 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 10:31:41 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,10 @@
 # include <sys/acl.h>
 # include <sys/ioctl.h>
 # include <stdio.h>
+# include <errno.h>
 
 # define FLAGS "lRartfAdn1"
 # define SIX_MONTHS 15778476
-
-# define NO_ACCS 13
-# define NOT_DIR 20
-# define NO_ENT 2
 
 typedef struct s_fileinfo
 {
