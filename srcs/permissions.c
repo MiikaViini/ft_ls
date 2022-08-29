@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:30:25 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 10:11:08 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:21:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../include/ft_ls.h"
 
 static char	get_filetype(struct stat buf)
 {

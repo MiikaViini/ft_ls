@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 15:44:17 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:21:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../include/ft_ls.h"
 
 static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 {
@@ -89,21 +89,17 @@ static int	multi_args(char **argv, t_info *flags,
 	return (0);
 }
 
-int	ft_ls(int argc, char **argv)
+int	ft_ls(int argc, char **argv, t_info *info)
 {
 	t_fileinfo	**linearray;
-	t_info		*info;
 	char		path[PATH_MAX];
 	int			i;
+	int			ret;
 
 	i = 1;
+	ret = 0;
 	linearray = NULL;
-	info = (t_info *)malloc(sizeof(t_info));
-	if (!info)
-		return (-1);
 	i = get_flags(argv, info);
-	if (i < 0)
-		return (-1);
 	ft_memset(path, '\0', PATH_MAX);
 	if (is_dd_or_no_args(argc, argv, i))
 		path[0] = '.';
@@ -114,14 +110,19 @@ int	ft_ls(int argc, char **argv)
 		single_arg(path, linearray, info);
 	else
 		multi_args(argv, info, linearray, i);
-	free(info);
-	return (0);
+	ret = info->ret;
+	return (ret);
 }
 
 int	main(int argc, char **argv)
 {
-	int	ret;
+	int			ret;
+	t_info		*info;
 
-	ret = ft_ls(argc, argv);
+	info = (t_info *)malloc(sizeof(t_info));
+	if (!info)
+		return (1);
+	ret = ft_ls(argc, argv, info);
+	free(info);
 	return (ret);
 }

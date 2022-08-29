@@ -6,14 +6,14 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 10:31:41 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:22:27 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <sys/types.h>
@@ -25,7 +25,6 @@
 # include <sys/ioctl.h>
 # include <sys/xattr.h>
 # include <sys/acl.h>
-# include <sys/ioctl.h>
 # include <stdio.h>
 # include <errno.h>
 
@@ -78,6 +77,7 @@ typedef struct s_info
 	int		one_file;
 	int		blocks;
 	int		f_count;
+	int		ret;
 }			t_info;
 
 typedef struct s_mc_val
@@ -135,7 +135,7 @@ void		print_err(char *dirname);
 /********************/
 /**ARGUMENT PARSING**/
 /********************/
-int			ft_ls(int argc, char **argv);
+int			ft_ls(int argc, char **argv, t_info *info);
 int			is_single_arg(int argc, char *path, int i);
 int			is_dd_or_no_args(int argc, char **argv, int i);
 void		path_maker(char *dest, char *dirname);

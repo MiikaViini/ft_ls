@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:36:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 15:43:05 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:21:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../include/ft_ls.h"
 
 int	is_single_arg(int argc, char *path, int i)
 {
@@ -20,8 +20,6 @@ int	is_single_arg(int argc, char *path, int i)
 
 int	is_dd_or_no_args(int argc, char **argv, int i)
 {
-	if (i < 0)
-		return (-1);
 	return (argv[1] == NULL || (i > 1 && argv[i] == NULL)
 		|| (ft_strcmp(argv[i], "--") == 0 && argv[i + 1] == NULL)
 		|| (ft_strcmp(argv[i], "--") == 0 && argc - i <= 1));

@@ -6,13 +6,13 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/28 22:07:21 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:21:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../include/ft_ls.h"
 
-static int	filecount(char *dir)
+static int	filecount(char *dir, t_info *info)
 {
 	DIR				*dir_s;
 	struct dirent	*entity;
@@ -22,6 +22,7 @@ static int	filecount(char *dir)
 	dir_s = opendir(dir);
 	if (dir_s == NULL)
 	{
+		info->ret = 1;
 		print_err(dir);
 		return (-1);
 	}
@@ -43,7 +44,7 @@ void	recursively(char *dirname, t_fileinfo **linearray, t_info *flags)
 	int				i;
 
 	i = -1;
-	f_count = filecount(dirname);
+	f_count = filecount(dirname, flags);
 	if (f_count <= 0)
 		return ;
 	arr = open_dir(dirname, linearray, flags, f_count);
@@ -119,7 +120,7 @@ t_fileinfo	**open_dir(char *dirname, t_fileinfo **linearray,
 {
 	char			path[PATH_MAX];
 
-	f_count = filecount(dirname);
+	f_count = filecount(dirname, flags);
 	if (f_count <= 0)
 		return (NULL);
 	path_maker(path, dirname);

@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/30 09:25:07 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/29 15:37:56 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/29 21:35:39 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,6 +55,8 @@ $(NAME): libft.h Makefile $(OBJ)
 	@cp $(FT_PRINTF) $(NAME)
 	@gcc -c $(FLAGS) $(SRCS) $(GET_NEXT_LINE_SRC)
 	@ar rcs $(NAME) $(OBJ) *.o $(GET_NEXT_LINE_OBJ)
+	@echo "\x1b[32;01mLibft compiled\x1b[32;01m"
+
 
 clean:
 	@rm -f $(OBJ) get_next_line.o

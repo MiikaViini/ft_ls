@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:33:38 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/26 14:34:58 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/29 21:21:33 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls.h"
+#include "../include/ft_ls.h"
 
 void	initialize_info_struct(t_fileinfo *line)
 {
@@ -37,6 +37,7 @@ void	initialize_flags(t_info *info)
 	info->blocks = 0;
 	info->f_count = 0;
 	info->one = 0;
+	info->ret = 0;
 }
 
 void	initialize_padds(t_padds *padds)
