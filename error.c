@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:23:07 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/31 09:02:55 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/31 18:04:55 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_ls.h"
+#include "include/ft_ls.h"
 
 void	print_err(char *dirname)
 {

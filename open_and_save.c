@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 23:41:46 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/31 09:07:09 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/31 18:04:55 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_ls.h" 
+#include "include/ft_ls.h"
 
 static int	filecount(char *dir, t_info *info)
 {

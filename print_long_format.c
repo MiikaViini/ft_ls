@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/31 13:06:24 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/31 18:04:55 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_ls.h"
+#include "include/ft_ls.h"
 
 static void	set_padding_values(t_fileinfo **linearray, t_padds *padds)
 {

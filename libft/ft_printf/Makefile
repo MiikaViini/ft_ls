@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/29 21:56:13 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/31 18:59:21 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,14 +35,14 @@ $(NAME): $(OBJS)
 		@cp ../libft.a .
 		@gcc $(FLAGS) -c $(SRCS)
 		@ar rcs $(NAME) $(OBJS) ../libft.a
+		@rm -f libft.a
 		@echo "\x1b[32;01mFt_printf compiled\x1b[32;01m"
 
-		
+
 clean:
 		@rm -f *.o
 
 fclean: clean
 		@rm -f $(NAME)
-		@rm -f libft.a
 
 re: fclean all

@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 20:54:42 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 21:21:33 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/31 18:04:55 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_ls.h"
+#include "include/ft_ls.h"
 
 static int	comp_ascii(t_fileinfo **linearray, int i, int pivot)
 {

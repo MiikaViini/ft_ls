@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/14 13:14:50 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/30 20:10:40 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/31 18:04:55 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/ft_ls.h"
+#include "include/ft_ls.h"
 
 void	l_flag(t_info *flags, char *string)
 {

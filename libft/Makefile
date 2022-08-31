@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/30 09:25:07 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/29 21:35:39 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/31 18:26:50 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ FLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 
-$(NAME): libft.h Makefile $(OBJ) 
+$(NAME): $(OBJ) libft.h Makefile
 	@gcc -c $(FLAGS) $(SRCS)
 	@ar rcs $(NAME) $(OBJ)
 	@make -C ./ft_printf/
