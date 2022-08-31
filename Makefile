@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/29 22:00:33 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/31 09:07:33 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,15 +31,14 @@ LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
+$(NAME): $(SRCS) $(OBJS) Makefile
 	@make -C ./libft/
-#@gcc -c $(FLAGS) $(SRCS)
-	@gcc $(OBJS) -o $(NAME) $(LIBFT)
+	@gcc $(FLAGS) $(SRCS) -o $(NAME) $(LIBFT) 
 	@echo "\x1b[32;01mFt_ls compiled\x1b[32;01m"
 
-$(OBJS): $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c include/ft_ls.h
+$(OBJS): 
 	@mkdir -p $(OBJ_DIR)
-	@gcc $(FLAGS) -c -I include -o $@ $<
+	@gcc $(FLAGS) -c -I includes -o $@ $<
 
 clean:
 	@echo "\x1b[33;01mDeleting objs\x1b[33;01m"
@@ -47,7 +46,7 @@ clean:
 	@/bin/rm -Rf $(OBJ_DIR)
 
 fclean: clean
-	@echo "\x1b[31;01mTotal cleaning\x1b[31;01m"
+	@echo "\x1b[31;01mRemoving binary\x1b[31;01m"
 	@rm -f $(NAME)
 	@make fclean -C ./libft
 

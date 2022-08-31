@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/05 20:02:28 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 21:21:33 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/31 13:00:24 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 	flags->one_file++;
 	linearray = (t_fileinfo **)malloc(sizeof(t_fileinfo) * flags->f_count + 1);
 	if (!linearray)
+	{
+		flags->ret = 1;
 		return ;
+	}
 	flags->f_count = 0;
 	while (treated_like_file(argv[*i], flags) == 2)
 	{
@@ -33,11 +36,8 @@ static void	single_file(struct stat buf, char **argv, int *i, t_info *flags)
 	}
 	linearray[k] = NULL;
 	print_arr(sort_handler(linearray, flags), flags);
-	if ((lstat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode))
-		|| (stat(argv[*i], &buf) != -1 && S_ISDIR(buf.st_mode)))
-		write(1, "\n", 1);
+	needs_newline(buf, argv, *i, flags);
 	free_linearray(linearray);
-	flags->one_file = 0;
 	*i -= 1;
 }
 
@@ -48,6 +48,7 @@ static void	single_arg(char *path, t_fileinfo **linearray, t_info *flags)
 	int			i_stat;
 
 	i = 0;
+	flags->one_file = 0;
 	i_stat = stat(path, &buf);
 	if (treated_like_file(path, flags) == 2)
 		single_file(buf, &path, &i, flags);
@@ -71,6 +72,7 @@ static int	multi_args(char **argv, t_info *flags,
 	arg_sort_handler(argv, i, flags);
 	while (argv[i])
 	{
+		flags->one_file = 0;
 		ft_strcpy(path, argv[i]);
 		lstat(path, &buf);
 		if (treated_like_file(path, flags) == 1)
@@ -82,7 +84,7 @@ static int	multi_args(char **argv, t_info *flags,
 		else
 			linearray = open_dir(path, linearray, flags, 0);
 		print_arr(linearray, flags);
-		if (needs_newline(buf, argv, i++))
+		if (needs_newline(buf, argv, i++, flags))
 			write(1, "\n", 1);
 		free_linearray(linearray);
 	}

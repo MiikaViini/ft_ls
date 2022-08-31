@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 13:35:10 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 21:21:33 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/31 13:00:18 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,12 @@ int	newpath(char *path, char **argv, int i)
 	return (i);
 }
 
-int	needs_newline(struct stat buf, char **argv, int i)
+int	needs_newline(struct stat buf, char **argv, int i, t_info *flags)
 {
+	if (flags->one_file != 0)
+		if ((argv[i] && lstat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode))
+			|| (argv[i] && stat(argv[i], &buf) != -1 && S_ISDIR(buf.st_mode)))
+			write(1, "\n", 1);
 	return (argv[i + 1] != NULL && stat(argv[i], &buf) != -1
 		&& S_ISDIR(buf.st_mode));
 }
@@ -55,6 +59,8 @@ int	treated_like_file(char *str, t_info *flags)
 	int			res;
 	int			res2;
 
+	if (!str)
+		return (-1);
 	res = lstat(str, &buf);
 	res2 = stat(str, &buf2);
 	if (res != -1)

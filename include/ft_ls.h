@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 21:22:27 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/08/31 12:54:07 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ t_fileinfo	*get_info(struct stat buf, char *path, int pathlen, t_info *info);
 char		*permissions(int modes, struct stat buf, char *path);
 void		print_arr(t_fileinfo **linearray, t_info *flags);
 void		recursively(char *path, t_fileinfo **linearray, t_info *flags);
-int			needs_newline(struct stat buf, char **argv, int i);
+int			needs_newline(struct stat buf, char **argv, int i, t_info *flags);
 typedef void		(*t_fl)(t_info *flags, char *string);
 int			print_multicolumn(t_info *info,
 				t_fileinfo **linearray, t_padds *padds);
