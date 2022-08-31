@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/31 09:07:33 by mviinika         ###   ########.fr        #
+#    Updated: 2022/08/31 13:09:39 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,12 +31,12 @@ LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(SRCS) $(OBJS) Makefile
+$(NAME): $(OBJS) Makefile
 	@make -C ./libft/
 	@gcc $(FLAGS) $(SRCS) -o $(NAME) $(LIBFT) 
 	@echo "\x1b[32;01mFt_ls compiled\x1b[32;01m"
 
-$(OBJS): 
+$(OBJS): $(SRCS)
 	@mkdir -p $(OBJ_DIR)
 	@gcc $(FLAGS) -c -I includes -o $@ $<
 
