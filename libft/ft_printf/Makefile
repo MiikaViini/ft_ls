@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/31 18:59:21 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/02 10:00:32 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,17 +32,18 @@ FLAGS = -Wall -Werror -Wextra -O3
 all: $(NAME) Makefile ft_printf.h
 
 $(NAME): $(OBJS)
-		@cp ../libft.a .
-		@gcc $(FLAGS) -c $(SRCS)
-		@ar rcs $(NAME) $(OBJS) ../libft.a
-		@rm -f libft.a
-		@echo "\x1b[32;01mFt_printf compiled\x1b[32;01m"
-
+	@cp ../libft.a .
+	@gcc $(FLAGS) -c $(SRCS)
+	@ar rcs $(NAME) $(OBJS) ../libft.a
+	@rm -f libft.a
+	@echo "\x1b[32;01mFt_printf compiled\x1b[32;01m"
 
 clean:
-		@rm -f *.o
+	@echo "\x1b[33;01mDeleting ft_printf objs\x1b[33;01m"
+	@rm -f *.o
 
 fclean: clean
-		@rm -f $(NAME)
+	@echo "\x1b[31;01mRemoving $(NAME)\x1b[31;01m"
+	@rm -f $(NAME)
 
 re: fclean all

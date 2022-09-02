@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/31 12:54:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/09/02 15:00:54 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_fileinfo
 {
 	int					links;
 	char				*perms;
-	char				m_time[25];
+	char				m_time[26];
 	char				*owner;
 	char				*owner_gr;
 	long long			size;

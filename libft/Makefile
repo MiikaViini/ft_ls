@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/30 09:25:07 by mviinika          #+#    #+#              #
-#    Updated: 2022/08/31 18:26:50 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/02 09:57:09 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,10 +59,12 @@ $(NAME): $(OBJ) libft.h Makefile
 
 
 clean:
+	@echo "\x1b[33;01mDeleting libft objs\x1b[33;01m"
 	@rm -f $(OBJ) get_next_line.o
 	@make clean -C ./ft_printf
 
 fclean: clean
+	@echo "\x1b[31;01mRemoving $(NAME)\x1b[31;01m"
 	@rm -f $(NAME)
 	@rm -f $(NAME:.a=.so)
 	@make fclean -C ./ft_printf
