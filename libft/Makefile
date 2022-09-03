@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/30 09:25:07 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/02 09:57:09 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/03 13:32:40 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,16 +55,16 @@ $(NAME): $(OBJ) libft.h Makefile
 	@cp $(FT_PRINTF) $(NAME)
 	@gcc -c $(FLAGS) $(SRCS) $(GET_NEXT_LINE_SRC)
 	@ar rcs $(NAME) $(OBJ) *.o $(GET_NEXT_LINE_OBJ)
-	@echo "\x1b[32;01mLibft compiled\x1b[32;01m"
+	@echo "\x1b[32;01mLibft compiled\x1b[32;00m"
 
 
 clean:
-	@echo "\x1b[33;01mDeleting libft objs\x1b[33;01m"
+	@echo "\x1b[33;01mDeleting libft objs\x1b[33;00m"
 	@rm -f $(OBJ) get_next_line.o
 	@make clean -C ./ft_printf
 
 fclean: clean
-	@echo "\x1b[31;01mRemoving $(NAME)\x1b[31;01m"
+	@echo "\x1b[31;01mRemoving $(NAME)\x1b[31;00m"
 	@rm -f $(NAME)
 	@rm -f $(NAME:.a=.so)
 	@make fclean -C ./ft_printf

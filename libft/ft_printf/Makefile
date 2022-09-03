@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/02 10:00:32 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/03 13:34:44 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS = ft_printf.c length.c \
 	b_specifier.c \
 	per_specifier.c other_mods.c
 
+	
 OBJS = $(SRCS:.c=.o)
 
 FLAGS = -Wall -Werror -Wextra -O3
@@ -36,14 +37,14 @@ $(NAME): $(OBJS)
 	@gcc $(FLAGS) -c $(SRCS)
 	@ar rcs $(NAME) $(OBJS) ../libft.a
 	@rm -f libft.a
-	@echo "\x1b[32;01mFt_printf compiled\x1b[32;01m"
+	@echo "\x1b[32;01mFt_printf compiled\x1b[32;00m"
 
 clean:
-	@echo "\x1b[33;01mDeleting ft_printf objs\x1b[33;01m"
+	@echo "\x1b[33;01mDeleting ft_printf objs\x1b[33;00m"
 	@rm -f *.o
 
 fclean: clean
-	@echo "\x1b[31;01mRemoving $(NAME)\x1b[31;01m"
+	@echo "\x1b[31;01mRemoving $(NAME)\x1b[31;00m"
 	@rm -f $(NAME)
 
 re: fclean all

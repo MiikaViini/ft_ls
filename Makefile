@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/02 09:55:30 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/03 13:32:47 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,20 +24,20 @@ LIBFT = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS) Makefile ./include/ft_ls.h
+$(NAME): Makefile ./include/ft_ls.h $(OBJS)
 	@make -C ./libft/
 	@gcc -c $(FLAGS) $(SRC_FILES) -I ./include/
 	@gcc $(OBJS) -o $(NAME) $(LIBFT)
-	@echo "\x1b[32;01mFt_ls compiled\x1b[32;01m"
+	@echo "\x1b[32;01mFt_ls compiled\x1b[32;00m"
 
 
 clean:
-	@echo "\x1b[33;01mDeleting ft_ls objs\x1b[33;01m"
+	@echo "\x1b[33;01mDeleting ft_ls objs\x1b[33;00m"
 	@make clean -C ./libft
 	@rm -f $(OBJS)
 
 fclean: clean
-	@echo "\x1b[31;01mRemoving ft_ls\x1b[31;01m"
+	@echo "\x1b[31;01mRemoving ft_ls\x1b[31;00m"
 	@rm -f $(NAME)
 	@make fclean -C ./libft
 

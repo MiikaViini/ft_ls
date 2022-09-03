@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/15 09:35:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/09/02 15:05:07 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/09/03 13:25:35 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ static void	link_maker(t_fileinfo *line, char *path)
 
 static void	insert_timeinfo(t_fileinfo *line, struct stat buf)
 {
-	time_t	today;
-	long	l_time;
+	time_t	now;
 
 	line->time_m = buf.st_mtimespec.tv_sec;
 	line->time_a = buf.st_mtimespec.tv_nsec;
-	l_time = time(&today);
-	if (l_time - line->time_m < SIX_MONTHS && l_time - line->time_m > 0)
+	time(&now);
+	if (now - line->time_m < SIX_MONTHS && now - line->time_m > -1)
 	{
 		ft_strncat(line->m_time, ctime(&buf.st_mtime) + 4, 12);
 	}
