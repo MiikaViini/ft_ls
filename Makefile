@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/05 10:03:52 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/05 20:53:43 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,12 +29,12 @@ INC = ./include/
 ##COLOURS##
 RED = \x1b[31;01m
 GREEN = \x1b[32;01m
-YELLOW = \x1b[33;01
+YELLOW = \x1b[33;01m
 RESET = \x1b[32;00m
 
 all: $(NAME)
 
-$(NAME): Makefile $(OBJS)
+$(NAME): Makefile $(OBJS) $(INC)ft_ls.h
 	@make -C $(LIBFT_DIR)
 	@gcc -c $(FLAGS) $(SRC_FILES) -I $(INC)
 	@gcc $(OBJS) -o $(NAME) $(LIBFT)

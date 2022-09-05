@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/09/05 15:57:38 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/09/05 20:54:12 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define FT_LS_H
 
 # include "../libft/libft.h"
-# include <stdlib.h>
+//# include <stdlib.h>
 # include <sys/stat.h>
 # include <pwd.h>
 # include <grp.h>
 # include <dirent.h>
 # include <time.h>
-# include <limits.h>
+///# include <limits.h>
 # include <sys/ioctl.h>
 # include <sys/xattr.h>
 # include <sys/acl.h>
