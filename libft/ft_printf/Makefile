@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/03 13:34:44 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/04 12:47:09 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS = ft_printf.c length.c \
 	b_specifier.c \
 	per_specifier.c other_mods.c
 
-	
+
 OBJS = $(SRCS:.c=.o)
 
 FLAGS = -Wall -Werror -Wextra -O3

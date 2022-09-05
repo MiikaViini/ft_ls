@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:13:57 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/18 09:45:22 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/09/04 23:07:45 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # include <string.h>
 # include "ft_printf/ft_printf.h"
 # define CAPITAL 32
+
+# define BUFF_SIZE 32
+# define MAX_FD 4096
 
 typedef struct s_list
 {
@@ -100,5 +103,6 @@ char	*ft_ftoa(long double num, int afterpoint);
 char	*ft_ltoa(long long int n);
 char	*ft_utoa(unsigned long long n);
 size_t	ft_putstrlen(char const *s);
+int		get_next_line(const int fd, char **line);
 
 #endif

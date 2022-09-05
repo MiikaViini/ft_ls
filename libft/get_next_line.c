@@ -6,11 +6,11 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:58:43 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/29 08:58:50 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/09/04 23:10:23 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 static char	*ft_line_output(char **remain, const int fd)
 {

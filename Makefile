@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/07/09 19:07:08 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/03 13:32:47 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/04 12:46:58 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ SRC_FILES = error.c flags.c flags2.c ft_ls.c init_and_mem.c long_format_info.c \
 
 OBJS = $(SRC_FILES:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror -O3
+FLAGS = -Wall -Wextra -Werror -O3 
 
 LIBFT = ./libft/libft.a
 

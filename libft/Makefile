@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/30 09:25:07 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/03 13:32:40 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/04 23:09:03 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,14 +35,15 @@ SRCS = ft_atoi.c ft_bzero.c ft_isalnum.c ft_isalpha.c \
 	ft_lstaddlast.c ft_isspace.c ft_swap.c ft_strndup.c \
 	ft_pow.c ft_dectobin.c ft_bintodec.c ft_abs.c ft_intlen.c \
 	ft_itoabase.c ft_ftoa.c ft_ltoa.c ft_utoa.c ft_putstrlen.c \
+	get_next_line.c
 
 OBJ = $(SRCS:.c=.o)
 
 FT_PRINTF = ft_printf/libftprintf.a
 
-GET_NEXT_LINE_SRC = get_next_line/get_next_line.c
+# GET_NEXT_LINE_SRC = get_next_line/get_next_line.c
 
-GET_NEXT_LINE_OBJ = get_next_line.o
+# GET_NEXT_LINE_OBJ = get_next_line.o
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -53,8 +54,8 @@ $(NAME): $(OBJ) libft.h Makefile
 	@ar rcs $(NAME) $(OBJ)
 	@make -C ./ft_printf/
 	@cp $(FT_PRINTF) $(NAME)
-	@gcc -c $(FLAGS) $(SRCS) $(GET_NEXT_LINE_SRC)
-	@ar rcs $(NAME) $(OBJ) *.o $(GET_NEXT_LINE_OBJ)
+	@gcc -c $(FLAGS) $(SRCS)
+	@ar rcs $(NAME) $(OBJ)
 	@echo "\x1b[32;01mLibft compiled\x1b[32;00m"
 
 
