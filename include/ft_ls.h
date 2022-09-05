@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 19:03:45 by mviinika          #+#    #+#             */
-/*   Updated: 2022/09/05 09:55:11 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/09/05 15:57:38 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include "../libft/libft.h"
 # include <stdlib.h>
 # include <sys/stat.h>
-# include <sys/types.h>
 # include <pwd.h>
 # include <grp.h>
 # include <dirent.h>
@@ -66,7 +65,6 @@ typedef struct s_info
 	int		l;
 	int		cap_r;
 	int		cap_a;
-	int		cap_f;
 	int		one;
 	int		a;
 	int		r;
