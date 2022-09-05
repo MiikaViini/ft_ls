@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 12:56:26 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/04 12:47:09 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/05 10:11:04 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,23 +28,31 @@ SRCS = ft_printf.c length.c \
 
 OBJS = $(SRCS:.c=.o)
 
+LIBFT = ../libft.a
+
 FLAGS = -Wall -Werror -Wextra -O3
+
+##COLOURS##
+RED = \x1b[31;01m
+GREEN = \x1b[32;01m
+YELLOW = \x1b[33;01m
+RESET = \x1b[32;00m
 
 all: $(NAME) Makefile ft_printf.h
 
 $(NAME): $(OBJS)
-	@cp ../libft.a .
+	@cp $(LIBFT) .
 	@gcc $(FLAGS) -c $(SRCS)
-	@ar rcs $(NAME) $(OBJS) ../libft.a
+	@ar rcs $(NAME) $(OBJS) $(LIBFT)
 	@rm -f libft.a
-	@echo "\x1b[32;01mFt_printf compiled\x1b[32;00m"
+	@echo "$(GREEN)Ft_printf compiled$(RESET)"
 
 clean:
-	@echo "\x1b[33;01mDeleting ft_printf objs\x1b[33;00m"
+	@echo "$(YELLOW)Deleting ft_printf objs$(RESET)"
 	@rm -f *.o
 
 fclean: clean
-	@echo "\x1b[31;01mRemoving $(NAME)\x1b[31;00m"
+	@echo "$(RED)Removing $(NAME) $(RESET)"
 	@rm -f $(NAME)
 
 re: fclean all

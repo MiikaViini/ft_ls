@@ -6,7 +6,7 @@
 #    By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/30 09:25:07 by mviinika          #+#    #+#              #
-#    Updated: 2022/09/04 23:09:03 by mviinika         ###   ########.fr        #
+#    Updated: 2022/09/05 10:07:13 by mviinika         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,9 +41,13 @@ OBJ = $(SRCS:.c=.o)
 
 FT_PRINTF = ft_printf/libftprintf.a
 
-# GET_NEXT_LINE_SRC = get_next_line/get_next_line.c
+FT_PRINTF_DIR = ./ft_printf
 
-# GET_NEXT_LINE_OBJ = get_next_line.o
+##COLOURS##
+RED = \x1b[31;01m
+GREEN = \x1b[32;01m
+YELLOW = \x1b[33;01m
+RESET = \x1b[32;00m
 
 FLAGS = -Wall -Wextra -Werror
 
@@ -56,19 +60,19 @@ $(NAME): $(OBJ) libft.h Makefile
 	@cp $(FT_PRINTF) $(NAME)
 	@gcc -c $(FLAGS) $(SRCS)
 	@ar rcs $(NAME) $(OBJ)
-	@echo "\x1b[32;01mLibft compiled\x1b[32;00m"
+	@echo "$(GREEN)Libft compiled$(RESET)"
 
 
 clean:
-	@echo "\x1b[33;01mDeleting libft objs\x1b[33;00m"
-	@rm -f $(OBJ) get_next_line.o
-	@make clean -C ./ft_printf
+	@echo "$(YELLOW)Deleting libft objs$(RESET)"
+	@rm -f $(OBJ) 
+	@make clean -C $(FT_PRINTF_DIR)
 
 fclean: clean
-	@echo "\x1b[31;01mRemoving $(NAME)\x1b[31;00m"
+	@echo "$(RED)Removing $(NAME) $(RESET)"
 	@rm -f $(NAME)
 	@rm -f $(NAME:.a=.so)
-	@make fclean -C ./ft_printf
+	@make fclean -C $(FT_PRINTF_DIR)
 
 re: fclean all
 

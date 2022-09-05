@@ -6,7 +6,7 @@
 /*   By: mviinika <mviinika@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/09 22:29:17 by mviinika          #+#    #+#             */
-/*   Updated: 2022/08/31 18:04:55 by mviinika         ###   ########.fr       */
+/*   Updated: 2022/09/05 09:37:18 by mviinika         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ static void	print_long_format(t_fileinfo **linearray, t_info *info,
 	if (info->one_file == 0)
 		ft_printf("total %d\n", info->blocks);
 	padds->int_len += ft_intlen(padds->biggest);
+	if (padds->int_len <= 2)
+		padds->int_len = 3;
 	padds->most_links = ft_intlen(padds->longest_link);
 	while (linearray[++i] != NULL)
 	{
